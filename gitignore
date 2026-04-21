@@ -1,0 +1,22 @@
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Herramientas locales (si por error copias algo de prueba/)
+.claude/
+.tmp/
+.mcp.json

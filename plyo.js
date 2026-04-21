@@ -1,0 +1,1334 @@
+'use strict';
+
+// ── SVG Exercise Illustrations (9 types) ─────────────────────────────────────
+
+const SVG_TYPES = {
+  bounce: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="82" cy="168" r="4" fill="#22c55e"/><circle cx="118" cy="168" r="4" fill="#22c55e"/>
+  <line x1="82" y1="153" x2="82" y2="167" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="118" y1="153" x2="118" y2="167" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="100" cy="42" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="55" x2="100" y2="100" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="72" x2="78" y2="85" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="72" x2="122" y2="85" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="100" x2="88" y2="132" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="100" x2="112" y2="132" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="88" y1="132" x2="76" y2="144" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="132" x2="124" y2="144" stroke="#22c55e" stroke-width="2.5"/>
+  <circle cx="88" cy="132" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
+  <circle cx="112" cy="132" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
+  <line x1="40" y1="150" x2="40" y2="120" stroke="#f97316" stroke-width="2"/>
+  <polygon points="40,110 35,124 45,124" fill="#f97316"/>
+  <line x1="160" y1="150" x2="160" y2="120" stroke="#f97316" stroke-width="2"/>
+  <polygon points="160,110 155,124 165,124" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Tobillo reactivo ⚡ — contacto solo antepié</text>
+</svg>`,
+
+  explosive_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <line x1="35" y1="168" x2="35" y2="45" stroke="rgba(249,115,22,.35)" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="20" y="108" font-size="8" fill="#f97316" font-family="sans-serif" transform="rotate(-90,20,108)">ALTURA</text>
+  <circle cx="100" cy="28" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="41" x2="100" y2="88" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="60" x2="74" y2="42" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="60" x2="126" y2="42" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="88" x2="88" y2="128" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="88" x2="112" y2="128" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="88" y1="128" x2="80" y2="138" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="128" x2="120" y2="138" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="158" y1="158" x2="158" y2="68" stroke="#f97316" stroke-width="2"/>
+  <polygon points="158,58 153,72 163,72" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Triple extensión — tobillo · rodilla · cadera</text>
+</svg>`,
+
+  tuck: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="100" cy="32" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="45" x2="98" y2="82" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="98" y1="60" x2="78" y2="76" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="98" y1="60" x2="116" y2="74" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="98" y1="82" x2="80" y2="76" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="98" y1="82" x2="118" y2="76" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="80" y1="76" x2="72" y2="108" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="118" y1="76" x2="126" y2="108" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="72" y1="108" x2="64" y2="114" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="126" y1="108" x2="134" y2="114" stroke="#22c55e" stroke-width="2.5"/>
+  <circle cx="80" cy="76" r="7" fill="none" stroke="#f97316" stroke-width="2"/>
+  <circle cx="118" cy="76" r="7" fill="none" stroke="#f97316" stroke-width="2"/>
+  <line x1="158" y1="155" x2="158" y2="65" stroke="#f97316" stroke-width="2"/>
+  <polygon points="158,55 153,68 163,68" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Rodillas al pecho — extender antes de aterrizar</text>
+</svg>`,
+
+  landing: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="100" cy="62" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="75" x2="96" y2="112" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="96" y1="90" x2="72" y2="80" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="96" y1="90" x2="120" y2="98" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="96" y1="112" x2="74" y2="118" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="96" y1="112" x2="118" y2="118" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="74" y1="118" x2="72" y2="168" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="118" y1="118" x2="120" y2="168" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="72" y1="168" x2="55" y2="168" stroke="#22c55e" stroke-width="3"/>
+  <line x1="120" y1="168" x2="137" y2="168" stroke="#22c55e" stroke-width="3"/>
+  <line x1="74" y1="116" x2="72" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="118" y1="116" x2="120" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="74" cy="118" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
+  <circle cx="118" cy="118" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Absorción trifásica — rodilla sobre pie (línea azul)</text>
+</svg>`,
+
+  lateral_bound: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="115" cy="52" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="115" y1="65" x2="110" y2="108" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="110" y1="82" x2="88" y2="70" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="110" y1="82" x2="130" y2="90" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="110" y1="108" x2="112" y2="140" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="140" x2="115" y2="168" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="115" y1="168" x2="132" y2="168" stroke="#22c55e" stroke-width="3"/>
+  <line x1="110" y1="108" x2="90" y2="118" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="90" y1="118" x2="80" y2="145" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="140" x2="100" y2="140" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="100" y1="140" x2="100" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="112" cy="140" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
+  <line x1="55" y1="112" x2="82" y2="112" stroke="#f97316" stroke-width="2"/>
+  <polygon points="92,112 78,107 78,117" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Estabilidad monopodal — rodilla sobre pie</text>
+</svg>`,
+
+  single_leg: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="100" cy="40" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="53" x2="100" y2="98" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="70" x2="76" y2="56" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="70" x2="122" y2="80" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="98" x2="108" y2="132" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="108" y1="132" x2="112" y2="158" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="158" x2="126" y2="162" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="98" x2="82" y2="114" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="82" y1="114" x2="78" y2="140" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="132" y1="110" x2="162" y2="110" stroke="#f97316" stroke-width="2"/>
+  <polygon points="170,110 158,105 158,115" fill="#f97316"/>
+  <text x="40" y="130" font-size="9" fill="#f97316" font-family="sans-serif">veloz</text>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Mínimo tiempo de contacto — tobillo elástico</text>
+</svg>`,
+
+  broad: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <path d="M 32 168 Q 100 88 170 128" fill="none" stroke="rgba(249,115,22,.4)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="42" y="160" font-size="9" fill="#f97316" font-family="sans-serif">45°</text>
+  <circle cx="100" cy="50" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="63" x2="112" y2="102" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="105" y1="80" x2="80" y2="68" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="105" y1="80" x2="128" y2="72" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="102" x2="94" y2="136" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="112" y1="102" x2="130" y2="128" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="94" y1="136" x2="82" y2="142" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="130" y1="128" x2="142" y2="134" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="145" y1="138" x2="172" y2="138" stroke="#f97316" stroke-width="2"/>
+  <polygon points="180,138 168,133 168,143" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Proyección 45° — brazos como impulso</text>
+</svg>`,
+
+  depth_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <rect x="18" y="128" width="52" height="38" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.2)" stroke-width="1.5" rx="2"/>
+  <circle cx="60" cy="100" r="11" fill="none" stroke="#22c55e" stroke-width="2"/>
+  <line x1="60" y1="111" x2="60" y2="144" stroke="#22c55e" stroke-width="2"/>
+  <line x1="60" y1="125" x2="47" y2="118" stroke="#22c55e" stroke-width="2"/>
+  <line x1="60" y1="125" x2="73" y2="118" stroke="#22c55e" stroke-width="2"/>
+  <line x1="60" y1="144" x2="53" y2="160" stroke="#22c55e" stroke-width="2"/>
+  <line x1="60" y1="144" x2="67" y2="160" stroke="#22c55e" stroke-width="2"/>
+  <line x1="90" y1="132" x2="114" y2="132" stroke="#f97316" stroke-width="2"/>
+  <polygon points="122,132 111,127 111,137" fill="#f97316"/>
+  <text x="102" y="120" text-anchor="middle" font-size="8" fill="#f97316" font-family="sans-serif">&lt;0.25s</text>
+  <line x1="120" y1="166" x2="185" y2="166" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="150" cy="112" r="11" fill="none" stroke="#22c55e" stroke-width="2"/>
+  <line x1="150" y1="123" x2="150" y2="148" stroke="#22c55e" stroke-width="2"/>
+  <line x1="150" y1="134" x2="136" y2="126" stroke="#22c55e" stroke-width="2"/>
+  <line x1="150" y1="134" x2="164" y2="124" stroke="#22c55e" stroke-width="2"/>
+  <line x1="150" y1="148" x2="140" y2="166" stroke="#22c55e" stroke-width="2"/>
+  <line x1="150" y1="148" x2="160" y2="166" stroke="#22c55e" stroke-width="2"/>
+  <line x1="175" y1="155" x2="175" y2="128" stroke="#f97316" stroke-width="2"/>
+  <polygon points="175,118 170,131 180,131" fill="#f97316"/>
+  <line x1="18" y1="166" x2="120" y2="166" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Caída → despegue inmediato — ciclo elástico</text>
+</svg>`,
+
+  split: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <circle cx="100" cy="36" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="49" x2="100" y2="93" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="66" x2="122" y2="50" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="66" x2="78" y2="82" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="93" x2="128" y2="116" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="128" y1="116" x2="138" y2="148" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="138" y1="148" x2="150" y2="152" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="100" y1="93" x2="72" y2="113" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="72" y1="113" x2="62" y2="143" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="62" y1="143" x2="50" y2="148" stroke="#22c55e" stroke-width="2.5"/>
+  <line x1="165" y1="158" x2="165" y2="72" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="165,62 160,75 170,75" fill="#f97316"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Zancada invertida — coordinación cruzada</text>
+</svg>`
+};
+
+// ── Exercise catalogue (20 exercises) ────────────────────────────────────────
+
+const EXERCISES = [
+  {
+    id: 'pogos', svgType: 'bounce',
+    name: 'Pogos',
+    contacts: 1, intensity: 'low', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['beginner', 'intermediate', 'advanced'],
+    reps: { beginner: 20, intermediate: 25, advanced: 30 },
+    sets: { beginner: 2, intermediate: 3, advanced: 3 },
+    description: 'Saltos continuos de baja altura. El tendón de Aquiles actúa como resorte elástico.',
+    technique: `<p class="text-gray-300 mb-4">Permanece en puntas de pie y ejecuta saltos continuos de 5-8 cm minimizando el tiempo de contacto. El ciclo elástico del tendón es el motor de este ejercicio.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Contacto inicial con antepié, absorción pasiva de tobillo</li>
+        <li>Rodillas levemente flexionadas (10-15°), core activo</li>
+        <li>Ritmo constante: evitar desaceleración entre reps</li>
+      </ul>`,
+    warnings: ['Contacto con talón lesiona la fascia plantar', 'No bloquear rodillas en extensión completa']
+  },
+  {
+    id: 'ankle-hops', svgType: 'bounce',
+    name: 'Ankle Hops',
+    contacts: 1, intensity: 'low', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['beginner', 'intermediate', 'advanced'],
+    reps: { beginner: 15, intermediate: 20, advanced: 25 },
+    sets: { beginner: 2, intermediate: 3, advanced: 3 },
+    description: 'Saltos reactivos de tobillo con máxima rigidez articular. Prerrequisito fundamental de toda pliometría.',
+    technique: `<p class="text-gray-300 mb-4">Mantén piernas casi completamente extendidas durante el salto. Trabaja exclusivamente con el tobillo: dorsiflexión rápida al contacto, plantarflexión en el despegue.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié-metatarso primero, jamás el talón</li>
+        <li>Rodillas prácticamente extendidas (5-10° de flexión máxima)</li>
+        <li>Tiempo de contacto objetivo: &lt;100 ms</li>
+      </ul>`,
+    warnings: ['Solo apto cuando no hay dolor de tobillo o tendón de Aquiles', 'Reducir altura si el tiempo de contacto es excesivo']
+  },
+  {
+    id: 'squat-jumps', svgType: 'explosive_jump',
+    name: 'Squat Jumps',
+    contacts: 1, intensity: 'low', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['beginner', 'intermediate', 'advanced'],
+    reps: { beginner: 8, intermediate: 12, advanced: 15 },
+    sets: { beginner: 2, intermediate: 3, advanced: 4 },
+    description: 'Salto vertical máximo desde sentadilla. Triple extensión explosiva: tobillo-rodilla-cadera.',
+    technique: `<p class="text-gray-300 mb-4">Desciende a sentadilla (90°), pausa breve y explota verticalmente extendiendo cadera, rodillas y tobillos en secuencia. El aterrizaje invierte esa cadena.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié → talón en secuencia controlada</li>
+        <li>Rodillas sobre la línea del 2.° dedo, nunca en valgo</li>
+        <li>Absorción trifásica: tobillo → rodilla → cadera</li>
+      </ul>`,
+    warnings: ['No aterrizar con rodillas en valgo (hacia adentro)', 'Mantener torso erguido — evitar inclinación excesiva']
+  },
+  {
+    id: 'lateral-bounds', svgType: 'lateral_bound',
+    name: 'Lateral Bounds',
+    contacts: 1, intensity: 'medium', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['beginner', 'intermediate', 'advanced'],
+    reps: { beginner: 8, intermediate: 12, advanced: 16 },
+    sets: { beginner: 2, intermediate: 3, advanced: 4 },
+    description: 'Saltos laterales unilaterales que replican el gesto de corte y cambio de dirección del futsal.',
+    technique: `<p class="text-gray-300 mb-4">Impulso con una pierna hacia el lateral, aterrizaje monopodal en el pie opuesto, equilibrio de 1 segundo antes de rebotar. Replica el corte defensivo/ofensivo.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Aterrizaje monopodal suave: rodilla y cadera ~30° de flexión</li>
+        <li>Rodilla alineada sobre el pie, NO en valgo ni varo</li>
+        <li>Centro de gravedad bajo, levemente adelantado</li>
+      </ul>`,
+    warnings: ['Rotación interna de rodilla al aterrizar indica fatiga — parar', 'No sobrepasar la distancia que impide control de aterrizaje']
+  },
+  {
+    id: 'box-jumps-30', svgType: 'explosive_jump',
+    name: 'Box Jumps (30 cm)',
+    contacts: 1, intensity: 'medium', category: 'basketball-vertical',
+    sports: ['basketball'],
+    levels: ['beginner', 'intermediate', 'advanced'],
+    reps: { beginner: 6, intermediate: 8, advanced: 10 },
+    sets: { beginner: 2, intermediate: 3, advanced: 4 },
+    description: 'Salto vertical sobre cajón de 30 cm. Desarrolla potencia de despegue y control en aterrizaje elevado.',
+    technique: `<p class="text-gray-300 mb-4">Desde posición atlética, contra-movimiento rápido y salto máximo. El aterrizaje "silencioso" es la métrica de calidad. Bajar del cajón caminando siempre.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje en cajón</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Pies al ancho de hombros, antepié primero</li>
+        <li>Rodillas 60-90° al aterrizar, nunca bloqueadas</li>
+        <li>Absorber el impacto, no "caer" con rigidez</li>
+      </ul>`,
+    warnings: ['Bajar del cajón caminando — nunca saltar hacia atrás', 'Cajón firme y antideslizante obligatorio']
+  },
+  {
+    id: 'ice-skaters', svgType: 'lateral_bound',
+    name: 'Ice Skaters',
+    contacts: 1, intensity: 'medium', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 10, advanced: 14 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Zancadas laterales amplias imitando al patinaje en hielo. Máxima transferencia al cambio de dirección.',
+    technique: `<p class="text-gray-300 mb-4">Zancada lateral amplia aterrizando en pie opuesto con equilibrio. Brazo opuesto al frente (coordinación cruzada). La amplitud de zancada debe permitir control total del aterrizaje.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Monopodal: flexión de rodilla 30-40°, cadera empujada atrás</li>
+        <li>Tronco inclinado hacia adelante (posición aerodinámica)</li>
+        <li>Pie de aterrizaje apuntando al frente, no hacia afuera</li>
+      </ul>`,
+    warnings: ['Distancia de zancada debe permitir control — no sobreextenderse', 'Detener si hay dolor lateral de rodilla (banda iliotibial)']
+  },
+  {
+    id: 'broad-jumps', svgType: 'broad',
+    name: 'Broad Jumps',
+    contacts: 1, intensity: 'medium', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 6, advanced: 8 },
+    sets: { beginner: 0, intermediate: 3, advanced: 3 },
+    description: 'Salto horizontal máximo bipodal a 45°. Combina potencia de piernas y coordinación de brazos.',
+    technique: `<p class="text-gray-300 mb-4">Contra-movimiento con balanceo de brazos, proyección a 45°. Al aterrizar, mantener posición estática sin pasos extras. La capacidad de control define la distancia segura.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Ambos pies simultáneos, antepié primero</li>
+        <li>Flexión de rodillas ~90° para absorber impacto horizontal</li>
+        <li>Brazos al frente como contrapeso y amortiguadores</li>
+      </ul>`,
+    warnings: ['No aterrizar con piernas extendidas — riesgo articular alto', 'Si pierdes equilibrio al aterrizar, reduce la distancia']
+  },
+  {
+    id: 'hurdle-hops', svgType: 'depth_jump',
+    name: 'Hurdle Hops',
+    contacts: 1, intensity: 'medium', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 6, advanced: 10 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Saltos bipodales continuos sobre 4-6 vallas bajas (20-40 cm). Clásico de la pliometría de SSC rápido.',
+    technique: `<p class="text-gray-300 mb-4">Saltos consecutivos sobre vallas bajas minimizando el tiempo de contacto. Rodillas al pecho en el vuelo, aterrizaje reactivo sin pausa entre vallas.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié primero, rebote inmediato — no colapsar</li>
+        <li>Rodillas flexionadas 20-30° al contacto</li>
+        <li>Tiempo de contacto objetivo: &lt;200 ms (SSC rápido)</li>
+      </ul>`,
+    warnings: ['Comenzar con 3 vallas y aumentar progresivamente', 'Altura máxima: la mitad de la altura de la rodilla']
+  },
+  {
+    id: 'single-leg-hops-linear', svgType: 'single_leg',
+    name: 'Single-Leg Hops (Lineal)',
+    contacts: 1, intensity: 'medium', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 8, advanced: 12 },
+    sets: { beginner: 0, intermediate: 2, advanced: 3 },
+    description: 'Serie de saltos hacia adelante sobre una pierna. Desarrolla potencia monopodal y estabilidad de tobillo.',
+    technique: `<p class="text-gray-300 mb-4">Saltos continuos hacia adelante sobre un pie. Minimizar el tiempo de contacto. Trabajar ambas piernas con idéntico volumen.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié primero, tobillo como resorte</li>
+        <li>Rodilla alineada sobre el 2.° dedo del pie</li>
+        <li>Cadera estable — no inclinar tronco lateralmente</li>
+      </ul>`,
+    warnings: ['Comenzar con 4-6 reps y aumentar progresivamente', 'Inestabilidad de tobillo: usar vendaje funcional']
+  },
+  {
+    id: 'alternating-bounds', svgType: 'broad',
+    name: 'Alternating Bounds',
+    contacts: 1, intensity: 'medium', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 8, advanced: 12 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Zancadas de salto alternadas de máxima longitud. Desarrolla potencia horizontal y coordinación de carrera.',
+    technique: `<p class="text-gray-300 mb-4">Exagera el paso de carrera hasta convertirlo en un salto. Triple extensión completa en cada despegue. Brazos en oposición a las piernas. Objetivo: máxima longitud de zancada.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Monopodal en antepié, rodilla ~30° al contacto</li>
+        <li>Absorción elástica rápida → despegue inmediato</li>
+        <li>Cabeza neutra, mirada al horizonte</li>
+      </ul>`,
+    warnings: ['Reducir longitud de zancada si no hay extensión de cadera completa', 'Calentamiento de isquiotibiales obligatorio previo']
+  },
+  {
+    id: 'lateral-box-shuffle', svgType: 'lateral_bound',
+    name: 'Lateral Box Shuffle',
+    contacts: 1, intensity: 'medium', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 10, advanced: 14 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Desplazamientos laterales rápidos sobre cajón bajo (15-20 cm). Simula la defensa lateral en futsal.',
+    technique: `<p class="text-gray-300 mb-4">Pie derecho sube al cajón, pie izquierdo le sigue, luego pie derecho baja. Mantener caderas bajas y core activado durante todo el movimiento.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Pies activos: antepié primero en cada contacto</li>
+        <li>Rodillas flexionadas 30-40° durante todo el ejercicio</li>
+        <li>Core activado para mantener estabilidad lateral</li>
+      </ul>`,
+    warnings: ['Cajón estable y plano obligatorio', 'Reducir velocidad si los pies no coordinan correctamente']
+  },
+  {
+    id: 'tuck-jumps', svgType: 'tuck',
+    name: 'Tuck Jumps',
+    contacts: 1, intensity: 'high', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 8, advanced: 12 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Salto vertical máximo llevando rodillas al pecho. Combina potencia explosiva y coordinación aérea.',
+    technique: `<p class="text-gray-300 mb-4">Salto máximo llevando ambas rodillas al pecho simultáneamente. Extender piernas antes del aterrizaje. El aterrizaje es tan crítico como el despegue.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Piernas extendidas antes del contacto inicial</li>
+        <li>Antepié primero, rodillas en línea con pies</li>
+        <li>Absorción suave: frenar el cuerpo en 3 fases</li>
+      </ul>`,
+    warnings: ['No colapsar en el aterrizaje — mantener posición atlética', 'Alta demanda del SNC: máximo 3 series para principiantes intermedios']
+  },
+  {
+    id: 'single-leg-hops-transversal', svgType: 'lateral_bound',
+    name: 'Single-Leg Hops (Transversal)',
+    contacts: 1, intensity: 'high', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 10 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Saltos laterales sobre una línea en monopodal. Máxima especificidad para los cambios de dirección del futsal.',
+    technique: `<p class="text-gray-300 mb-4">Sobre una pierna, salta lateralmente sobre una línea y regresa. Mantener tiempo de contacto mínimo. La estabilidad del tobillo y alineación de rodilla son críticas.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Monopodal reactivo: antepié, tobillo rígido</li>
+        <li>Rodilla sobre el pie, cadera estable sin colapso medial</li>
+        <li>Tronco neutro, no inclinar para mantener equilibrio</li>
+      </ul>`,
+    warnings: ['Solo atletas con tobillo estable y dominio de hops lineales', 'Detener ante cualquier dolor lateral de rodilla o tobillo']
+  },
+  {
+    id: 'box-jumps-50', svgType: 'explosive_jump',
+    name: 'Box Jumps (50 cm)',
+    contacts: 1, intensity: 'high', category: 'basketball-vertical',
+    sports: ['basketball'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 8 },
+    sets: { beginner: 0, intermediate: 0, advanced: 4 },
+    description: 'Salto vertical sobre cajón de 50 cm. Máxima exigencia de potencia y control articular en aterrizaje.',
+    technique: `<p class="text-gray-300 mb-4">Contra-movimiento agresivo y triple extensión máxima. A mayor altura del cajón, más crítico el aterrizaje. "Silencioso = correcto" se aplica más que nunca aquí.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje (altura)</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié, rodillas 60-90°, caderas hacia atrás</li>
+        <li>Mayor absorción requerida por la altura adicional</li>
+        <li>Nunca aterrizar con piernas extendidas a esta altura</li>
+      </ul>`,
+    warnings: ['Solo con cajón estructuralmente sólido y certificado', 'Bajar del cajón caminando siempre — sin excepción']
+  },
+  {
+    id: 'drop-jumps', svgType: 'landing',
+    name: 'Drop Jumps',
+    contacts: 2, intensity: 'high', category: 'basketball-vertical',
+    sports: ['basketball'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 6 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Caída desde cajón con aterrizaje controlado y posición mantenida. Énfasis en la fase excéntrica. 2 contactos/rep.',
+    technique: `<p class="text-gray-300 mb-4">Paso al vacío desde cajón (30 cm), caída y absorción excéntrica máxima. DIFERENCIA con Depth Jump: aquí NO hay salto posterior. El objetivo es controlar el impacto de la caída.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Caída suave: antepié primero, absorción excéntrica lenta</li>
+        <li>Rodillas 60-90°, caderas hacia atrás, tronco levemente inclinado</li>
+        <li>Mantener posición 2 segundos para evaluar alineación</li>
+      </ul>`,
+    warnings: ['Prerequisito: control total de Squat Jumps y Box Jumps', 'Dolor en rodilla = detener y evaluar técnica']
+  },
+  {
+    id: 'diagonal-bounds', svgType: 'broad',
+    name: 'Diagonal Bounds',
+    contacts: 1, intensity: 'high', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 10 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Zancadas de salto a 45° alternando diagonales. Replica los cambios de dirección oblicuos del futsal.',
+    technique: `<p class="text-gray-300 mb-4">Desde posición central, saltos alternados hacia adelante-derecha, adelante-izquierda, etc. La dirección diagonal es la clave de especificidad para el futsal de alta intensidad.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Monopodal reactivo en la diagonal, pie orientado a la dirección de llegada</li>
+        <li>Rodilla sobre el pie en el eje oblicuo (desafío aumentado)</li>
+        <li>Rebote inmediato: tiempo de contacto &lt;150 ms objetivo</li>
+      </ul>`,
+    warnings: ['Alta demanda del SNC: no ejecutar con fatiga acumulada', 'Superficie antideslizante obligatoria para la componente diagonal']
+  },
+  {
+    id: 'split-jumps', svgType: 'split',
+    name: 'Split Jumps',
+    contacts: 2, intensity: 'high', category: 'basketball-vertical',
+    sports: ['basketball'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 8 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Salto con zancada alternada en el aire. 2 contactos/rep. Máxima demanda neuromuscular.',
+    technique: `<p class="text-gray-300 mb-4">Desde zancada, salto vertical máximo intercambiando piernas en el aire. Cada rep = 2 contactos. Brazos opuestos a las piernas para coordinar la rotación aérea.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Zancada suave: rodilla delantera ~90°, trasera no toca el suelo</li>
+        <li>Torso erguido, core tensionado para absorber torsión</li>
+        <li>Coordinación cruzada: brazo derecho adelante con pierna izquierda</li>
+      </ul>`,
+    warnings: ['Solo atletas con sentadilla >1.5× peso corporal', 'Detener ante cualquier dolor en rodilla, cadera o espalda baja']
+  },
+  {
+    id: 'depth-jumps', svgType: 'depth_jump',
+    name: 'Depth Jumps',
+    contacts: 2, intensity: 'high', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 6 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Caída desde cajón + salto inmediato. El ejercicio de mayor demanda neurológica. 2 contactos/rep.',
+    technique: `<p class="text-gray-300 mb-4">Paso al vacío desde cajón (30-50 cm), contacto con suelo &lt;0.25s y salto máximo. Ciclo elástico puro: la energía se almacena en la caída y se libera en el despegue.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié, absorción rápida y elástica — no colapsar</li>
+        <li>Alineación perfecta: tobillo-rodilla-cadera-hombro</li>
+        <li>"Tierra y despega": no hay pausa, el reflejo miotático es el motor</li>
+      </ul>`,
+    warnings: [
+      'Solo atletas avanzados con base de fuerza consolidada',
+      'Máximo 4 series por sesión — calidad sobre cantidad',
+      'Nunca ejecutar con fatiga muscular acumulada',
+      'Superficie firme, plana y antideslizante obligatoria'
+    ]
+  },
+  {
+    id: 'reactive-lateral-hops', svgType: 'lateral_bound',
+    name: 'Reactive Lateral Hops',
+    contacts: 2, intensity: 'high', category: 'futsal-agility',
+    sports: ['futsal'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 8 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Saltos laterales reactivos en monopodal con tiempo de contacto mínimo. 2 contactos/rep (ambas piernas).',
+    technique: `<p class="text-gray-300 mb-4">Salto lateral en monopodal izquierdo → aterrizaje monopodal derecho → salto lateral derecho → aterrizaje monopodal izquierdo. Patrón continuo de 2 contactos por ciclo.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Contacto puntual en antepié, rebote inmediato</li>
+        <li>Cadera baja, rodilla alineada — no permitir valgo reactivo</li>
+        <li>Objetivo: &lt;0.2s de tiempo de contacto en tierra</li>
+      </ul>`,
+    warnings: ['Solo con tobillo y rodilla estables', 'Reducir amplitud lateral si la rodilla colapsa en valgo']
+  },
+  {
+    id: 'speed-bounds', svgType: 'broad',
+    name: 'Speed Bounds',
+    contacts: 1, intensity: 'high', category: 'general',
+    sports: ['futsal', 'basketball'],
+    levels: ['advanced'],
+    reps: { beginner: 0, intermediate: 0, advanced: 8 },
+    sets: { beginner: 0, intermediate: 0, advanced: 3 },
+    description: 'Bounds horizontales a velocidad máxima. El ejercicio más específico para sprints explosivos.',
+    technique: `<p class="text-gray-300 mb-4">Bounds con máxima velocidad de desplazamiento horizontal. El énfasis es la cadencia + potencia, no solo la longitud de zancada.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Monopodal reactivo: antepié, absorción mínima (elástica)</li>
+        <li>Rodilla flexionada 20-30° al contacto</li>
+        <li>Tronco inclinado 15-20° hacia adelante, mirada al frente</li>
+      </ul>`,
+    warnings: ['Requiere base de fuerza y coordinación sólidas', 'Progresar 70% → 85% → 100% en las primeras sesiones']
+  },
+  {
+    id: 'box-jump-stick', svgType: 'landing',
+    name: 'Box Jump to Stick',
+    contacts: 1, intensity: 'medium', category: 'basketball-vertical',
+    sports: ['basketball'],
+    levels: ['intermediate', 'advanced'],
+    reps: { beginner: 0, intermediate: 6, advanced: 8 },
+    sets: { beginner: 0, intermediate: 3, advanced: 4 },
+    description: 'Salto al cajón con aterrizaje controlado mantenido 2 segundos. Énfasis en estabilidad de aterrizaje vertical.',
+    technique: `<p class="text-gray-300 mb-4">Igual que Box Jump pero con foco total en el aterrizaje. Mantener la posición estática ("stick") durante 2 segundos completos antes de bajar. Desarrolla control articular y propiocepción.</p>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Mecánica de aterrizaje</h4>
+      <ul class="text-gray-300 space-y-1.5 list-disc list-inside mb-4">
+        <li>Antepié, rodillas sobre pies, caderas ligeramente atrás</li>
+        <li>Mantener posición 2 segundos — evaluar alineación</li>
+        <li>Si el "stick" es inestable, reducir altura del cajón</li>
+      </ul>`,
+    warnings: ['La inestabilidad en el stick indica que no es el momento para mayor altura', 'Bajar caminando siempre']
+  }
+];
+
+// ── Recovery stretches ────────────────────────────────────────────────────────
+
+const STRETCHES = [
+  {
+    emoji: '🦵', name: 'Gemelos',
+    side: 'Cada pierna — 30 segundos',
+    desc: 'Apoya las manos en la pared. Pie trasero extendido con el talón firmemente en el suelo. Inclínate levemente hacia adelante. Rodilla trasera extendida.'
+  },
+  {
+    emoji: '🦴', name: 'Sóleo (Pantorrilla Profunda)',
+    side: 'Cada pierna — 30 segundos',
+    desc: 'Misma posición que gemelo, pero flexiona levemente la rodilla trasera (15°). El sóleo absorbe el impacto pliométrico y necesita atención especial.'
+  },
+  {
+    emoji: '🏃', name: 'Flexores de Cadera (Psoas)',
+    side: 'Cada cadera — 30 segundos',
+    desc: 'Posición de caballero: rodilla trasera en el suelo, pie delantero al frente. Empuja suavemente las caderas hacia adelante manteniendo la espalda erguida.'
+  }
+];
+
+const CIRCUMFERENCE = 2 * Math.PI * 54; // 339.29
+
+// ── State ─────────────────────────────────────────────────────────────────────
+
+const state = {
+  view: 'setup',
+  sport: null, level: null, exercises: [],
+  sessionContacts: 0, contactsLimit: 100, fatigueLevel: null,
+  setsDone: {},
+  timerInterval: null, timerSeconds: 0,
+  recovery: { step: -1, interval: null, seconds: 0 }
+};
+
+const metronome = { audioCtx: null, intervalId: null, bpm: 120, isPlaying: false };
+
+let wakeLock       = null;
+let pendingSession = null;
+let quickExercises = [];
+
+// ── LocalStorage ──────────────────────────────────────────────────────────────
+
+function loadConfig() {
+  try {
+    const c = JSON.parse(localStorage.getItem('plyo_config') || 'null');
+    if (!c) return;
+    if (c.sport) selectSport(c.sport, false);
+    if (c.level) selectLevel(c.level, false);
+  } catch (_) {}
+}
+function saveConfig() {
+  localStorage.setItem('plyo_config', JSON.stringify({ sport: state.sport, level: state.level }));
+}
+function loadSessions() {
+  try { return JSON.parse(localStorage.getItem('plyo_sessions') || '[]'); }
+  catch (_) { return []; }
+}
+function saveSessions(s) { localStorage.setItem('plyo_sessions', JSON.stringify(s.slice(-30))); }
+
+// ── Wake Lock ─────────────────────────────────────────────────────────────────
+
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => { wakeLock = null; });
+  } catch (_) {}
+}
+function releaseWakeLock() {
+  if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+
+function navigate(view) {
+  if (state.view === 'training' && view !== 'training') {
+    stopMetronome();
+    stopMusic();
+    if (typeof spStopPolling === 'function') spStopPolling();
+    releaseWakeLock();
+  }
+  if (view === 'training' && typeof spStartPolling === 'function') spStartPolling();
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  document.getElementById('view-' + view).classList.remove('hidden');
+  state.view = view;
+  if (view === 'dashboard') loadDashboard();
+}
+
+// ── Setup ─────────────────────────────────────────────────────────────────────
+
+function selectSport(sport, save = true) {
+  state.sport = sport;
+  document.querySelectorAll('.sport-card').forEach(c =>
+    c.classList.remove('selected-futsal', 'selected-basketball')
+  );
+  document.querySelector(`.sport-card[data-sport="${sport}"]`)?.classList.add(`selected-${sport}`);
+  updateStartButton();
+  if (save) saveConfig();
+}
+function selectLevel(level, save = true) {
+  state.level = level;
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.level-btn[data-level="${level}"]`)?.classList.add('selected');
+  updateStartButton();
+  if (save) saveConfig();
+}
+function updateStartButton() {
+  const btn = document.getElementById('btn-start');
+  btn.classList.remove('btn-start-disabled', 'btn-start-futsal', 'btn-start-basketball');
+  if (state.sport && state.level) {
+    btn.disabled = false;
+    btn.classList.add(`btn-start-${state.sport}`);
+  } else {
+    btn.disabled = true;
+    btn.classList.add('btn-start-disabled');
+  }
+}
+
+// ── Quick Session ─────────────────────────────────────────────────────────────
+
+function prepareQuickSession() {
+  if (!state.sport || !state.level) { showToast('Selecciona deporte y nivel primero'); return; }
+
+  const pool = EXERCISES.filter(ex =>
+    ex.sports.includes(state.sport) &&
+    ex.levels.includes(state.level) &&
+    ex.reps[state.level] > 0 &&
+    ex.intensity !== 'high'
+  );
+
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  quickExercises = [];
+  let projected = 0;
+
+  for (const ex of shuffled) {
+    const c = ex.sets[state.level] * ex.reps[state.level] * ex.contacts;
+    if (quickExercises.length < 5 && projected + c <= 75) {
+      quickExercises.push(ex);
+      projected += c;
+      if (quickExercises.length >= 3 && projected >= 40) break;
+    }
+  }
+
+  if (!quickExercises.length) { showToast('No hay ejercicios disponibles'); return; }
+
+  const BADGE = { low: 'badge-low', medium: 'badge-medium' };
+  const INT   = { low: 'Baja', medium: 'Media' };
+
+  document.getElementById('quick-session-list').innerHTML = quickExercises.map(ex => `
+    <div class="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
+      <span class="text-sm font-medium">${ex.name}</span>
+      <div class="flex items-center gap-2">
+        <span class="badge ${BADGE[ex.intensity]}">${INT[ex.intensity]}</span>
+        <span class="text-xs text-gray-500">${ex.sets[state.level]}×${ex.reps[state.level]}</span>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('quick-session-count').textContent    = `${quickExercises.length} ejercicios`;
+  document.getElementById('quick-session-contacts').textContent = `~${projected} contactos`;
+  document.getElementById('modal-quick-session').classList.remove('hidden');
+}
+
+function startQuickSession() {
+  document.getElementById('modal-quick-session').classList.add('hidden');
+  state.exercises = quickExercises;
+  state.sessionContacts = 0;
+  state.contactsLimit = 100;
+  state.fatigueLevel = 1;
+  state.setsDone = {};
+  state.exercises.forEach(ex => { state.setsDone[ex.id] = 0; });
+  renderTraining();
+  navigate('training');
+  requestWakeLock();
+}
+
+// ── Fatigue modal ─────────────────────────────────────────────────────────────
+
+function startSession() {
+  if (!state.sport || !state.level) return;
+  openFatigueModal();
+}
+
+function openFatigueModal() {
+  state.fatigueLevel = null;
+  state.contactsLimit = 100;
+  document.querySelectorAll('.fatigue-btn').forEach(b => b.classList.remove('fatigue-selected'));
+  document.getElementById('fatigue-warning').classList.add('hidden');
+  const btn = document.getElementById('fatigue-confirm-btn');
+  btn.disabled = true;
+  btn.classList.add('opacity-40', 'cursor-not-allowed');
+  document.getElementById('modal-fatigue').classList.remove('hidden');
+}
+
+function selectFatigue(level) {
+  state.fatigueLevel = level;
+  document.querySelectorAll('.fatigue-btn').forEach(b => b.classList.remove('fatigue-selected'));
+  document.querySelector(`.fatigue-btn[data-fatigue="${level}"]`)?.classList.add('fatigue-selected');
+  const btn = document.getElementById('fatigue-confirm-btn');
+  btn.disabled = false;
+  btn.classList.remove('opacity-40', 'cursor-not-allowed');
+  if (level >= 4) {
+    state.contactsLimit = 70;
+    document.getElementById('fatigue-limit-val').textContent = '70';
+    document.getElementById('fatigue-warning').classList.remove('hidden');
+  } else {
+    state.contactsLimit = 100;
+    document.getElementById('fatigue-warning').classList.add('hidden');
+  }
+}
+
+function confirmFatigue() {
+  document.getElementById('modal-fatigue').classList.add('hidden');
+  state.exercises = EXERCISES.filter(ex =>
+    ex.sports.includes(state.sport) && ex.levels.includes(state.level) && ex.reps[state.level] > 0
+  );
+  state.sessionContacts = 0;
+  state.setsDone = {};
+  state.exercises.forEach(ex => { state.setsDone[ex.id] = 0; });
+  renderTraining();
+  navigate('training');
+  requestWakeLock();
+}
+
+// ── Training render ───────────────────────────────────────────────────────────
+
+function renderTraining() {
+  const sportLabel = state.sport === 'futsal' ? '⚽ Futsal' : '🏀 Básquetbol';
+  const levelLabel = { beginner: 'Principiante', intermediate: 'Intermedio', advanced: 'Avanzado' }[state.level];
+  const reduced    = state.fatigueLevel >= 4 ? ' · ⚠️ Límite: 70' : '';
+
+  document.getElementById('training-title').textContent    = sportLabel;
+  document.getElementById('training-subtitle').textContent = `${levelLabel} · ${state.exercises.length} ejercicios${reduced}`;
+  updateContactsBar(0);
+
+  const CAT   = { 'futsal-agility': '⚽ Agilidad', 'basketball-vertical': '🏀 Vertical', 'general': '⚡ General' };
+  const INT   = { low: 'Baja', medium: 'Media', high: 'Alta' };
+  const BADGE = { low: 'badge-low', medium: 'badge-medium', high: 'badge-high' };
+
+  const list = document.getElementById('exercise-list');
+  list.innerHTML = '';
+
+  state.exercises.forEach(ex => {
+    const sets = ex.sets[state.level], reps = ex.reps[state.level];
+    let dots = '';
+    for (let i = 0; i < sets; i++) dots += `<span class="set-dot" id="dot-${ex.id}-${i}"></span>`;
+
+    const card = document.createElement('div');
+    card.className = 'glass-card p-5 exercise-card';
+    card.id = `card-${ex.id}`;
+    card.innerHTML = `
+      <div class="flex justify-between items-start mb-3">
+        <div class="flex-1 pr-3">
+          <h3 class="font-bold text-base leading-tight">${ex.name}</h3>
+          <p class="text-xs text-gray-400 mt-0.5 leading-snug">${ex.description}</p>
+        </div>
+        <div class="flex flex-col items-end gap-1">
+          <span class="badge ${BADGE[ex.intensity]}">${INT[ex.intensity]}</span>
+          <span class="badge badge-category">${CAT[ex.category]}</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-5 mb-4">
+        <div class="text-center"><div class="text-2xl font-extrabold">${sets}</div><div class="text-xs text-gray-500">series</div></div>
+        <div class="text-center"><div class="text-2xl font-extrabold">${reps}</div><div class="text-xs text-gray-500">reps</div></div>
+        <div class="text-center"><div class="text-2xl font-extrabold">${ex.contacts}</div><div class="text-xs text-gray-500">ctc/rep</div></div>
+        <div class="ml-auto flex gap-1.5 items-center">${dots}</div>
+      </div>
+      <div class="flex gap-2">
+        <button class="complete-btn flex-1 py-2.5 text-sm font-semibold" id="complete-btn-${ex.id}"
+          onclick="completeSet('${ex.id}', ${reps}, ${sets})">✓ Serie completada</button>
+        <button class="glass-card px-4 py-2.5 text-xs text-gray-400 hover:text-white transition-colors rounded-xl"
+          onclick="openTechModal('${ex.id}')">Guía técnica</button>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+// ── Complete set ──────────────────────────────────────────────────────────────
+
+function completeSet(exId, reps, totalSets) {
+  const done = state.setsDone[exId];
+  if (done >= totalSets) return;
+
+  document.getElementById(`dot-${exId}-${done}`)?.classList.add('done');
+  state.setsDone[exId] = done + 1;
+
+  const ex = EXERCISES.find(e => e.id === exId);
+  state.sessionContacts += reps * ex.contacts;
+  updateContactsBar(state.sessionContacts);
+
+  if (navigator.vibrate) navigator.vibrate([40, 20, 40]);
+
+  if (state.setsDone[exId] >= totalSets) {
+    const btn = document.getElementById(`complete-btn-${exId}`);
+    if (btn) { btn.disabled = true; btn.textContent = '✓ Completado'; }
+    document.getElementById(`card-${exId}`)?.classList.add('all-done');
+  }
+
+  startTimer(120);
+}
+
+// ── Contacts bar ──────────────────────────────────────────────────────────────
+
+function updateContactsBar(total) {
+  const limit   = state.contactsLimit;
+  const bar     = document.getElementById('contacts-bar');
+  const display = document.getElementById('contacts-display');
+  const warning = document.getElementById('contacts-warning');
+  const pct     = Math.min((total / limit) * 100, 100);
+
+  bar.style.width = pct + '%';
+  display.textContent = `${total} / ${limit}`;
+  bar.classList.remove('bar-safe', 'bar-warning', 'bar-danger');
+  display.classList.remove('text-red-400', 'text-yellow-400');
+
+  if (total > limit) {
+    bar.classList.add('bar-danger'); display.classList.add('text-red-400');
+    warning.classList.remove('hidden');
+  } else if (total > limit * 0.7) {
+    bar.classList.add('bar-warning'); display.classList.add('text-yellow-400');
+    warning.classList.add('hidden');
+  } else {
+    bar.classList.add('bar-safe'); warning.classList.add('hidden');
+  }
+}
+
+// ── Rest timer ────────────────────────────────────────────────────────────────
+
+function startTimer(seconds) {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.timerSeconds = seconds;
+
+  const overlay = document.getElementById('timer-overlay');
+  const display = document.getElementById('timer-display');
+  const ring    = document.getElementById('timer-ring');
+
+  overlay.classList.remove('hidden');
+  ring.style.stroke = '#22c55e';
+  ring.style.strokeDashoffset = '0';
+
+  function tick() {
+    const m = Math.floor(state.timerSeconds / 60);
+    const s = state.timerSeconds % 60;
+    display.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - state.timerSeconds / seconds);
+    if (state.timerSeconds <= 30) ring.style.stroke = '#ef4444';
+    else if (state.timerSeconds <= 60) ring.style.stroke = '#eab308';
+
+    if (state.timerSeconds <= 0) {
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+      overlay.classList.add('hidden');
+      if (navigator.vibrate) navigator.vibrate([80, 40, 80, 40, 200]);
+      return;
+    }
+    state.timerSeconds--;
+  }
+  tick();
+  state.timerInterval = setInterval(tick, 1000);
+}
+
+function cancelTimer() {
+  if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+  document.getElementById('timer-overlay').classList.add('hidden');
+}
+
+// ── Technical guide modal ─────────────────────────────────────────────────────
+
+function openTechModal(exId) {
+  const ex = EXERCISES.find(e => e.id === exId);
+  if (!ex) return;
+
+  const CAT   = { 'futsal-agility': '⚽ Agilidad', 'basketball-vertical': '🏀 Vertical', 'general': '⚡ General' };
+  const BADGE = { low: 'badge-low', medium: 'badge-medium', high: 'badge-high' };
+  const INT   = { low: 'Baja', medium: 'Media', high: 'Alta' };
+
+  document.getElementById('modal-title').textContent = ex.name;
+
+  const svgHtml = ex.svgType && SVG_TYPES[ex.svgType]
+    ? `<div class="exercise-illustration">${SVG_TYPES[ex.svgType]}</div>`
+    : '';
+
+  const badgesHtml = `<div class="flex flex-wrap gap-2 mb-4">
+    <span class="badge ${BADGE[ex.intensity]}">Intensidad ${INT[ex.intensity]}</span>
+    <span class="badge badge-category">${CAT[ex.category]}</span>
+    <span class="badge" style="background:rgba(255,255,255,.07);color:#94a3b8;border:1px solid rgba(255,255,255,.12)">${ex.contacts} contacto${ex.contacts > 1 ? 's' : ''}/rep</span>
+  </div>`;
+
+  const warningsHtml = ex.warnings.length ? `
+    <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2 mt-5">⚠️ Advertencias</h4>
+    <ul class="space-y-2">${ex.warnings.map(w =>
+      `<li class="flex gap-2 text-sm"><span class="text-red-400 shrink-0 mt-0.5">•</span><span class="text-red-300">${w}</span></li>`
+    ).join('')}</ul>` : '';
+
+  document.getElementById('modal-body').innerHTML = svgHtml + badgesHtml + ex.technique + warningsHtml;
+  document.getElementById('modal-tech').classList.remove('hidden');
+}
+function closeModal() { document.getElementById('modal-tech').classList.add('hidden'); }
+
+// ── End session → Notes modal ─────────────────────────────────────────────────
+
+function endSession() {
+  cancelTimer();
+  stopMetronome();
+  releaseWakeLock();
+
+  const completedCount = Object.values(state.setsDone).filter(v => v > 0).length;
+  const HIGH_IDS = ['depth-jumps', 'split-jumps', 'drop-jumps', 'tuck-jumps',
+    'reactive-lateral-hops', 'speed-bounds', 'diagonal-bounds', 'single-leg-hops-transversal'];
+  const usedHigh = state.exercises.some(ex => HIGH_IDS.includes(ex.id) && (state.setsDone[ex.id] || 0) > 0);
+
+  pendingSession = {
+    date: new Date().toISOString().split('T')[0],
+    sport: state.sport, level: state.level,
+    totalContacts: state.sessionContacts,
+    exercisesCompleted: completedCount,
+    fatigueLevel: state.fatigueLevel,
+    highIntensity: state.sessionContacts > 80 || usedHigh,
+    notes: ''
+  };
+
+  document.getElementById('session-notes-input').value = '';
+  document.getElementById('modal-notes').classList.remove('hidden');
+}
+
+function confirmNotes() {
+  const notes = document.getElementById('session-notes-input').value.trim();
+  if (pendingSession) pendingSession.notes = notes;
+  document.getElementById('modal-notes').classList.add('hidden');
+
+  const sessions = loadSessions();
+  sessions.push(pendingSession);
+  saveSessions(sessions);
+
+  const isHigh = pendingSession?.highIntensity;
+  pendingSession = null;
+
+  if (isHigh) { openRecoveryModal(); }
+  else { showToast('¡Sesión guardada! 💪'); navigate('dashboard'); }
+}
+
+// ── Recovery modal ────────────────────────────────────────────────────────────
+
+function openRecoveryModal() {
+  state.recovery.step = -1;
+  if (state.recovery.interval) { clearInterval(state.recovery.interval); state.recovery.interval = null; }
+  document.getElementById('modal-recovery').classList.remove('hidden');
+  renderRecoveryStep(-1);
+}
+
+function renderRecoveryStep(step) {
+  const countdown = document.getElementById('recovery-countdown');
+  const actionBtn = document.getElementById('recovery-action-btn');
+  const dotsEl    = document.getElementById('recovery-dots');
+
+  if (step === -1) {
+    document.getElementById('recovery-emoji').textContent = '🧘';
+    document.getElementById('recovery-name').textContent  = 'Protocolo de Descarga';
+    document.getElementById('recovery-desc').textContent  = '3 estiramientos clave para proteger articulaciones y acelerar la recuperación del SNC.';
+    countdown.textContent = '3 × 30s';
+    countdown.style.color = '#fff';
+    document.getElementById('recovery-side').textContent  = '';
+    dotsEl.innerHTML = STRETCHES.map(() => '<span class="rec-dot"></span>').join('');
+    actionBtn.textContent = 'Comenzar →';
+    actionBtn.className   = 'w-full py-3 rounded-xl font-semibold bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-all';
+    return;
+  }
+
+  if (step >= STRETCHES.length) {
+    if (state.recovery.interval) { clearInterval(state.recovery.interval); state.recovery.interval = null; }
+    document.getElementById('recovery-emoji').textContent = '✅';
+    document.getElementById('recovery-name').textContent  = '¡Descarga completada!';
+    document.getElementById('recovery-desc').textContent  = 'Tu sistema nervioso y articular queda protegido para la siguiente sesión.';
+    countdown.textContent = '';
+    document.getElementById('recovery-side').textContent  = '';
+    dotsEl.innerHTML = STRETCHES.map(() => '<span class="rec-dot rec-dot-done"></span>').join('');
+    actionBtn.textContent = 'Ver Dashboard →';
+    actionBtn.className   = 'w-full py-3 rounded-xl font-semibold bg-emerald-500 text-white hover:brightness-110 transition-all';
+    return;
+  }
+
+  const stretch = STRETCHES[step];
+  document.getElementById('recovery-emoji').textContent = stretch.emoji;
+  document.getElementById('recovery-name').textContent  = stretch.name;
+  document.getElementById('recovery-desc').textContent  = stretch.desc;
+  countdown.textContent = '30';
+  countdown.style.color = '#22c55e';
+  document.getElementById('recovery-side').textContent  = stretch.side;
+  dotsEl.innerHTML = STRETCHES.map((_, i) =>
+    `<span class="rec-dot ${i < step ? 'rec-dot-done' : i === step ? 'rec-dot-active' : ''}"></span>`
+  ).join('');
+  actionBtn.textContent = 'Saltear →';
+  actionBtn.className   = 'w-full py-3 rounded-xl font-semibold bg-white/10 border border-white/15 text-gray-300 hover:bg-white/15 transition-all';
+
+  state.recovery.seconds = 30;
+  if (state.recovery.interval) clearInterval(state.recovery.interval);
+  state.recovery.interval = setInterval(() => {
+    state.recovery.seconds--;
+    countdown.textContent = state.recovery.seconds;
+    if (state.recovery.seconds <= 0) {
+      clearInterval(state.recovery.interval);
+      state.recovery.interval = null;
+      if (navigator.vibrate) navigator.vibrate([60, 30, 60]);
+      state.recovery.step++;
+      setTimeout(() => renderRecoveryStep(state.recovery.step), 400);
+    }
+  }, 1000);
+}
+
+function advanceRecovery() {
+  if (state.recovery.interval) { clearInterval(state.recovery.interval); state.recovery.interval = null; }
+  if (state.recovery.step === -1) {
+    state.recovery.step = 0;
+    renderRecoveryStep(0);
+  } else if (state.recovery.step >= STRETCHES.length) {
+    document.getElementById('modal-recovery').classList.add('hidden');
+    showToast('¡Sesión completada! 💪'); navigate('dashboard');
+  } else {
+    state.recovery.step++;
+    renderRecoveryStep(state.recovery.step);
+  }
+}
+
+function skipRecovery() {
+  if (state.recovery.interval) { clearInterval(state.recovery.interval); state.recovery.interval = null; }
+  document.getElementById('modal-recovery').classList.add('hidden');
+  showToast('Sesión guardada 💪'); navigate('dashboard');
+}
+
+// ── Dashboard ─────────────────────────────────────────────────────────────────
+
+function loadDashboard() {
+  const sessions  = loadSessions();
+  const now       = new Date();
+  const weekStart = new Date(now);
+  weekStart.setDate(now.getDate() - now.getDay());
+  weekStart.setHours(0, 0, 0, 0);
+
+  const week = sessions.filter(s => new Date(s.date + 'T12:00:00') >= weekStart);
+  document.getElementById('dash-days').textContent     = new Set(week.map(s => s.date)).size;
+  document.getElementById('dash-contacts').textContent = week.reduce((n, s) => n + (s.totalContacts || 0), 0);
+
+  renderChart(sessions.slice(-7));
+  renderHistory([...sessions.slice(-7)].reverse());
+}
+
+function renderChart(sessions) {
+  const container = document.getElementById('dash-chart');
+  if (!sessions.length) {
+    container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">Sin sesiones registradas aún.</p>';
+    return;
+  }
+  const max = Math.max(...sessions.map(s => s.totalContacts || 0), 1);
+  const COLORS = { futsal: '#22c55e', basketball: '#f97316' };
+  const bars   = sessions.map(s => {
+    const h = Math.max(Math.round(((s.totalContacts || 0) / max) * 80), 4);
+    return `<div class="flex-1 rounded-t-md" style="height:${h}px;background:${COLORS[s.sport]||'#6b7280'};opacity:${s.highIntensity?'1':'.7'}"></div>`;
+  }).join('');
+  const counts = sessions.map(s => `<div class="flex-1 text-center text-xs text-gray-400 tabular-nums">${s.totalContacts||0}</div>`).join('');
+  const labels = sessions.map(s => {
+    const d = new Date(s.date + 'T12:00:00');
+    return `<div class="flex-1 text-center text-xs text-gray-500 capitalize">${d.toLocaleDateString('es',{weekday:'short'})}</div>`;
+  }).join('');
+  container.innerHTML = `
+    <div class="flex items-end gap-1.5 mb-1" style="height:80px">${bars}</div>
+    <div class="flex gap-1.5 mt-2 mb-0.5">${counts}</div>
+    <div class="flex gap-1.5">${labels}</div>
+    <div class="flex gap-4 mt-3 pt-3 border-t border-white/10">
+      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:#22c55e"></span>Futsal</span>
+      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:#f97316"></span>Básquetbol</span>
+    </div>`;
+}
+
+function renderHistory(sessions) {
+  const container = document.getElementById('dash-history');
+  if (!sessions.length) {
+    container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">¡Comienza tu primera sesión!</p>';
+    return;
+  }
+  const LEVEL = { beginner: 'Principiante', intermediate: 'Intermedio', advanced: 'Avanzado' };
+  const EMOJI = { futsal: '⚽', basketball: '🏀' };
+  container.innerHTML = sessions.map(s => {
+    const d = new Date(s.date + 'T12:00:00');
+    const dateStr = d.toLocaleDateString('es', { weekday:'short', day:'numeric', month:'short' });
+    const cColor  = (s.totalContacts||0) > 100 ? 'text-red-400' : (s.totalContacts||0) > 70 ? 'text-yellow-400' : 'text-emerald-400';
+    const badges  = `${s.highIntensity ? '<span class="text-xs text-red-400 ml-1" title="Alta intensidad">🔴</span>' : ''}${(s.fatigueLevel||0) >= 4 ? '<span class="text-xs text-yellow-400 ml-1" title="Fatiga alta">⚠️</span>' : ''}${s.notes ? '<span class="text-xs text-blue-400 ml-1" title="Con notas">📝</span>' : ''}`;
+    return `
+      <div class="glass-card px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">${EMOJI[s.sport]||'🏃'}</span>
+          <div>
+            <div class="text-sm font-semibold capitalize">${dateStr}${badges}</div>
+            <div class="text-xs text-gray-500">${LEVEL[s.level]||s.level} · ${s.exercisesCompleted||0} ejercicios</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-base font-extrabold tabular-nums ${cColor}">${s.totalContacts||0}</div>
+          <div class="text-xs text-gray-500">contactos</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Metronome (Web Audio API) ─────────────────────────────────────────────────
+
+function initAudio() {
+  if (!metronome.audioCtx) metronome.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (metronome.audioCtx.state === 'suspended') metronome.audioCtx.resume();
+}
+function playClick() {
+  const ctx = metronome.audioCtx;
+  const osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sine'; osc.frequency.setValueAtTime(1200, ctx.currentTime);
+  gain.gain.setValueAtTime(0, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.002);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+  osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.08);
+  pulseBeat();
+}
+
+function pulseBeat() {
+  const el = document.getElementById('beat-pulse');
+  if (!el) return;
+  el.classList.add('active');
+  setTimeout(() => el.classList.remove('active'), 90);
+}
+function toggleMetronome() { metronome.isPlaying ? stopMetronome() : startMetronome(); }
+function startMetronome() {
+  initAudio(); metronome.isPlaying = true; playClick();
+  metronome.intervalId = setInterval(playClick, (60 / metronome.bpm) * 1000);
+  updateMetronomeUI();
+}
+function stopMetronome() {
+  if (metronome.intervalId) { clearInterval(metronome.intervalId); metronome.intervalId = null; }
+  metronome.isPlaying = false; updateMetronomeUI();
+}
+function changeBPM(delta) {
+  metronome.bpm = Math.max(40, Math.min(240, metronome.bpm + delta));
+  document.getElementById('bpm-display').textContent = `${metronome.bpm} BPM`;
+  if (metronome.isPlaying) {
+    clearInterval(metronome.intervalId);
+    metronome.intervalId = setInterval(playClick, (60 / metronome.bpm) * 1000);
+  }
+}
+function updateMetronomeUI() {
+  const btn = document.getElementById('metro-play-btn');
+  const panel = document.getElementById('metronome-panel');
+  if (!btn) return;
+  if (metronome.isPlaying) {
+    btn.textContent = '⏹ Stop'; btn.classList.add('metro-active'); panel?.classList.add('metro-playing');
+  } else {
+    btn.textContent = '▶ Play'; btn.classList.remove('metro-active'); panel?.classList.remove('metro-playing');
+  }
+}
+
+// ── Tap-to-sync BPM (promedia los intervalos entre taps) ──────────────────────
+
+const tapState = { buffer: [], flashTimeout: null };
+
+function tapBPM() {
+  const now = performance.now();
+  // Reset si han pasado >2s desde el último tap
+  if (tapState.buffer.length && now - tapState.buffer[tapState.buffer.length - 1] > 2000) {
+    tapState.buffer.length = 0;
+  }
+  tapState.buffer.push(now);
+  // Mantener ventana deslizante de 8 taps
+  if (tapState.buffer.length > 8) tapState.buffer.shift();
+
+  // Feedback visual inmediato en el botón
+  const btn = document.getElementById('tap-btn');
+  btn?.classList.add('tap-flash');
+  if (tapState.flashTimeout) clearTimeout(tapState.flashTimeout);
+  tapState.flashTimeout = setTimeout(() => btn?.classList.remove('tap-flash'), 100);
+
+  if (tapState.buffer.length < 2) {
+    showToast('🥁 Sigue tocando al ritmo…');
+    return;
+  }
+
+  // Promedio de intervalos → BPM
+  let sum = 0;
+  for (let i = 1; i < tapState.buffer.length; i++) sum += tapState.buffer[i] - tapState.buffer[i - 1];
+  const avgMs = sum / (tapState.buffer.length - 1);
+  const bpm   = Math.round(60000 / avgMs);
+
+  metronome.bpm = Math.max(40, Math.min(240, bpm));
+  document.getElementById('bpm-display').textContent = `${metronome.bpm} BPM`;
+
+  if (metronome.isPlaying) {
+    clearInterval(metronome.intervalId);
+    metronome.intervalId = setInterval(playClick, (60 / metronome.bpm) * 1000);
+  }
+  if (tapState.buffer.length >= 4) showToast(`✓ ${metronome.bpm} BPM detectados`);
+}
+
+// ── Music player (local file, convive con el metrónomo) ───────────────────────
+
+const musicState = { objectUrl: null, volume: 0.7 };
+
+function loadMusicFile(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const audio = document.getElementById('music-player');
+  if (musicState.objectUrl) URL.revokeObjectURL(musicState.objectUrl);
+  musicState.objectUrl = URL.createObjectURL(file);
+  audio.src = musicState.objectUrl;
+  audio.volume = musicState.volume;
+  audio.load();
+
+  const name = file.name.replace(/\.[^/.]+$/, '');
+  document.getElementById('music-name').textContent = name.length > 22 ? name.slice(0, 22) + '…' : name;
+  document.getElementById('music-controls').classList.remove('hidden');
+  updateMusicUI();
+}
+
+function toggleMusic() {
+  const audio = document.getElementById('music-player');
+  if (!audio.src) return;
+  if (audio.paused) {
+    audio.play().catch(() => showToast('No se pudo reproducir'));
+  } else {
+    audio.pause();
+  }
+  setTimeout(updateMusicUI, 30);
+}
+
+function changeMusicVolume(delta) {
+  musicState.volume = Math.max(0, Math.min(1, musicState.volume + delta));
+  const audio = document.getElementById('music-player');
+  audio.volume = musicState.volume;
+  showToast(`🔊 Volumen ${Math.round(musicState.volume * 100)}%`);
+}
+
+function stopMusic() {
+  const audio = document.getElementById('music-player');
+  if (audio && !audio.paused) audio.pause();
+  updateMusicUI();
+}
+
+function updateMusicUI() {
+  const audio = document.getElementById('music-player');
+  const btn   = document.getElementById('music-play-btn');
+  if (!audio || !btn) return;
+  btn.textContent = audio.paused ? '▶' : '⏸';
+  btn.classList.toggle('metro-active', !audio.paused);
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Event listeners ───────────────────────────────────────────────────────────
+
+document.getElementById('modal-tech').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Re-acquire wake lock if tab becomes visible again
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && state.view === 'training') requestWakeLock();
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+
+loadConfig();

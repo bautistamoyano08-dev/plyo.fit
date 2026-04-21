@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conectando Spotify…</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #030712;
+      color: #fff;
+    }
+    .box { text-align: center; padding: 2rem; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(255,255,255,.15);
+      border-top-color: #1db954;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .err { color: #f87171; margin-top: 1rem; font-size: .9rem; }
+    a { color: #1db954; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="spinner"></div>
+    <div id="msg">Conectando con Spotify…</div>
+    <div id="err" class="err"></div>
+  </div>
+
+  <script src="spotify.js"></script>
+  <script>
+    (async () => {
+      const CLIENT_ID = window.SPOTIFY_CLIENT_ID;
+
+      const params = new URLSearchParams(window.location.search);
+      const code   = params.get('code');
+      const error  = params.get('error');
+
+      if (error) {
+        document.getElementById('msg').textContent = 'Autorización cancelada';
+        document.getElementById('err').textContent = error;
+        return;
+      }
+      if (!code) {
+        document.getElementById('msg').textContent = 'Falta el código de autorización';
+        return;
+      }
+
+      const verifier = localStorage.getItem('sp_code_verifier');
+      if (!verifier) {
+        document.getElementById('err').textContent = 'No se encontró el code_verifier. Vuelve a iniciar desde la app.';
+        return;
+      }
+
+      const redirectUri = window.location.origin + window.location.pathname;
+
+      try {
+        const body = new URLSearchParams({
+          grant_type:    'authorization_code',
+          code,
+          redirect_uri:  redirectUri,
+          client_id:     CLIENT_ID,
+          code_verifier: verifier
+        });
+        const res = await fetch('https://accounts.spotify.com/api/token', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        localStorage.setItem('sp_access_token',  data.access_token);
+        localStorage.setItem('sp_refresh_token', data.refresh_token);
+        localStorage.setItem('sp_expires_at',    String(Date.now() + data.expires_in * 1000));
+        localStorage.removeItem('sp_code_verifier');
+
+        window.location.replace('./plyo.html');
+      } catch (e) {
+        document.getElementById('msg').textContent = 'Error al intercambiar el código';
+        document.getElementById('err').innerHTML = e.message + '<br><a href="./plyo.html">Volver</a>';
+      }
+    })();
+  </script>
+</body>
+</html>
