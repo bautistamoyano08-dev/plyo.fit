@@ -5,7 +5,7 @@
 //   <origin>/<ruta>/spotify-callback.html
 // (el mismo valor que imprime SPOTIFY_REDIRECT_URI en la consola al cargar).
 
-const SPOTIFY_CLIENT_ID = 'PEGA_AQUI_TU_CLIENT_ID';
+const SPOTIFY_CLIENT_ID = 'f9a7a5300c5f42df833b22a1de886a3f';
 window.SPOTIFY_CLIENT_ID = SPOTIFY_CLIENT_ID;
 
 const SPOTIFY_REDIRECT_URI = (() => {
