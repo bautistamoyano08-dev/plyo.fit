@@ -1418,6 +1418,8 @@ function jumpLanding() {
 function showJumpResult(cm) {
   const prev = loadJumpPR();
   saveJump(cm);
+  window._lastJumpCm = cm;
+  window._lastJumpIsPR = !prev || cm > prev.cm;
   bumpStreak();
   addXP(20, 'jump test');
   markGoalProgress('jump');
@@ -1648,6 +1650,152 @@ function renderHomeStats() {
     fill.style.width = (pct * 100).toFixed(1) + '%';
   }
   if (cta) cta.textContent = g.done ? '✓ Hecho' : 'Empezar';
+}
+
+// ── Share card (Jump Test) ────────────────────────────────────────────────────
+
+function generateJumpShareCard(cm, opts = {}) {
+  const W = 1080, H = 1920;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // BG: dark gradient with brand accent glow
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0b0c0e');
+  bg.addColorStop(1, '#15181c');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  // Accent radial glow bottom-left
+  const glow = ctx.createRadialGradient(W * 0.15, H * 0.95, 80, W * 0.15, H * 0.95, W * 0.9);
+  glow.addColorStop(0, 'rgba(200, 255, 80, 0.35)');
+  glow.addColorStop(1, 'rgba(200, 255, 80, 0)');
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+  // Top bar: brand
+  ctx.fillStyle = '#c8ff50';
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 14, 140); ctx.lineTo(W/2 - 38, 190);
+  ctx.lineTo(W/2 - 4, 190); ctx.lineTo(W/2 - 10, 232);
+  ctx.lineTo(W/2 + 36, 180); ctx.lineTo(W/2 + 2, 180);
+  ctx.lineTo(W/2 + 14, 140); ctx.closePath();
+  ctx.fill();
+  ctx.font = '700 42px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.fillText('PLYO.FIT', W/2, 310);
+  ctx.font = '500 26px system-ui, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.fillText('SALTO VERTICAL', W/2, 360);
+
+  // PR badge if applicable
+  if (opts.isPR) {
+    ctx.fillStyle = '#c8ff50';
+    ctx.font = '800 34px "JetBrains Mono", ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    const txt = '★ NUEVO RÉCORD PERSONAL';
+    const m = ctx.measureText(txt);
+    const pad = 38, bh = 72, bw = m.width + pad * 2;
+    const bx = (W - bw) / 2, by = 440;
+    ctx.fillStyle = 'rgba(200, 255, 80, 0.12)';
+    roundRect(ctx, bx, by, bw, bh, 36); ctx.fill();
+    ctx.strokeStyle = 'rgba(200, 255, 80, 0.5)'; ctx.lineWidth = 2;
+    roundRect(ctx, bx, by, bw, bh, 36); ctx.stroke();
+    ctx.fillStyle = '#c8ff50';
+    ctx.fillText(txt, W/2, by + 49);
+  }
+
+  // Huge cm value
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 420px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillText(String(cm), W/2, 970);
+
+  // Unit
+  ctx.font = '800 120px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = '#c8ff50';
+  ctx.fillText('cm', W/2, 1100);
+
+  // Level badge
+  const level = getJumpLevel(cm);
+  ctx.font = '700 38px system-ui, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.fillText('NIVEL', W/2, 1200);
+  ctx.font = '800 64px system-ui, sans-serif';
+  ctx.fillStyle = '#fff';
+  ctx.fillText(level.toUpperCase(), W/2, 1280);
+
+  // Stats row: streak + XP level
+  const streak = loadStreak();
+  const lvl = getLevel(loadXP());
+  const rowY = 1480;
+  drawStatBox(ctx, W * 0.15, rowY, W * 0.30, 200, `${streak.count}`, 'RACHA (días)');
+  drawStatBox(ctx, W * 0.55, rowY, W * 0.30, 200, `Nv ${lvl.level}`, lvl.name.toUpperCase());
+
+  // Footer
+  ctx.textAlign = 'center';
+  ctx.font = '500 28px system-ui, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText('Medí tu salto vertical en plyo.fit', W/2, H - 120);
+  ctx.font = '700 32px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = '#c8ff50';
+  ctx.fillText('plyo.fit', W/2, H - 70);
+
+  return canvas;
+}
+
+function drawStatBox(ctx, x, y, w, h, big, small) {
+  ctx.fillStyle = 'rgba(255,255,255,0.04)';
+  roundRect(ctx, x, y, w, h, 28); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 2;
+  roundRect(ctx, x, y, w, h, 28); ctx.stroke();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = '800 88px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillText(big, x + w/2, y + 105);
+  ctx.font = '600 26px system-ui, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.fillText(small, x + w/2, y + 155);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+async function shareJumpCard() {
+  const cm = window._lastJumpCm;
+  if (!cm) { showToast('No hay salto para compartir'); return; }
+  const canvas = generateJumpShareCard(cm, { isPR: !!window._lastJumpIsPR });
+  const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 0.95));
+  if (!blob) { showToast('No se pudo generar la imagen'); return; }
+
+  const filename = `plyo-salto-${cm}cm.png`;
+  const file = new File([blob], filename, { type: 'image/png' });
+
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: 'Mi salto vertical',
+        text: `${cm} cm · medido con Plyo.fit`
+      });
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+    }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 500);
+  showToast('Imagen descargada');
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────

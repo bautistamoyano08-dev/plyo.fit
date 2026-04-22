@@ -50,6 +50,7 @@
       <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
       <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></symbol>
       <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 01-10 0V4zM5 6H3v2a3 3 0 003 3M19 6h2v2a3 3 0 01-3 3M9 20h6M12 14v6"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v13M8 7l4-4 4 4M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></symbol>
     </defs>
   </svg>
 
@@ -394,7 +395,11 @@
           <span class="jump-result-val" id="jump-result-val">0</span><span class="jump-result-unit">cm</span>
         </div>
         <div id="jump-pr-compare" class="jump-pr-compare"></div>
-        <div class="grid grid-cols-2 gap-3 w-full mt-4">
+        <button class="share-btn w-full rounded-2xl mt-4" onclick="shareJumpCard()">
+          <svg class="icon"><use href="#i-share"/></svg>
+          <span>Compartir</span>
+        </button>
+        <div class="grid grid-cols-2 gap-3 w-full mt-3">
           <button class="btn-ghost rounded-2xl" onclick="startJumpTest()">
             <svg class="icon icon-sm"><use href="#i-bolt"/></svg>
             <span>Otro intento</span>
