@@ -1818,13 +1818,21 @@ function startOnboarding() {
   if (!overlay) return;
   _onboardSlide = 0;
   overlay.classList.remove('hidden');
+  document.documentElement.classList.add('onboarding-open');
+  document.body.classList.add('onboarding-open');
   _renderOnboardSlide();
 }
 
+function _closeOnboardingOverlay() {
+  const overlay = document.getElementById('onboarding');
+  if (overlay) overlay.classList.add('hidden');
+  document.documentElement.classList.remove('onboarding-open');
+  document.body.classList.remove('onboarding-open');
+}
+
 function _renderOnboardSlide() {
-  document.querySelectorAll('.onboarding-slide').forEach((el, i) => {
-    el.classList.toggle('active', i === _onboardSlide);
-  });
+  const strip = document.getElementById('onboarding-strip');
+  if (strip) strip.style.transform = `translateX(-${_onboardSlide * 33.3333}%)`;
   document.querySelectorAll('.onboarding-dot').forEach((el, i) => {
     el.classList.toggle('active', i === _onboardSlide);
   });
@@ -1844,14 +1852,12 @@ function onboardingNext() {
 
 function onboardingSkip() {
   localStorage.setItem('plyo_onboarded', '1');
-  const overlay = document.getElementById('onboarding');
-  if (overlay) overlay.classList.add('hidden');
+  _closeOnboardingOverlay();
 }
 
 function onboardingFinish() {
   localStorage.setItem('plyo_onboarded', '1');
-  const overlay = document.getElementById('onboarding');
-  if (overlay) overlay.classList.add('hidden');
+  _closeOnboardingOverlay();
   setTimeout(() => { if (typeof openJumpTest === 'function') openJumpTest(); }, 300);
 }
 

@@ -1380,6 +1380,143 @@ textarea:focus, input[type="text"]:focus{
   .goal-cta{ padding:0.45rem 0.7rem; font-size:0.75rem; }
 }
 
+/* ── Onboarding overlay ──────────────────────────────────────────── */
+html.onboarding-open, body.onboarding-open{
+  overflow:hidden !important;
+  height:100%;
+  touch-action:none;
+  overscroll-behavior:none;
+}
+.onboarding-overlay{
+  position:fixed; inset:0;
+  z-index:9000;
+  background: radial-gradient(ellipse at 20% 100%, color-mix(in oklch, var(--accent) 20%, #0a0b0d) 0%, #0a0b0d 55%);
+  display:flex; flex-direction:column;
+  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) 1.5rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  animation: onbFadeIn 0.35s ease;
+  overflow:hidden;
+  touch-action:none;
+  overscroll-behavior:contain;
+}
+@keyframes onbFadeIn { from { opacity:0; } to { opacity:1; } }
+
+.onboarding-skip{
+  position:absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 1rem);
+  right: 1.25rem;
+  background:none; border:none;
+  color: var(--fg-muted);
+  font-size:0.95rem; font-weight:500;
+  padding:0.5rem 0.75rem;
+  cursor:pointer;
+  letter-spacing:0.02em;
+}
+.onboarding-skip:active{ opacity:0.6; }
+
+.onboarding-viewport{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  min-height:0;
+  width:100%;
+}
+.onboarding-strip{
+  display:flex;
+  width:300%;
+  height:100%;
+  transform: translateX(0%);
+  transition: transform 0.45s cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
+}
+.onboarding-slide{
+  flex: 0 0 33.3333%;
+  width: 33.3333%;
+  height: 100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding: 1rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.onboarding-illustration{
+  width: 180px; height: 180px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius: 44px;
+  margin-bottom: 2.5rem;
+  background: color-mix(in oklch, var(--accent) 15%, transparent);
+  border: 2px solid color-mix(in oklch, var(--accent) 35%, transparent);
+  box-shadow: 0 20px 60px color-mix(in oklch, var(--accent) 25%, transparent),
+              inset 0 1px 0 rgba(255,255,255,0.1);
+  position:relative;
+  overflow:hidden;
+}
+.onboarding-illustration svg{
+  width: 100px; height: 100px;
+  color: var(--accent);
+  stroke-width: 2.2;
+  fill: none; stroke: currentColor;
+}
+.illo-bolt svg{ fill: var(--accent); stroke: none; filter: drop-shadow(0 0 20px color-mix(in oklch, var(--accent) 60%, transparent)); }
+.illo-jump svg{ animation: onbJumpPulse 1.6s ease-in-out infinite; }
+@keyframes onbJumpPulse{
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.illo-streak svg{ fill: var(--accent); stroke: none; animation: onbFlameFlicker 2s ease-in-out infinite; }
+@keyframes onbFlameFlicker{
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 16px color-mix(in oklch, var(--accent) 55%, transparent)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 28px color-mix(in oklch, var(--accent) 75%, transparent)); }
+}
+
+.onboarding-title{
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--fg, #fff);
+  margin-bottom: 1.1rem;
+  max-width: 20ch;
+}
+.onboarding-sub{
+  font-size: 1rem;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  max-width: 30ch;
+}
+
+.onboarding-dots{
+  display:flex; justify-content:center; gap:0.5rem;
+  margin: 1.5rem 0 1.25rem;
+}
+.onboarding-dot{
+  width:8px; height:8px;
+  border-radius:999px;
+  background: color-mix(in oklch, var(--fg, #fff) 18%, transparent);
+  transition: background 0.3s, width 0.3s;
+}
+.onboarding-dot.active{
+  background: var(--accent);
+  width: 24px;
+  box-shadow: 0 0 12px color-mix(in oklch, var(--accent) 60%, transparent);
+}
+
+.onboarding-cta{
+  display:flex; align-items:center; justify-content:center; gap:0.6rem;
+  min-height: 60px;
+  background: var(--accent);
+  color: var(--accent-ink, #0b0b0b);
+  font-weight: 800; font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 30px color-mix(in oklch, var(--accent) 35%, transparent),
+              inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform 0.12s;
+}
+.onboarding-cta:active{ transform: scale(0.98); }
+.onboarding-cta .icon{ width:1.2rem; height:1.2rem; stroke-width:2.4; }
+
 /* ── Share button (jump result) ──────────────────────────────────── */
 .share-btn{
   display:flex; align-items:center; justify-content:center; gap:0.6rem;
