@@ -84,10 +84,10 @@
         localStorage.setItem('sp_expires_at',    String(Date.now() + data.expires_in * 1000));
         localStorage.removeItem('sp_code_verifier');
 
-        window.location.replace('./plyo.html');
+        window.location.replace('./');
       } catch (e) {
         document.getElementById('msg').textContent = 'Error al intercambiar el código';
-        document.getElementById('err').innerHTML = e.message + '<br><a href="./plyo.html">Volver</a>';
+        document.getElementById('err').innerHTML = e.message + '<br><a href="./">Volver</a>';
       }
     })();
   </script>

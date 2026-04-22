@@ -1,6 +1,6 @@
-const CACHE_NAME = 'plyotracker-v4';
+const CACHE_NAME = 'plyotracker-v5';
 const STATIC_ASSETS = [
-  './plyo.html',
+  './index.html',
   './plyo.css',
   './plyo.js',
   './spotify.js',
@@ -53,7 +53,7 @@ self.addEventListener('fetch', event => {
       }).catch(() => {
         // Offline fallback: serve the app shell
         if (event.request.destination === 'document') {
-          return caches.match('./plyo.html');
+          return caches.match('./index.html');
         }
       });
     })

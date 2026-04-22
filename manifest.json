@@ -2,7 +2,7 @@
   "name": "PlyoTracker",
   "short_name": "PlyoTrack",
   "description": "Entrenamiento pliométrico especializado para Futsal y Básquetbol",
-  "start_url": "./plyo.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
