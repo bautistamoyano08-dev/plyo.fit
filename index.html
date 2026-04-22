@@ -156,6 +156,11 @@
         <span>Sesión Rápida — 5 ej. · ~75 ctc</span>
       </button>
 
+      <button class="btn-ghost w-full mt-2 rounded-2xl" onclick="openJumpTest()">
+        <svg class="icon icon-sm" style="color:var(--accent)"><use href="#i-arrow-up-right"/></svg>
+        <span>Medí tu salto vertical</span>
+      </button>
+
       <button class="btn-link w-full mt-2" onclick="navigate('dashboard')">
         <span>Ver historial semanal</span>
         <svg class="icon icon-sm"><use href="#i-arrow-up-right"/></svg>
@@ -284,6 +289,106 @@
 
       <h3 class="section-label">Historial reciente</h3>
       <div id="dash-history" class="space-y-2 pb-8"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Jump Test                                     -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <div id="view-test" class="view hidden">
+      <div class="training-topbar">
+        <div class="sport-chip">
+          <svg class="icon icon-sm"><use href="#i-bolt"/></svg>
+          <span>Jump Test</span>
+        </div>
+        <div class="t-sub flex-1">Medí tu salto vertical</div>
+        <button class="exit-btn" onclick="cancelJumpTest()" aria-label="Salir">
+          <svg class="icon"><use href="#i-exit"/></svg>
+        </button>
+      </div>
+
+      <!-- READY STATE -->
+      <div id="jump-stage-ready">
+        <div id="jump-pr-card" class="glass-card jump-pr-card hidden">
+          <div>
+            <div class="jump-pr-label">Tu mejor salto</div>
+            <div id="jump-pr-val" class="jump-pr-val">—</div>
+          </div>
+          <svg class="icon icon-lg" style="color:var(--accent)"><use href="#i-bolt"/></svg>
+        </div>
+
+        <h2 class="text-2xl font-extrabold tracking-tight mb-3" style="letter-spacing:-0.02em">¿Cuánto saltás?</h2>
+        <p class="text-sm mb-5" style="color:var(--fg-muted)">En 3 pasos medimos tu salto vertical usando el tiempo de vuelo.</p>
+
+        <div class="space-y-2 mb-6">
+          <div class="jump-step">
+            <div class="jump-step-num">1</div>
+            <div class="jump-step-text">Pará con el celu en la mano. Tocá <strong>Empezar</strong>.</div>
+          </div>
+          <div class="jump-step">
+            <div class="jump-step-num">2</div>
+            <div class="jump-step-text">Cuando veas el botón verde, <strong>saltá</strong> y tocá la pantalla al despegar.</div>
+          </div>
+          <div class="jump-step">
+            <div class="jump-step-num">3</div>
+            <div class="jump-step-text">Tocá <strong>al caer</strong>. Listo — calculamos tu altura.</div>
+          </div>
+        </div>
+
+        <button id="jump-start-btn" class="w-full rounded-2xl btn-start-futsal" style="min-height:56px;font-weight:700" onclick="startJumpTest()">
+          <svg class="icon"><use href="#i-bolt"/></svg>
+          <span>Empezar test</span>
+        </button>
+      </div>
+
+      <!-- COUNTDOWN STATE -->
+      <div id="jump-stage-countdown" class="jump-stage hidden">
+        <div class="jump-countdown" id="jump-countdown-num">3</div>
+        <p class="text-sm" style="color:var(--fg-muted)">Preparate…</p>
+      </div>
+
+      <!-- TAKEOFF STATE -->
+      <button id="jump-stage-takeoff" class="jump-btn jump-btn-takeoff hidden" onclick="jumpTakeoff()">
+        <svg class="icon"><use href="#i-arrow-up-right"/></svg>
+        <span>Saltá y tocá</span>
+        <span class="jump-btn-hint">al momento de despegar</span>
+      </button>
+
+      <!-- LANDING STATE -->
+      <button id="jump-stage-land" class="jump-btn jump-btn-land hidden" onclick="jumpLanding()">
+        <svg class="icon jump-btn-icon-down"><use href="#i-arrow-up-right"/></svg>
+        <span>Tocá al caer</span>
+        <span class="jump-btn-hint">apenas los pies vuelven al suelo</span>
+      </button>
+
+      <!-- RESULT STATE -->
+      <div id="jump-stage-result" class="jump-stage hidden">
+        <div class="jump-level-badge" id="jump-level-badge">Amateur</div>
+        <div class="jump-result-line">
+          <span class="jump-result-val" id="jump-result-val">0</span><span class="jump-result-unit">cm</span>
+        </div>
+        <div id="jump-pr-compare" class="jump-pr-compare"></div>
+        <div class="grid grid-cols-2 gap-3 w-full mt-4">
+          <button class="btn-ghost rounded-2xl" onclick="startJumpTest()">
+            <svg class="icon icon-sm"><use href="#i-bolt"/></svg>
+            <span>Otro intento</span>
+          </button>
+          <button class="rounded-2xl btn-start-futsal" style="min-height:48px;font-weight:700" onclick="finishJumpTest()">
+            <svg class="icon icon-sm"><use href="#i-check"/></svg>
+            <span>Listo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- INVALID STATE -->
+      <div id="jump-stage-invalid" class="jump-stage hidden">
+        <svg class="icon jump-invalid-icon"><use href="#i-alert"/></svg>
+        <h3 class="text-xl font-extrabold">Medición inválida</h3>
+        <p class="text-sm" style="color:var(--fg-muted);max-width:280px">Tu tiempo de vuelo fue demasiado corto o demasiado largo. Intentá de nuevo con un salto más claro.</p>
+        <button class="rounded-2xl btn-start-futsal jump-retry-btn" onclick="startJumpTest()">
+          <svg class="icon"><use href="#i-bolt"/></svg>
+          <span>Reintentar</span>
+        </button>
+      </div>
     </div>
   </div>
 

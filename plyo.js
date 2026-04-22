@@ -1329,6 +1329,125 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && state.view === 'training') requestWakeLock();
 });
 
+// ── Jump Test ─────────────────────────────────────────────────────────────────
+
+const JUMP_LEVELS = [
+  { min: 0,  max: 20,  label: 'Arrancando' },
+  { min: 20, max: 30,  label: 'Básico' },
+  { min: 30, max: 40,  label: 'Amateur' },
+  { min: 40, max: 50,  label: 'Atleta' },
+  { min: 50, max: 60,  label: 'Competitivo' },
+  { min: 60, max: 999, label: 'Elite' }
+];
+
+let jumpT0 = 0;
+let jumpCountdownTimer = null;
+
+function openJumpTest() {
+  navigate('test');
+  setJumpStage('ready');
+  const pr = loadJumpPR();
+  const prCard = document.getElementById('jump-pr-card');
+  if (pr) {
+    prCard.classList.remove('hidden');
+    document.getElementById('jump-pr-val').textContent = pr.cm + ' cm';
+  } else {
+    prCard.classList.add('hidden');
+  }
+}
+
+function cancelJumpTest() {
+  if (jumpCountdownTimer) { clearInterval(jumpCountdownTimer); jumpCountdownTimer = null; }
+  navigate('setup');
+}
+
+function finishJumpTest() { navigate('setup'); }
+
+function setJumpStage(stage) {
+  ['ready', 'countdown', 'takeoff', 'land', 'result', 'invalid'].forEach(s => {
+    const el = document.getElementById('jump-stage-' + s);
+    if (el) el.classList.toggle('hidden', s !== stage);
+  });
+}
+
+function startJumpTest() {
+  setJumpStage('countdown');
+  const numEl = document.getElementById('jump-countdown-num');
+  let n = 3;
+  numEl.textContent = n;
+  numEl.style.animation = 'none'; void numEl.offsetHeight; numEl.style.animation = '';
+  if (jumpCountdownTimer) clearInterval(jumpCountdownTimer);
+  jumpCountdownTimer = setInterval(() => {
+    n--;
+    if (n > 0) {
+      numEl.textContent = n;
+      numEl.style.animation = 'none'; void numEl.offsetHeight; numEl.style.animation = '';
+      if (navigator.vibrate) navigator.vibrate(30);
+    } else {
+      clearInterval(jumpCountdownTimer);
+      jumpCountdownTimer = null;
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+      setJumpStage('takeoff');
+    }
+  }, 1000);
+}
+
+function jumpTakeoff() {
+  jumpT0 = performance.now();
+  if (navigator.vibrate) navigator.vibrate(40);
+  setJumpStage('land');
+}
+
+function jumpLanding() {
+  const t1 = performance.now();
+  const flightSec = (t1 - jumpT0) / 1000;
+  if (navigator.vibrate) navigator.vibrate(60);
+  if (flightSec < 0.25 || flightSec > 1.2) { setJumpStage('invalid'); return; }
+  const cm = Math.round((9.81 * flightSec * flightSec / 8) * 100);
+  showJumpResult(cm);
+}
+
+function showJumpResult(cm) {
+  const prev = loadJumpPR();
+  saveJump(cm);
+  document.getElementById('jump-result-val').textContent = cm;
+  document.getElementById('jump-level-badge').textContent = getJumpLevel(cm);
+  const cmp = document.getElementById('jump-pr-compare');
+  cmp.classList.remove('up', 'down');
+  if (!prev) {
+    cmp.textContent = 'Tu primer salto registrado.';
+  } else if (cm > prev.cm) {
+    cmp.textContent = `¡Nuevo récord! +${cm - prev.cm} cm sobre tu mejor.`;
+    cmp.classList.add('up');
+  } else if (cm === prev.cm) {
+    cmp.textContent = `Igualaste tu mejor salto.`;
+  } else {
+    cmp.textContent = `Tu mejor: ${prev.cm} cm. Te faltaron ${prev.cm - cm} cm.`;
+    cmp.classList.add('down');
+  }
+  setJumpStage('result');
+}
+
+function getJumpLevel(cm) {
+  return (JUMP_LEVELS.find(l => cm >= l.min && cm < l.max) || JUMP_LEVELS[0]).label;
+}
+
+function loadJumpHistory() {
+  try { return JSON.parse(localStorage.getItem('plyo_jumps') || '[]'); }
+  catch (_) { return []; }
+}
+function loadJumpPR() {
+  const hist = loadJumpHistory();
+  if (!hist.length) return null;
+  return hist.reduce((a, b) => a.cm >= b.cm ? a : b);
+}
+function saveJump(cm) {
+  const hist = loadJumpHistory();
+  hist.push({ ts: Date.now(), cm });
+  if (hist.length > 100) hist.splice(0, hist.length - 100);
+  localStorage.setItem('plyo_jumps', JSON.stringify(hist));
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 loadConfig();

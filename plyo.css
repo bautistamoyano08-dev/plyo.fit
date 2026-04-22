@@ -1065,3 +1065,150 @@ textarea:focus, input[type="text"]:focus{
   .metro-ctrl-btn{ width: 40px; height: 40px; }
   .metro-play-btn{ min-width: 72px; }
 }
+
+/* ── Jump Test ─────────────────────────────────────────── */
+.jump-pr-card{
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.jump-pr-label{
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 0.25rem;
+}
+.jump-pr-val{
+  font-family: var(--mono);
+  font-size: 1.75rem; font-weight: 800;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+}
+.jump-step{
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  text-align: left;
+}
+.jump-step-num{
+  width: 28px; height: 28px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-family: var(--mono); font-weight: 800; font-size: 0.9rem;
+}
+.jump-step-text{ font-size: 0.85rem; color: var(--fg-muted); line-height: 1.45; padding-top: 0.25rem; }
+.jump-step-text strong{ color: var(--fg); }
+
+.jump-stage{
+  min-height: 58vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+.jump-countdown{
+  font-family: var(--mono);
+  font-size: 9rem; font-weight: 800;
+  color: var(--accent);
+  line-height: 1; letter-spacing: -0.05em;
+  animation: jumpCountPulse 1s ease-out;
+  text-shadow: 0 0 48px var(--accent-glow);
+}
+@keyframes jumpCountPulse{
+  0%   { transform: scale(0.5); opacity: 0; }
+  40%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.jump-btn{
+  width: 100%;
+  min-height: 62vh;
+  border-radius: var(--r-xl);
+  font-size: 1.75rem; font-weight: 800;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.9rem;
+  transition: transform 0.1s ease, filter 0.15s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 2rem;
+}
+.jump-btn:active{ transform: scale(0.985); filter: brightness(0.92); }
+.jump-btn .icon{ width: 56px; height: 56px; stroke-width: 2.2; }
+.jump-btn-hint{
+  font-size: 0.78rem; font-weight: 500;
+  text-transform: none; letter-spacing: 0;
+  opacity: 0.78;
+}
+.jump-btn-takeoff{
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 10px 56px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.25);
+  animation: takeoffPulse 1.3s ease-in-out infinite;
+}
+@keyframes takeoffPulse{
+  0%, 100% { box-shadow: 0 10px 56px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.25); }
+  50%      { box-shadow: 0 14px 88px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.25); }
+}
+.jump-btn-land{
+  background: var(--danger);
+  color: #fff;
+  box-shadow: 0 10px 56px oklch(0.68 0.23 25 / 0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.jump-btn-icon-down{ transform: rotate(180deg); width: 56px; height: 56px; }
+
+.jump-result-line{
+  display: inline-flex; align-items: baseline;
+  gap: 0.2rem;
+}
+.jump-result-val{
+  font-family: var(--mono);
+  font-size: 5.5rem; font-weight: 800;
+  color: var(--accent);
+  line-height: 1; letter-spacing: -0.05em;
+  text-shadow: 0 0 36px var(--accent-glow);
+}
+.jump-result-unit{
+  font-size: 1.75rem; font-weight: 700;
+  color: var(--fg-muted);
+}
+.jump-level-badge{
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.jump-pr-compare{
+  font-size: 0.95rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+  max-width: 300px;
+}
+.jump-pr-compare.up{ color: var(--accent); font-weight: 700; }
+.jump-pr-compare.down{ color: var(--fg-dim); }
+
+.jump-invalid-icon{ width: 64px; height: 64px; color: var(--warn); }
+.jump-retry-btn{
+  min-height: 52px;
+  font-weight: 700;
+  padding: 0 2rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+
+@media (max-width: 380px){
+  .jump-countdown{ font-size: 7rem; }
+  .jump-btn{ font-size: 1.5rem; }
+  .jump-result-val{ font-size: 4.5rem; }
+}
