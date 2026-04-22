@@ -2,322 +2,518 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlyoTracker — Futsal & Básquetbol</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PlyoTracker — Futsal &amp; Básquetbol</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plyo.css">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#030712">
+  <meta name="theme-color" content="#07080a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PlyoTracker">
   <link rel="apple-touch-icon" href="plyo-icon.svg">
 </head>
-<body class="bg-gray-950 text-white min-h-screen overflow-x-hidden font-inter">
+<body class="text-white min-h-screen overflow-x-hidden font-inter">
+
+  <!-- ── SVG icon sprite (monocromo, currentColor) ── -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+      <symbol id="i-futsal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3l3 5-3 4-3-4 3-5zM3.5 10.5l5.5 1.5L8 17l-4-2-0.5-4.5zM20.5 10.5L21 15l-4 2-1-5 4.5-1.5zM8 17l4 3 4-3"/></symbol>
+      <symbol id="i-basket" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.64 5.64c3.5 3.5 9.22 3.5 12.72 0M5.64 18.36c3.5-3.5 9.22-3.5 12.72 0"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-tap" viewBox="0 0 24 24"><path d="M9 11V5a2 2 0 114 0v6M9 11l-2 2a2 2 0 000 3l4 4h6a3 3 0 003-3v-4a3 3 0 00-3-3h-8"/></symbol>
+      <symbol id="i-metronome" viewBox="0 0 24 24"><path d="M8 3h8l3 18H5L8 3zM7 14h10M12 21V10M12 10l4-5"/></symbol>
+      <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+      <symbol id="i-volume-down" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5zM16 9a4 4 0 010 6"/></symbol>
+      <symbol id="i-volume-up" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5zM16 9a4 4 0 010 6M19 6a8 8 0 010 12"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3zM12 10v5M12 18v.01"/></symbol>
+      <symbol id="i-leg" viewBox="0 0 24 24"><path d="M8 3h6l1 7-2 4 2 7h-4l-1-5-3 5H3l4-7-1-5 2-6z"/></symbol>
+      <symbol id="i-zen" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 21c0-5 3-7 7-7s7 2 7 7M3 14c2 0 3 1 3 3M21 14c-2 0-3 1-3 3"/></symbol>
+      <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V2h6v2M9 11h6M9 15h4"/></symbol>
+      <symbol id="i-cast" viewBox="0 0 24 24"><path d="M2 16v4h4M2 11a9 9 0 019 9M2 6a14 14 0 0114 14M21 3H3v4"/></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+      <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M6 8v8M3 10v4M10 6v12M18 6v12M14 8v8M21 10v4"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c1 4 5 5 5 10a5 5 0 01-10 0c0-3 2-4 2-7 1 1 3 1 3-3z"/></symbol>
+      <symbol id="i-exit" viewBox="0 0 24 24"><path d="M10 3H5a2 2 0 00-2 2v14a2 2 0 002 2h5M16 17l5-5-5-5M21 12H9"/></symbol>
+      <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8V4zM19 4v16"/></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+    </defs>
+  </svg>
 
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
 
   <div id="app" class="relative z-10 max-w-lg mx-auto px-4 py-6 min-h-screen">
 
-    <!-- ── VIEW: Setup ── -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Setup                                         -->
+    <!-- ══════════════════════════════════════════════════ -->
     <div id="view-setup" class="view">
-      <div class="text-center mb-8 pt-4">
-        <div class="text-4xl mb-2">⚡</div>
-        <h1 class="text-3xl font-extrabold tracking-tight">PlyoTracker</h1>
-        <p class="text-gray-400 mt-1 text-sm">Entrenamiento pliométrico especializado</p>
+      <div class="text-center mb-9 pt-6">
+        <div class="app-icon-lg mx-auto mb-5" role="img" aria-label="PlyoTracker">
+          <svg viewBox="0 0 120 120" width="96" height="96">
+            <defs>
+              <!-- iOS-style squircle mask (superellipse, flatter sides) -->
+              <clipPath id="ios-squircle" clipPathUnits="userSpaceOnUse">
+                <path d="M60 2
+                  C 18 2, 2 18, 2 60
+                  C 2 102, 18 118, 60 118
+                  C 102 118, 118 102, 118 60
+                  C 118 18, 102 2, 60 2 Z"/>
+              </clipPath>
+              <linearGradient id="ios-bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="oklch(0.88 0.19 130)"/>
+                <stop offset="55%" stop-color="oklch(0.82 0.19 130)"/>
+                <stop offset="100%" stop-color="oklch(0.66 0.17 128)"/>
+              </linearGradient>
+              <linearGradient id="ios-shine" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="rgba(255,255,255,0.55)"/>
+                <stop offset="55%" stop-color="rgba(255,255,255,0.08)"/>
+                <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+              </linearGradient>
+              <radialGradient id="ios-glow" cx="50%" cy="110%" r="70%">
+                <stop offset="0%" stop-color="oklch(0.92 0.18 130 / 0.6)"/>
+                <stop offset="100%" stop-color="oklch(0.92 0.18 130 / 0)"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Base squircle with gradient -->
+            <g clip-path="url(#ios-squircle)">
+              <rect x="0" y="0" width="120" height="120" fill="url(#ios-bg)"/>
+              <!-- Ambient bottom glow -->
+              <rect x="0" y="0" width="120" height="120" fill="url(#ios-glow)"/>
+              <!-- Top specular shine -->
+              <ellipse cx="60" cy="-10" rx="80" ry="48" fill="url(#ios-shine)"/>
+              <!-- Subtle diagonal grain -->
+              <rect x="0" y="0" width="120" height="120" fill="rgba(255,255,255,0)"
+                    style="mix-blend-mode:overlay"/>
+
+              <!-- Bolt glyph centered -->
+              <path d="M66 24 L40 66 H58 L52 96 L82 54 H64 Z"
+                    fill="oklch(0.22 0.08 130)"
+                    stroke="oklch(0.15 0.05 130 / 0.25)"
+                    stroke-width="0.5"
+                    stroke-linejoin="round"/>
+            </g>
+            <!-- Outer hairline -->
+            <path d="M60 2
+              C 18 2, 2 18, 2 60
+              C 2 102, 18 118, 60 118
+              C 102 118, 118 102, 118 60
+              C 118 18, 102 2, 60 2 Z"
+              fill="none"
+              stroke="rgba(255,255,255,0.25)"
+              stroke-width="0.75"/>
+          </svg>
+        </div>
+        <h1 class="text-4xl font-extrabold tracking-tight" style="letter-spacing:-0.035em">PlyoTracker</h1>
+        <p class="mt-2 text-sm" style="color:var(--fg-muted)">Entrenamiento pliométrico especializado</p>
       </div>
 
       <h2 class="section-label">Selecciona tu deporte</h2>
-      <div class="grid grid-cols-2 gap-3 mb-6">
-        <div class="sport-card glass-card p-5 cursor-pointer text-center" data-sport="futsal" onclick="selectSport('futsal')">
-          <div class="text-4xl mb-2">⚽</div>
-          <div class="font-bold text-base">Futsal</div>
-          <div class="text-xs text-gray-400 mt-1">Agilidad lateral</div>
+      <div class="grid grid-cols-2 gap-3 mb-7">
+        <div class="sport-card glass-card" data-sport="futsal" onclick="selectSport('futsal')">
+          <div class="sport-icon">
+            <svg class="icon"><use href="#i-futsal"/></svg>
+          </div>
+          <div class="sport-name">Futsal</div>
+          <div class="sport-sub">Agilidad lateral</div>
         </div>
-        <div class="sport-card glass-card p-5 cursor-pointer text-center" data-sport="basketball" onclick="selectSport('basketball')">
-          <div class="text-4xl mb-2">🏀</div>
-          <div class="font-bold text-base">Básquetbol</div>
-          <div class="text-xs text-gray-400 mt-1">Salto vertical</div>
+        <div class="sport-card glass-card" data-sport="basketball" onclick="selectSport('basketball')">
+          <div class="sport-icon">
+            <svg class="icon"><use href="#i-basket"/></svg>
+          </div>
+          <div class="sport-name">Básquetbol</div>
+          <div class="sport-sub">Salto vertical</div>
         </div>
       </div>
 
       <h2 class="section-label">Nivel de entrenamiento</h2>
-      <div class="flex gap-2 mb-8">
-        <button class="level-btn flex-1 glass-card py-3 text-sm font-medium rounded-xl" data-level="beginner" onclick="selectLevel('beginner')">Principiante</button>
-        <button class="level-btn flex-1 glass-card py-3 text-sm font-medium rounded-xl" data-level="intermediate" onclick="selectLevel('intermediate')">Intermedio</button>
-        <button class="level-btn flex-1 glass-card py-3 text-sm font-medium rounded-xl" data-level="advanced" onclick="selectLevel('advanced')">Avanzado</button>
+      <div class="grid grid-cols-3 gap-2 mb-8">
+        <button class="level-btn rounded-xl" data-level="beginner" onclick="selectLevel('beginner')">Principiante</button>
+        <button class="level-btn rounded-xl" data-level="intermediate" onclick="selectLevel('intermediate')">Intermedio</button>
+        <button class="level-btn rounded-xl" data-level="advanced" onclick="selectLevel('advanced')">Avanzado</button>
       </div>
 
-      <button id="btn-start" class="w-full py-4 rounded-2xl font-bold text-base btn-start-disabled" disabled onclick="startSession()">
-        Comenzar Sesión →
+      <button id="btn-start" class="w-full rounded-2xl btn-start-disabled" disabled onclick="startSession()">
+        <span>Comenzar Sesión</span>
+        <svg class="icon"><use href="#i-arrow-right"/></svg>
       </button>
-      <button class="w-full mt-3 py-3 rounded-2xl font-semibold text-sm glass-card text-gray-300 hover:text-white transition-colors" onclick="prepareQuickSession()">
-        ⚡ Sesión Rápida (5 ej. · ~75 ctc)
+
+      <button class="btn-ghost w-full mt-3 rounded-2xl" onclick="prepareQuickSession()">
+        <svg class="icon icon-sm" style="color:var(--accent)"><use href="#i-bolt"/></svg>
+        <span>Sesión Rápida — 5 ej. · ~75 ctc</span>
       </button>
-      <button class="w-full mt-2 py-3 text-sm text-gray-500 hover:text-gray-300 transition-colors" onclick="navigate('dashboard')">
-        Ver historial semanal ↗
+
+      <button class="btn-link w-full mt-2" onclick="navigate('dashboard')">
+        <span>Ver historial semanal</span>
+        <svg class="icon icon-sm"><use href="#i-arrow-up-right"/></svg>
       </button>
     </div>
 
-    <!-- ── VIEW: Training ── -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Training                                      -->
+    <!-- ══════════════════════════════════════════════════ -->
     <div id="view-training" class="view hidden">
-      <div class="flex items-center justify-between mb-5">
-        <div>
-          <h2 id="training-title" class="text-xl font-bold"></h2>
-          <p id="training-subtitle" class="text-xs text-gray-400 mt-0.5"></p>
+
+      <!-- Compact topbar -->
+      <div class="training-topbar">
+        <div id="training-sport-chip" class="sport-chip">
+          <svg class="icon icon-sm"><use href="#i-futsal"/></svg>
+          <span id="training-title">Futsal</span>
         </div>
-        <button class="glass-card px-3 py-2 text-xs text-gray-400 hover:text-white transition-colors rounded-xl" onclick="navigate('setup')">✕ Salir</button>
+        <div id="training-subtitle" class="t-sub flex-1"></div>
+        <button class="exit-btn" onclick="navigate('setup')" aria-label="Salir">
+          <svg class="icon"><use href="#i-exit"/></svg>
+        </button>
       </div>
 
-      <!-- Impact bar -->
-      <div class="glass-card p-4 mb-5">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Contactos totales</span>
-          <span id="contacts-display" class="text-sm font-bold tabular-nums">0 / 100</span>
+      <!-- Load / Impact bar (URGENTE) -->
+      <div class="glass-card load-panel mb-4">
+        <div class="load-header">
+          <span class="load-label">Contactos totales</span>
+          <span id="contacts-display" class="load-count tabular-nums">0 / 100</span>
         </div>
-        <div class="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
-          <div id="contacts-bar" class="h-full rounded-full bar-safe transition-all duration-500" style="width:0%"></div>
+        <div class="load-track">
+          <div id="contacts-bar" class="bar-safe" style="width:0%"></div>
         </div>
-        <p id="contacts-warning" class="text-xs text-red-400 mt-2 hidden">⚠️ Límite de seguridad superado. Considera finalizar la sesión.</p>
+        <p id="contacts-warning" class="hidden">
+          <svg class="icon icon-sm"><use href="#i-alert"/></svg>
+          <span>Límite de seguridad superado. Considera finalizar la sesión.</span>
+        </p>
       </div>
 
-      <!-- Metronome + Music -->
-      <div id="metronome-panel" class="glass-card px-4 py-3 mb-4">
-        <div class="flex items-center gap-2">
-          <span class="text-base select-none">🥁</span>
+      <!-- Metronome + Music panel -->
+      <div id="metronome-panel" class="glass-card mb-4">
+        <div class="metro-row">
+          <div class="metro-icon">
+            <svg class="icon"><use href="#i-metronome"/></svg>
+          </div>
           <span id="beat-pulse" class="beat-pulse"></span>
-          <span id="bpm-display" class="text-sm font-bold tabular-nums">120 BPM</span>
-          <div class="ml-auto flex items-center gap-1.5">
-            <button class="metro-ctrl-btn" onclick="changeBPM(-5)" title="−5 BPM">−</button>
-            <button class="metro-ctrl-btn" onclick="changeBPM(5)" title="+5 BPM">+</button>
-            <button class="metro-ctrl-btn" id="tap-btn" onclick="tapBPM()" title="Toca al ritmo">👆</button>
-            <button id="metro-play-btn" class="metro-play-btn" onclick="toggleMetronome()">▶ Play</button>
+          <span id="bpm-display" class="tabular-nums">120<span class="bpm-unit">BPM</span></span>
+
+          <div class="metro-ctrl-group">
+            <button class="metro-ctrl-btn" onclick="changeBPM(-5)" title="−5 BPM" aria-label="Bajar 5 BPM">
+              <svg class="icon"><use href="#i-minus"/></svg>
+            </button>
+            <button class="metro-ctrl-btn" onclick="changeBPM(5)" title="+5 BPM" aria-label="Subir 5 BPM">
+              <svg class="icon"><use href="#i-plus"/></svg>
+            </button>
+            <button class="metro-ctrl-btn" id="tap-btn" onclick="tapBPM()" title="Toca al ritmo" aria-label="Tap tempo">
+              <svg class="icon"><use href="#i-tap"/></svg>
+            </button>
+            <button id="metro-play-btn" class="metro-play-btn" onclick="toggleMetronome()">
+              <svg class="icon icon-sm"><use href="#i-play"/></svg>
+              <span>Play</span>
+            </button>
           </div>
         </div>
-        <div class="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
-          <label for="music-file" class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors cursor-pointer select-none">
-            <span class="text-sm">🎵</span>
-            <span id="music-name" class="truncate max-w-[140px]">Cargar música…</span>
+
+        <div class="music-row">
+          <label for="music-file" class="music-file-label">
+            <svg class="icon"><use href="#i-music"/></svg>
+            <span id="music-name">Cargar música…</span>
           </label>
           <input type="file" id="music-file" accept="audio/*" hidden onchange="loadMusicFile(event)">
-          <div id="music-controls" class="hidden ml-auto items-center gap-1.5">
-            <button class="metro-ctrl-btn" onclick="changeMusicVolume(-0.1)" title="Bajar volumen">🔉</button>
-            <button class="metro-ctrl-btn" onclick="changeMusicVolume(0.1)" title="Subir volumen">🔊</button>
-            <button id="music-play-btn" class="metro-play-btn" onclick="toggleMusic()">▶</button>
+          <div id="music-controls" class="hidden">
+            <button class="metro-ctrl-btn" onclick="changeMusicVolume(-0.1)" title="Bajar volumen" aria-label="Bajar volumen">
+              <svg class="icon"><use href="#i-volume-down"/></svg>
+            </button>
+            <button class="metro-ctrl-btn" onclick="changeMusicVolume(0.1)" title="Subir volumen" aria-label="Subir volumen">
+              <svg class="icon"><use href="#i-volume-up"/></svg>
+            </button>
+            <button id="music-play-btn" class="metro-play-btn" onclick="toggleMusic()">
+              <svg class="icon icon-sm"><use href="#i-play"/></svg>
+            </button>
           </div>
         </div>
+
         <audio id="music-player" preload="auto" loop></audio>
 
-        <div id="spotify-panel" class="mt-3 pt-3 border-t border-white/10"></div>
+        <div id="spotify-panel"></div>
       </div>
 
       <!-- Exercises -->
-      <div id="exercise-list" class="space-y-4 mb-6"></div>
+      <div id="exercise-list" class="space-y-3 mb-6"></div>
 
-      <button class="w-full py-4 glass-card text-sm font-semibold text-red-400 hover:text-red-300 transition-colors rounded-2xl" onclick="endSession()">
-        Finalizar Sesión
+      <button class="end-session-btn" onclick="endSession()">
+        <svg class="icon icon-sm"><use href="#i-check"/></svg>
+        <span>Finalizar Sesión</span>
       </button>
     </div>
 
-    <!-- ── VIEW: Dashboard ── -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Dashboard                                     -->
+    <!-- ══════════════════════════════════════════════════ -->
     <div id="view-dashboard" class="view hidden">
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h2 class="text-xl font-bold">Dashboard Semanal</h2>
-          <p class="text-xs text-gray-400 mt-0.5">Progreso de esta semana</p>
+          <h2 class="text-2xl font-extrabold tracking-tight" style="letter-spacing:-0.02em">Dashboard Semanal</h2>
+          <p class="text-xs mt-1" style="color:var(--fg-muted)">Progreso de esta semana</p>
         </div>
-        <button class="glass-card px-4 py-2 text-sm font-medium rounded-xl hover:bg-white/10 transition-colors" onclick="navigate('setup')">
-          + Nueva Sesión
+        <button class="btn-ghost px-4 rounded-xl" style="min-height:44px" onclick="navigate('setup')">
+          <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+          <span class="text-sm font-semibold">Nueva Sesión</span>
         </button>
       </div>
 
       <div class="grid grid-cols-2 gap-3 mb-6">
-        <div class="glass-card p-4 text-center">
-          <div id="dash-days" class="text-3xl font-extrabold text-emerald-400">0</div>
-          <div class="text-xs text-gray-400 mt-1">Días entrenados</div>
+        <div class="glass-card dash-stat">
+          <div id="dash-days" class="dash-stat-val" style="color:var(--accent)">0</div>
+          <div class="dash-stat-lbl">Días entrenados</div>
         </div>
-        <div class="glass-card p-4 text-center">
-          <div id="dash-contacts" class="text-3xl font-extrabold text-orange-400">0</div>
-          <div class="text-xs text-gray-400 mt-1">Contactos esta semana</div>
+        <div class="glass-card dash-stat">
+          <div id="dash-contacts" class="dash-stat-val" style="color:var(--warn)">0</div>
+          <div class="dash-stat-lbl">Contactos esta semana</div>
         </div>
       </div>
 
       <h3 class="section-label">Volumen por sesión (últimas 7)</h3>
-      <div id="dash-chart" class="glass-card p-4 mb-5"></div>
+      <div id="dash-chart" class="glass-card p-4 mb-6"></div>
 
       <h3 class="section-label">Historial reciente</h3>
       <div id="dash-history" class="space-y-2 pb-8"></div>
     </div>
   </div>
 
-  <!-- ── Fatigue Modal ── -->
-  <div id="modal-fatigue" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Fatigue (escala de barras, no emojis)           -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-fatigue" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)">
     <div class="glass-card p-6 w-full max-w-sm">
       <div class="text-center mb-5">
-        <div class="text-3xl mb-2">🦵</div>
+        <div class="logo-mark mb-3 mx-auto" style="background:var(--warn-soft);border-color:var(--warn-border);color:var(--warn);box-shadow:0 0 28px color-mix(in oklab,var(--warn) 25%,transparent)">
+          <svg class="icon"><use href="#i-leg"/></svg>
+        </div>
         <h3 class="text-lg font-bold">¿Cómo están tus piernas hoy?</h3>
-        <p class="text-xs text-gray-500 mt-1">Nivel de fatiga percibida (Escala RPE 1-5)</p>
+        <p class="text-xs mt-1" style="color:var(--fg-muted)">Nivel de fatiga percibida — Escala RPE 1-5</p>
       </div>
+
       <div class="grid grid-cols-5 gap-2 mb-4">
         <button class="fatigue-btn" data-fatigue="1" onclick="selectFatigue(1)">
-          <span class="text-2xl block mb-0.5">😄</span>
-          <span class="text-sm font-bold block">1</span>
-          <span class="text-xs text-gray-500 block leading-tight">Fresco</span>
+          <span class="fatigue-scale" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+          <span class="fatigue-num">1</span>
+          <span class="fatigue-lbl">Fresco</span>
         </button>
         <button class="fatigue-btn" data-fatigue="2" onclick="selectFatigue(2)">
-          <span class="text-2xl block mb-0.5">🙂</span>
-          <span class="text-sm font-bold block">2</span>
-          <span class="text-xs text-gray-500 block leading-tight">Bien</span>
+          <span class="fatigue-scale" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+          <span class="fatigue-num">2</span>
+          <span class="fatigue-lbl">Bien</span>
         </button>
         <button class="fatigue-btn" data-fatigue="3" onclick="selectFatigue(3)">
-          <span class="text-2xl block mb-0.5">😐</span>
-          <span class="text-sm font-bold block">3</span>
-          <span class="text-xs text-gray-500 block leading-tight">Regular</span>
+          <span class="fatigue-scale" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+          <span class="fatigue-num">3</span>
+          <span class="fatigue-lbl">Regular</span>
         </button>
         <button class="fatigue-btn" data-fatigue="4" onclick="selectFatigue(4)">
-          <span class="text-2xl block mb-0.5">😓</span>
-          <span class="text-sm font-bold block">4</span>
-          <span class="text-xs text-gray-500 block leading-tight">Cansado</span>
+          <span class="fatigue-scale" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+          <span class="fatigue-num">4</span>
+          <span class="fatigue-lbl">Cansado</span>
         </button>
         <button class="fatigue-btn" data-fatigue="5" onclick="selectFatigue(5)">
-          <span class="text-2xl block mb-0.5">😰</span>
-          <span class="text-sm font-bold block">5</span>
-          <span class="text-xs text-gray-500 block leading-tight">Agotado</span>
+          <span class="fatigue-scale" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+          <span class="fatigue-num">5</span>
+          <span class="fatigue-lbl">Agotado</span>
         </button>
       </div>
-      <div id="fatigue-warning" class="hidden text-sm text-yellow-300 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 mb-4">
-        ⚠️ Fatiga alta detectada. El límite de contactos se reduce a <strong id="fatigue-limit-val">70</strong> para proteger tu sistema nervioso.
+
+      <div id="fatigue-warning" class="hidden mb-4">
+        <svg class="icon icon-sm mt-0.5" style="flex-shrink:0"><use href="#i-alert"/></svg>
+        <span>Fatiga alta detectada. El límite de contactos se reduce a <strong id="fatigue-limit-val">70</strong> para proteger tu sistema nervioso.</span>
       </div>
-      <button id="fatigue-confirm-btn" class="w-full py-3 rounded-xl font-semibold bg-white/5 text-white transition-all opacity-40 cursor-not-allowed" disabled onclick="confirmFatigue()">
-        Iniciar sesión →
+
+      <button id="fatigue-confirm-btn" class="w-full" style="opacity:0.4;cursor:not-allowed;background:var(--surface-hi);color:var(--fg-dim);border:1px solid var(--border)" disabled onclick="confirmFatigue()">
+        <span>Iniciar sesión</span>
+        <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
       </button>
     </div>
   </div>
 
-  <!-- ── Recovery Modal ── -->
-  <div id="modal-recovery" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Recovery                                        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-recovery" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.88);backdrop-filter:blur(10px)">
     <div class="glass-card p-6 w-full max-w-sm text-center">
-      <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-red-400 mb-5 bg-red-500/10 px-3 py-1.5 rounded-full border border-red-500/20">
-        🔴 Descarga Obligatoria
+      <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full" style="color:var(--danger);background:var(--danger-soft);border:1px solid var(--danger-border);letter-spacing:0.16em">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--danger);animation:metroPulse 1s ease infinite alternate"></span>
+        <span>Descarga Obligatoria</span>
       </div>
-      <div class="text-5xl mb-3 select-none" id="recovery-emoji">🧘</div>
-      <h3 class="text-lg font-bold mb-2" id="recovery-name">Protocolo de Descarga</h3>
-      <p class="text-sm text-gray-400 mb-4 leading-relaxed px-1" id="recovery-desc">Sesión de alta intensidad detectada.</p>
-      <div class="text-5xl font-extrabold tabular-nums mb-1" id="recovery-countdown" style="color:#22c55e">3 × 30s</div>
-      <div class="text-xs text-gray-500 mb-4" id="recovery-side"></div>
-      <div class="flex justify-center gap-2.5 mb-5" id="recovery-dots">
+      <div class="logo-mark mx-auto mb-4" id="recovery-emoji" style="background:rgba(255,255,255,0.04);border-color:var(--border);color:var(--fg-muted)">
+        <svg class="icon"><use href="#i-zen"/></svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2" id="recovery-name" style="letter-spacing:-0.02em">Protocolo de Descarga</h3>
+      <p class="text-sm mb-5 leading-relaxed px-1" id="recovery-desc" style="color:var(--fg-muted)">Sesión de alta intensidad detectada.</p>
+
+      <div class="text-6xl font-extrabold mb-1" id="recovery-countdown">3 × 30s</div>
+      <div class="text-xs mb-4" id="recovery-side" style="color:var(--fg-dim)"></div>
+
+      <div class="flex justify-center gap-2.5 mb-6" id="recovery-dots">
         <span class="rec-dot"></span><span class="rec-dot"></span><span class="rec-dot"></span>
       </div>
-      <button id="recovery-action-btn" class="w-full py-3 rounded-xl font-semibold bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-all" onclick="advanceRecovery()">
-        Comenzar →
+
+      <button id="recovery-action-btn" class="w-full" onclick="advanceRecovery()">
+        <span>Comenzar</span>
+        <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
       </button>
-      <button class="w-full py-2.5 mt-2 text-xs text-gray-600 hover:text-gray-400 transition-colors" onclick="skipRecovery()">
-        Saltar descarga
+      <button class="btn-link w-full mt-2" onclick="skipRecovery()">
+        <span>Saltar descarga</span>
       </button>
     </div>
   </div>
 
-  <!-- ── Rest Timer Overlay ── -->
-  <div id="timer-overlay" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="glass-card p-8 text-center w-72">
-      <p class="text-xs uppercase tracking-widest text-gray-400 mb-5">Tiempo de descanso</p>
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- OVERLAY: Rest Timer                                    -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="timer-overlay" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.78);backdrop-filter:blur(10px)">
+    <div class="glass-card p-8 text-center w-80">
+      <p class="text-xs uppercase tracking-[0.2em] mb-6 font-bold" style="color:var(--fg-dim)">Tiempo de descanso</p>
       <div class="relative inline-flex items-center justify-center mb-5">
-        <svg class="w-40 h-40 -rotate-90" viewBox="0 0 120 120">
+        <svg class="w-44 h-44 -rotate-90" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="7"/>
-          <circle id="timer-ring" cx="60" cy="60" r="54" fill="none" stroke="#22c55e" stroke-width="7"
+          <circle id="timer-ring" cx="60" cy="60" r="54" fill="none" stroke-width="7"
             stroke-linecap="round" stroke-dasharray="339.29" stroke-dashoffset="0"/>
         </svg>
         <div class="absolute text-center">
-          <span id="timer-display" class="text-4xl font-extrabold tabular-nums">2:00</span>
-          <div class="text-xs text-gray-400 mt-1">segundos</div>
+          <span id="timer-display" class="tabular-nums">2:00</span>
+          <div class="text-xs mt-1" style="color:var(--fg-dim);letter-spacing:0.12em;text-transform:uppercase">segundos</div>
         </div>
       </div>
-      <p class="text-xs text-gray-500 mb-5">Sistema nervioso recuperándose...</p>
-      <button class="w-full py-3 glass-card text-sm text-gray-400 hover:text-white transition-colors rounded-xl" onclick="cancelTimer()">
-        Saltar descanso
+      <p class="text-xs mb-5" style="color:var(--fg-muted)">Sistema nervioso recuperándose…</p>
+      <button class="btn-ghost w-full rounded-xl" onclick="cancelTimer()">
+        <svg class="icon icon-sm"><use href="#i-skip"/></svg>
+        <span>Saltar descanso</span>
       </button>
     </div>
   </div>
 
-  <!-- ── Technical Guide Modal ── -->
-  <div id="modal-tech" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
-    <div class="glass-card p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-2xl">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Technical Guide                                 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-tech" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style="background:rgba(3,4,6,0.78);backdrop-filter:blur(10px)">
+    <div class="glass-card p-6 w-full max-w-lg max-h-[82vh] overflow-y-auto">
       <div class="flex justify-between items-start mb-5">
         <div>
-          <p class="text-xs uppercase tracking-widest text-gray-500 mb-1">Guía Técnica</p>
-          <h3 id="modal-title" class="text-xl font-bold"></h3>
+          <p class="text-xs uppercase tracking-[0.18em] mb-1 font-bold" style="color:var(--fg-dim)">Guía Técnica</p>
+          <h3 id="modal-title" class="text-xl font-bold" style="letter-spacing:-0.02em"></h3>
         </div>
-        <button class="text-gray-400 hover:text-white text-2xl leading-none ml-4 mt-1" onclick="closeModal()">✕</button>
+        <button class="exit-btn" onclick="closeModal()" aria-label="Cerrar" style="background:transparent">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
       </div>
       <div id="modal-body" class="text-sm"></div>
     </div>
   </div>
 
-  <!-- ── Quick Session Modal ── -->
-  <div id="modal-quick-session" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Quick Session                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-quick-session" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)">
     <div class="glass-card p-6 w-full max-w-sm">
-      <div class="text-center mb-4">
-        <div class="text-3xl mb-2">⚡</div>
+      <div class="text-center mb-5">
+        <div class="logo-mark mx-auto mb-3">
+          <svg class="icon"><use href="#i-bolt"/></svg>
+        </div>
         <h3 class="text-lg font-bold">Sesión Rápida</h3>
-        <p class="text-xs text-gray-500 mt-1">Ejercicios seleccionados automáticamente · Sin alta intensidad</p>
+        <p class="text-xs mt-1" style="color:var(--fg-muted)">Ejercicios seleccionados automáticamente · sin alta intensidad</p>
       </div>
-      <div class="flex justify-between text-xs text-gray-400 mb-3 px-1">
-        <span id="quick-session-count" class="font-medium text-white">0 ejercicios</span>
-        <span id="quick-session-contacts" class="font-medium text-emerald-400">~0 contactos</span>
+      <div class="flex justify-between text-xs mb-3 px-1">
+        <span id="quick-session-count" class="font-bold" style="color:var(--fg)">0 ejercicios</span>
+        <span id="quick-session-contacts" class="font-bold" style="color:var(--accent)">~0 contactos</span>
       </div>
-      <div id="quick-session-list" class="glass-card px-4 py-1 mb-5 text-gray-300"></div>
+      <div id="quick-session-list" class="glass-card px-4 py-1 mb-5" style="color:var(--fg-muted)"></div>
       <div class="flex gap-2">
-        <button class="flex-1 py-3 glass-card rounded-xl text-sm text-gray-400 hover:text-white transition-colors" onclick="document.getElementById('modal-quick-session').classList.add('hidden')">Cancelar</button>
-        <button class="flex-1 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white transition-colors" onclick="startQuickSession()">Comenzar →</button>
+        <button class="btn-ghost flex-1 rounded-xl" onclick="document.getElementById('modal-quick-session').classList.add('hidden')">Cancelar</button>
+        <button class="flex-1 rounded-xl font-bold text-sm" style="min-height:52px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);box-shadow:0 4px 18px var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem" onclick="startQuickSession()">
+          <span>Comenzar</span>
+          <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ── Spotify Device Picker Overlay ── -->
-  <div id="sp-device-overlay" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="if(event.target===this)spCloseDevicePicker()">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- OVERLAY: Spotify Device Picker                         -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="sp-device-overlay" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)" onclick="if(event.target===this)spCloseDevicePicker()">
     <div class="glass-card p-5 w-full max-w-sm">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="text-lg">📡</span>
+      <div class="flex items-center gap-2 mb-4">
+        <svg class="icon" style="color:var(--fg-muted)"><use href="#i-cast"/></svg>
         <h3 class="text-base font-bold flex-1">Dispositivos</h3>
-        <button class="text-gray-400 hover:text-white" onclick="spCloseDevicePicker()">✕</button>
+        <button class="exit-btn" onclick="spCloseDevicePicker()" style="background:transparent" aria-label="Cerrar">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
       </div>
       <div id="sp-device-list" class="flex flex-col gap-2"></div>
     </div>
   </div>
 
-  <!-- ── Spotify Playlist Picker Overlay ── -->
-  <div id="sp-playlist-overlay" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="if(event.target===this)spClosePlaylistPicker()">
-    <div class="glass-card p-5 w-full max-w-lg max-h-[80vh] flex flex-col">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="text-lg">📜</span>
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- OVERLAY: Spotify Playlist Picker                       -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="sp-playlist-overlay" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)" onclick="if(event.target===this)spClosePlaylistPicker()">
+    <div class="glass-card p-5 w-full max-w-lg max-h-[82vh] flex flex-col">
+      <div class="flex items-center gap-2 mb-4">
+        <svg class="icon" style="color:var(--fg-muted)"><use href="#i-list"/></svg>
         <h3 class="text-base font-bold flex-1">Tus playlists</h3>
-        <button class="text-gray-400 hover:text-white" onclick="spClosePlaylistPicker()">✕</button>
+        <button class="exit-btn" onclick="spClosePlaylistPicker()" style="background:transparent" aria-label="Cerrar">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
       </div>
       <div id="sp-playlist-grid" class="grid grid-cols-2 gap-3 overflow-y-auto pr-1"></div>
     </div>
   </div>
 
-  <!-- ── Session Notes Modal ── -->
-  <div id="modal-notes" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Session Notes                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-notes" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)">
     <div class="glass-card p-6 w-full max-w-sm">
-      <div class="text-center mb-4">
-        <div class="text-3xl mb-2">📝</div>
+      <div class="text-center mb-5">
+        <div class="logo-mark mx-auto mb-3" style="background:var(--info-soft);border-color:var(--info-border);color:var(--info);box-shadow:0 0 28px color-mix(in oklab,var(--info) 25%,transparent)">
+          <svg class="icon"><use href="#i-clipboard"/></svg>
+        </div>
         <h3 class="text-lg font-bold">Notas de sesión</h3>
-        <p class="text-xs text-gray-500 mt-1">Opcional — se guarda con el historial</p>
+        <p class="text-xs mt-1" style="color:var(--fg-muted)">Opcional — se guarda con el historial</p>
       </div>
-      <textarea id="session-notes-input" rows="3" placeholder="Ej: mejoré el tiempo de contacto en pogos, fatiga en el 3.er ejercicio..."
-        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 resize-none focus:outline-none focus:border-white/25 mb-4"></textarea>
+      <textarea id="session-notes-input" rows="3" placeholder="Ej: mejoré el tiempo de contacto en pogos, fatiga en el 3.er ejercicio…"
+        class="w-full resize-none mb-4" style="placeholder-color:var(--fg-faint)"></textarea>
       <div class="flex gap-2">
-        <button class="flex-1 py-3 glass-card rounded-xl text-sm text-gray-400 hover:text-white transition-colors" onclick="confirmNotes()">Saltar</button>
-        <button class="flex-1 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white transition-colors" onclick="confirmNotes()">Guardar →</button>
+        <button class="btn-ghost flex-1 rounded-xl" onclick="confirmNotes()">Saltar</button>
+        <button class="flex-1 rounded-xl font-bold text-sm" style="min-height:52px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);box-shadow:0 4px 18px var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem" onclick="confirmNotes()">
+          <span>Guardar</span>
+          <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
+        </button>
       </div>
     </div>
   </div>
 
   <script>
+    // Add body class when training starts so orbs hide
+    const _origSetAttr = document.body.setAttribute;
+    (function(){
+      const observer = new MutationObserver(() => {
+        const training = document.getElementById('view-training');
+        if (!training) return;
+        const isTraining = !training.classList.contains('hidden');
+        document.body.classList.toggle('is-training', isTraining);
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        const training = document.getElementById('view-training');
+        if (training) observer.observe(training, { attributes: true, attributeFilter: ['class'] });
+      });
+    })();
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')

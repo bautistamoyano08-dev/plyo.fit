@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plyotracker-v5';
+const CACHE_NAME = 'plyotracker-v6';
 const STATIC_ASSETS = [
   './index.html',
   './plyo.css',
