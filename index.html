@@ -57,6 +57,45 @@
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
 
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ONBOARDING overlay                                  -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="onboarding" class="onboarding-overlay hidden">
+    <button class="onboarding-skip" onclick="onboardingSkip()">Saltar</button>
+    <div class="onboarding-track">
+      <div class="onboarding-slide active" data-slide="0">
+        <div class="onboarding-illustration illo-bolt">
+          <svg viewBox="0 0 24 24"><use href="#i-bolt"/></svg>
+        </div>
+        <h2 class="onboarding-title">Entrená pliometría.<br/>Medí tu progreso.</h2>
+        <p class="onboarding-sub">Sesiones diseñadas para futsal y básquet. Tu teléfono es el metrónomo.</p>
+      </div>
+      <div class="onboarding-slide" data-slide="1">
+        <div class="onboarding-illustration illo-jump">
+          <svg viewBox="0 0 24 24"><use href="#i-arrow-up-right"/></svg>
+        </div>
+        <h2 class="onboarding-title">Medí tu salto vertical<br/>en 10 segundos.</h2>
+        <p class="onboarding-sub">Flight-time preciso. Guardamos tu PR y te comparamos con tu mejor.</p>
+      </div>
+      <div class="onboarding-slide" data-slide="2">
+        <div class="onboarding-illustration illo-streak">
+          <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>
+        </div>
+        <h2 class="onboarding-title">Mantené tu racha.<br/>Subí de nivel.</h2>
+        <p class="onboarding-sub">Cada sesión y cada salto suman. Volvé cada día y convertí el entreno en hábito.</p>
+      </div>
+    </div>
+    <div class="onboarding-dots">
+      <span class="onboarding-dot active" data-dot="0"></span>
+      <span class="onboarding-dot" data-dot="1"></span>
+      <span class="onboarding-dot" data-dot="2"></span>
+    </div>
+    <button id="onboarding-cta" class="onboarding-cta" onclick="onboardingNext()">
+      <span id="onboarding-cta-label">Siguiente</span>
+      <svg class="icon"><use href="#i-arrow-right"/></svg>
+    </button>
+  </div>
+
   <div id="app" class="relative z-10 max-w-lg mx-auto px-4 py-6 min-h-screen">
 
     <!-- ══════════════════════════════════════════════════ -->

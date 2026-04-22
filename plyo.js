@@ -1798,7 +1798,65 @@ async function shareJumpCard() {
   showToast('Imagen descargada');
 }
 
+// ── Onboarding (first-run) ────────────────────────────────────────────────────
+
+let _onboardSlide = 0;
+
+function shouldShowOnboarding() {
+  if (localStorage.getItem('plyo_onboarded') === '1') return false;
+  const sessions = (function(){ try { return JSON.parse(localStorage.getItem('plyo_sessions') || '[]'); } catch(_) { return []; } })();
+  const jumps = loadJumpHistory();
+  if (sessions.length > 0 || jumps.length > 0) {
+    localStorage.setItem('plyo_onboarded', '1');
+    return false;
+  }
+  return true;
+}
+
+function startOnboarding() {
+  const overlay = document.getElementById('onboarding');
+  if (!overlay) return;
+  _onboardSlide = 0;
+  overlay.classList.remove('hidden');
+  _renderOnboardSlide();
+}
+
+function _renderOnboardSlide() {
+  document.querySelectorAll('.onboarding-slide').forEach((el, i) => {
+    el.classList.toggle('active', i === _onboardSlide);
+  });
+  document.querySelectorAll('.onboarding-dot').forEach((el, i) => {
+    el.classList.toggle('active', i === _onboardSlide);
+  });
+  const label = document.getElementById('onboarding-cta-label');
+  if (label) label.textContent = _onboardSlide === 2 ? 'Medir mi salto' : 'Siguiente';
+}
+
+function onboardingNext() {
+  if (_onboardSlide < 2) {
+    _onboardSlide++;
+    _renderOnboardSlide();
+    if (navigator.vibrate) navigator.vibrate(15);
+  } else {
+    onboardingFinish();
+  }
+}
+
+function onboardingSkip() {
+  localStorage.setItem('plyo_onboarded', '1');
+  const overlay = document.getElementById('onboarding');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function onboardingFinish() {
+  localStorage.setItem('plyo_onboarded', '1');
+  const overlay = document.getElementById('onboarding');
+  if (overlay) overlay.classList.add('hidden');
+  setTimeout(() => { if (typeof openJumpTest === 'function') openJumpTest(); }, 300);
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 loadConfig();
 renderHomeStats();
+if (shouldShowOnboarding()) startOnboarding();
