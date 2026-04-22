@@ -648,6 +648,7 @@ function navigate(view) {
   document.getElementById('view-' + view).classList.remove('hidden');
   state.view = view;
   if (view === 'dashboard') loadDashboard();
+  if (view === 'setup') renderHomeStats();
 }
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
@@ -994,6 +995,13 @@ function confirmNotes() {
   const sessions = loadSessions();
   sessions.push(pendingSession);
   saveSessions(sessions);
+
+  const contacts = pendingSession.totalContacts || 0;
+  const approxMin = Math.max(5, Math.min(20, Math.round(contacts / 6)));
+  const sessionXP = Math.min(200, 50 + approxMin * 10);
+  bumpStreak();
+  addXP(sessionXP, `sesión · ${approxMin} min`);
+  markGoalProgress('train', approxMin);
 
   const isHigh = pendingSession?.highIntensity;
   pendingSession = null;
@@ -1410,6 +1418,13 @@ function jumpLanding() {
 function showJumpResult(cm) {
   const prev = loadJumpPR();
   saveJump(cm);
+  bumpStreak();
+  addXP(20, 'jump test');
+  markGoalProgress('jump');
+  if (prev && cm > prev.cm) {
+    addXP(100, '¡nuevo PR!');
+    markGoalProgress('beat_pr', cm);
+  }
   document.getElementById('jump-result-val').textContent = cm;
   document.getElementById('jump-level-badge').textContent = getJumpLevel(cm);
   const cmp = document.getElementById('jump-pr-compare');
@@ -1448,6 +1463,194 @@ function saveJump(cm) {
   localStorage.setItem('plyo_jumps', JSON.stringify(hist));
 }
 
+// ── Streak / XP / Goal (Fase 1 retención) ────────────────────────────────────
+
+const XP_LEVELS = [
+  { min: 0,    name: 'Novato' },
+  { min: 100,  name: 'Aprendiz' },
+  { min: 250,  name: 'Aprendiz' },
+  { min: 500,  name: 'Constante' },
+  { min: 900,  name: 'Constante' },
+  { min: 1400, name: 'Atleta' },
+  { min: 2000, name: 'Atleta' },
+  { min: 2700, name: 'Competitivo' },
+  { min: 3500, name: 'Competitivo' },
+  { min: 4400, name: 'Dedicado' },
+  { min: 5400, name: 'Dedicado' },
+  { min: 6500, name: 'Élite' },
+  { min: 7800, name: 'Élite' },
+  { min: 9500, name: 'Leyenda' },
+  { min: 12000, name: 'Leyenda' }
+];
+
+function getToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function getYesterday() {
+  const d = new Date(); d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function loadStreak() {
+  try {
+    const s = JSON.parse(localStorage.getItem('plyo_streak') || 'null');
+    if (!s || typeof s.count !== 'number') return { count: 0, lastDate: null };
+    const today = getToday(), yest = getYesterday();
+    if (s.lastDate !== today && s.lastDate !== yest) {
+      return { count: 0, lastDate: s.lastDate, broken: true };
+    }
+    return s;
+  } catch (_) { return { count: 0, lastDate: null }; }
+}
+function bumpStreak() {
+  const today = getToday(), yest = getYesterday();
+  const raw = JSON.parse(localStorage.getItem('plyo_streak') || 'null') || { count: 0, lastDate: null };
+  let next;
+  if (raw.lastDate === today) next = raw;
+  else if (raw.lastDate === yest) next = { count: raw.count + 1, lastDate: today };
+  else next = { count: 1, lastDate: today };
+  localStorage.setItem('plyo_streak', JSON.stringify(next));
+  return next.count;
+}
+
+function loadXP() {
+  const v = parseInt(localStorage.getItem('plyo_xp') || '0', 10);
+  return isNaN(v) ? 0 : v;
+}
+function getLevel(xp) {
+  let idx = 0;
+  for (let i = 0; i < XP_LEVELS.length; i++) {
+    if (xp >= XP_LEVELS[i].min) idx = i; else break;
+  }
+  const cur = XP_LEVELS[idx];
+  const next = XP_LEVELS[idx + 1] || { min: cur.min + 3000, name: cur.name };
+  const span = next.min - cur.min;
+  const into = xp - cur.min;
+  return {
+    level: idx + 1,
+    name: cur.name,
+    currentXP: into,
+    nextLevelXP: span,
+    totalXP: xp,
+    progress: Math.min(1, into / span)
+  };
+}
+function addXP(amount, reason) {
+  const before = loadXP();
+  const after = before + amount;
+  localStorage.setItem('plyo_xp', String(after));
+  const lvlBefore = getLevel(before).level;
+  const lvlAfter = getLevel(after).level;
+  if (lvlAfter > lvlBefore) showXPToast(amount, `¡Nivel ${lvlAfter}! ${getLevel(after).name}`);
+  else showXPToast(amount, reason);
+  renderHomeStats();
+}
+
+function showXPToast(amount, reason) {
+  const t = document.getElementById('xp-toast');
+  if (!t) return;
+  t.innerHTML = `<span class="xp-toast-amount">+${amount} XP</span><span class="xp-toast-reason">${reason || ''}</span>`;
+  t.classList.remove('hidden');
+  t.classList.add('show');
+  clearTimeout(window._xpToastTimer);
+  window._xpToastTimer = setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.classList.add('hidden'), 300);
+  }, 2200);
+}
+
+function pickGoal() {
+  const d = new Date();
+  const dayOfYear = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+  const pr = loadJumpPR();
+  const options = ['train', 'jump'];
+  if (pr) options.push('beat_pr');
+  const type = options[dayOfYear % options.length];
+  const base = { date: getToday(), type, progress: 0, done: false };
+  if (type === 'train') return { ...base, target: 8, label: 'Completá una sesión de 8 min' };
+  if (type === 'jump') return { ...base, target: 1, label: 'Hacé un jump test' };
+  return { ...base, target: pr.cm + 1, label: `Superá tu PR de ${pr.cm} cm` };
+}
+function loadGoal() {
+  try {
+    const g = JSON.parse(localStorage.getItem('plyo_goal') || 'null');
+    if (!g || g.date !== getToday()) {
+      const fresh = pickGoal();
+      localStorage.setItem('plyo_goal', JSON.stringify(fresh));
+      return fresh;
+    }
+    return g;
+  } catch (_) {
+    const fresh = pickGoal();
+    localStorage.setItem('plyo_goal', JSON.stringify(fresh));
+    return fresh;
+  }
+}
+function saveGoal(g) { localStorage.setItem('plyo_goal', JSON.stringify(g)); }
+function markGoalProgress(type, value) {
+  const g = loadGoal();
+  if (g.done) return;
+  if (g.type !== type && !(type === 'beat_pr' && g.type === 'jump')) return;
+  if (g.type === 'train') g.progress = Math.max(g.progress, value || 0);
+  else if (g.type === 'jump') g.progress = 1;
+  else if (g.type === 'beat_pr') g.progress = value || 0;
+  const reached =
+    (g.type === 'train' && g.progress >= g.target) ||
+    (g.type === 'jump' && g.progress >= 1) ||
+    (g.type === 'beat_pr' && g.progress >= g.target);
+  if (reached) {
+    g.done = true;
+    saveGoal(g);
+    addXP(30, 'objetivo del día');
+  } else {
+    saveGoal(g);
+  }
+  renderHomeStats();
+}
+
+function handleGoalTap() {
+  const g = loadGoal();
+  if (g.done) return;
+  if (g.type === 'jump' || g.type === 'beat_pr') openJumpTest();
+  else navigate('setup');
+}
+
+function renderHomeStats() {
+  const streak = loadStreak();
+  const xp = loadXP();
+  const lvl = getLevel(xp);
+  const g = loadGoal();
+
+  const elStreak = document.getElementById('streak-count');
+  if (elStreak) elStreak.textContent = streak.count;
+  const elStreakChip = document.getElementById('streak-chip');
+  if (elStreakChip) elStreakChip.classList.toggle('cold', streak.count === 0);
+
+  const elLevelName = document.getElementById('xp-level-name');
+  if (elLevelName) elLevelName.textContent = `${lvl.name} · Nv ${lvl.level}`;
+  const elXPValues = document.getElementById('xp-values');
+  if (elXPValues) elXPValues.textContent = `${lvl.currentXP} / ${lvl.nextLevelXP} XP`;
+  const elXPFill = document.getElementById('xp-bar-fill');
+  if (elXPFill) elXPFill.style.width = (lvl.progress * 100).toFixed(1) + '%';
+
+  const card = document.getElementById('goal-card');
+  const title = document.getElementById('goal-title');
+  const fill = document.getElementById('goal-progress-fill');
+  const cta = document.getElementById('goal-cta');
+  if (title) title.textContent = g.label;
+  if (card) card.classList.toggle('done', !!g.done);
+  if (fill) {
+    let pct = 0;
+    if (g.type === 'train') pct = Math.min(1, g.progress / g.target);
+    else if (g.type === 'jump') pct = g.progress >= 1 ? 1 : 0;
+    else if (g.type === 'beat_pr') pct = Math.min(1, (g.progress || 0) / g.target);
+    fill.style.width = (pct * 100).toFixed(1) + '%';
+  }
+  if (cta) cta.textContent = g.done ? '✓ Hecho' : 'Empezar';
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 loadConfig();
+renderHomeStats();

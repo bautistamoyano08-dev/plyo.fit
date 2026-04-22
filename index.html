@@ -48,6 +48,8 @@
       <symbol id="i-exit" viewBox="0 0 24 24"><path d="M10 3H5a2 2 0 00-2 2v14a2 2 0 002 2h5M16 17l5-5-5-5M21 12H9"/></symbol>
       <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8V4zM19 4v16"/></symbol>
       <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 01-10 0V4zM5 6H3v2a3 3 0 003 3M19 6h2v2a3 3 0 01-3 3M9 20h6M12 14v6"/></symbol>
     </defs>
   </svg>
 
@@ -60,6 +62,31 @@
     <!-- VIEW: Setup                                         -->
     <!-- ══════════════════════════════════════════════════ -->
     <div id="view-setup" class="view">
+      <div class="home-stats">
+        <div id="streak-chip" class="streak-chip cold">
+          <svg class="icon icon-sm"><use href="#i-flame"/></svg>
+          <span id="streak-count">0</span>
+          <span class="streak-label">días</span>
+        </div>
+        <div class="xp-block">
+          <div class="xp-header">
+            <span id="xp-level-name">Novato · Nv 1</span>
+            <span id="xp-values">0 / 100 XP</span>
+          </div>
+          <div class="xp-bar"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="goal-card" id="goal-card" onclick="handleGoalTap()">
+        <div class="goal-icon">
+          <svg class="icon"><use href="#i-target"/></svg>
+        </div>
+        <div class="goal-body">
+          <div class="goal-label">Objetivo de hoy</div>
+          <div class="goal-title" id="goal-title">—</div>
+          <div class="goal-progress"><div class="goal-progress-fill" id="goal-progress-fill"></div></div>
+        </div>
+        <div class="goal-cta" id="goal-cta">Empezar</div>
+      </div>
       <div class="text-center mb-9 pt-6">
         <div class="app-icon-lg mx-auto mb-5" role="img" aria-label="PlyoTracker">
           <svg viewBox="0 0 120 120" width="96" height="96">
@@ -626,6 +653,8 @@
       });
     }
   </script>
+  <div id="xp-toast" class="xp-toast hidden"></div>
+
   <script src="spotify.js"></script>
   <script src="plyo.js"></script>
 </body>
