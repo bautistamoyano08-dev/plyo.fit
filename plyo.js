@@ -1003,6 +1003,8 @@ function confirmNotes() {
   addXP(sessionXP, `sesión · ${approxMin} min`);
   markGoalProgress('train', approxMin);
 
+  pushSessionToServer(pendingSession);
+
   const isHigh = pendingSession?.highIntensity;
   pendingSession = null;
 
@@ -1427,6 +1429,7 @@ function showJumpResult(cm) {
     addXP(100, '¡nuevo PR!');
     markGoalProgress('beat_pr', cm);
   }
+  pushJumpToServer(cm);
   document.getElementById('jump-result-val').textContent = cm;
   document.getElementById('jump-level-badge').textContent = getJumpLevel(cm);
   const cmp = document.getElementById('jump-pr-compare');
@@ -1725,12 +1728,20 @@ function generateJumpShareCard(cm, opts = {}) {
   ctx.fillStyle = '#fff';
   ctx.fillText(level.toUpperCase(), W/2, 1280);
 
-  // Stats row: streak + XP level
+  // Stats row: streak + XP level (+ rank if available)
   const streak = loadStreak();
   const lvl = getLevel(loadXP());
   const rowY = 1480;
-  drawStatBox(ctx, W * 0.15, rowY, W * 0.30, 200, `${streak.count}`, 'RACHA (días)');
-  drawStatBox(ctx, W * 0.55, rowY, W * 0.30, 200, `Nv ${lvl.level}`, lvl.name.toUpperCase());
+  if (opts.rank) {
+    const pad = W * 0.06;
+    const bw = (W - pad * 4) / 3;
+    drawStatBox(ctx, pad, rowY, bw, 200, `${streak.count}`, 'RACHA');
+    drawStatBox(ctx, pad * 2 + bw, rowY, bw, 200, `Nv ${lvl.level}`, lvl.name.toUpperCase());
+    drawStatBox(ctx, pad * 3 + bw * 2, rowY, bw, 200, `#${opts.rank}`, 'GLOBAL');
+  } else {
+    drawStatBox(ctx, W * 0.15, rowY, W * 0.30, 200, `${streak.count}`, 'RACHA (días)');
+    drawStatBox(ctx, W * 0.55, rowY, W * 0.30, 200, `Nv ${lvl.level}`, lvl.name.toUpperCase());
+  }
 
   // Footer
   ctx.textAlign = 'center';
@@ -1771,7 +1782,9 @@ function roundRect(ctx, x, y, w, h, r) {
 async function shareJumpCard() {
   const cm = window._lastJumpCm;
   if (!cm) { showToast('No hay salto para compartir'); return; }
-  const canvas = generateJumpShareCard(cm, { isPR: !!window._lastJumpIsPR });
+  let rank = null;
+  try { rank = await getMyRank(); } catch (_) {}
+  const canvas = generateJumpShareCard(cm, { isPR: !!window._lastJumpIsPR, rank });
   const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 0.95));
   if (!blob) { showToast('No se pudo generar la imagen'); return; }
 
@@ -1861,8 +1874,216 @@ function onboardingFinish() {
   setTimeout(() => { if (typeof openJumpTest === 'function') openJumpTest(); }, 300);
 }
 
+// ── Supabase (Fase 2: anon auth + sync + leaderboard) ────────────────────────
+
+const SUPA_URL = 'https://hpqgfhldieqmuisbbbur.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwcWdmaGxkaWVxbXVpc2JiYnVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5MDA4MjYsImV4cCI6MjA5MjQ3NjgyNn0.-SoqSqbqqRkevTFIm7B4mtnA6tjXch9y9ZX8AcduxiU';
+
+let _sb = null;
+let _sbUserId = null;
+let _lbCache = { scope: null, rows: null, ts: 0 };
+
+async function initSupa() {
+  if (!window.supabase || !window.supabase.createClient) {
+    console.warn('Supabase SDK no cargado');
+    return;
+  }
+  _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, storageKey: 'plyo_sb_session' }
+  });
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (session) {
+      _sbUserId = session.user.id;
+    } else {
+      const { data, error } = await _sb.auth.signInAnonymously();
+      if (error) { console.warn('Supa anon sign-in:', error.message); return; }
+      _sbUserId = data.user.id;
+    }
+    syncStatsToServer();
+  } catch (e) {
+    console.warn('Supa init:', e);
+  }
+}
+
+async function syncStatsToServer() {
+  if (!_sb || !_sbUserId) return;
+  const pr = loadJumpPR();
+  const jumps = loadJumpHistory();
+  let sessions = [];
+  try { sessions = JSON.parse(localStorage.getItem('plyo_sessions') || '[]'); } catch (_) {}
+  const streak = loadStreak();
+  const xp = loadXP();
+  try {
+    await _sb.from('user_stats').upsert({
+      user_id: _sbUserId,
+      best_jump_cm: pr ? pr.cm : 0,
+      total_jumps: jumps.length,
+      total_sessions: sessions.length,
+      streak_count: streak.count || 0,
+      xp: xp,
+      updated_at: new Date().toISOString()
+    });
+  } catch (e) { /* silent */ }
+}
+
+async function pushJumpToServer(cm) {
+  if (!_sb || !_sbUserId) return;
+  try {
+    await _sb.from('jumps').insert({ user_id: _sbUserId, cm });
+    await syncStatsToServer();
+    _lbCache = { scope: null, rows: null, ts: 0 };
+  } catch (e) { /* silent */ }
+}
+
+async function pushSessionToServer(s) {
+  if (!_sb || !_sbUserId || !s) return;
+  try {
+    await _sb.from('sessions').insert({
+      user_id: _sbUserId,
+      sport: s.sport || null,
+      level: s.level || null,
+      total_contacts: s.totalContacts || 0,
+      exercises_completed: s.exercisesCompleted || 0,
+      fatigue_level: s.fatigueLevel || null,
+      high_intensity: !!s.highIntensity,
+      notes: s.notes || null
+    });
+    await syncStatsToServer();
+  } catch (e) { /* silent */ }
+}
+
+function anonName(uid) {
+  return 'Anon #' + String(uid || '').substring(0, 4).toUpperCase();
+}
+
+async function loadLeaderboard() {
+  if (!_sb) return [];
+  if (_lbCache.rows && Date.now() - _lbCache.ts < 15000) return _lbCache.rows;
+  try {
+    const { data, error } = await _sb
+      .from('user_stats')
+      .select('user_id, best_jump_cm, total_jumps, streak_count, xp, profiles(display_name)')
+      .gt('best_jump_cm', 0)
+      .order('best_jump_cm', { ascending: false })
+      .limit(100);
+    if (error) { console.warn('LB:', error.message); return []; }
+    _lbCache = { scope: 'global', rows: data || [], ts: Date.now() };
+    return _lbCache.rows;
+  } catch (e) { return []; }
+}
+
+async function setDisplayName(name) {
+  if (!_sb || !_sbUserId) return false;
+  const clean = (name || '').trim().substring(0, 30);
+  try {
+    await _sb.from('profiles').upsert({
+      id: _sbUserId,
+      display_name: clean,
+      is_anonymous: !clean
+    });
+    localStorage.setItem('plyo_display_name', clean);
+    _lbCache = { scope: null, rows: null, ts: 0 };
+    return true;
+  } catch (e) { return false; }
+}
+
+function handleNameBlur() {
+  const el = document.getElementById('lb-name-input');
+  if (!el) return;
+  const name = el.value;
+  setDisplayName(name).then(() => {
+    renderLeaderboardView(_currentLbScope || 'global');
+  });
+}
+
+let _currentLbScope = 'global';
+
+async function openLeaderboard() {
+  navigate('leaderboard');
+  const nameInput = document.getElementById('lb-name-input');
+  if (nameInput) {
+    const cached = localStorage.getItem('plyo_display_name') || '';
+    nameInput.value = cached;
+  }
+  renderLeaderboardView('global');
+}
+
+async function renderLeaderboardView(scope) {
+  _currentLbScope = scope;
+  document.querySelectorAll('.lb-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.scope === scope);
+  });
+  const container = document.getElementById('lb-list');
+  if (!container) return;
+  container.innerHTML = '<div class="lb-loading">Cargando ranking…</div>';
+
+  const all = await loadLeaderboard();
+  let rows = all;
+  if (scope === 'level') {
+    const myPR = loadJumpPR();
+    if (myPR) {
+      const myLevel = getJumpLevel(myPR.cm);
+      rows = all.filter(r => getJumpLevel(r.best_jump_cm) === myLevel);
+    } else {
+      rows = [];
+    }
+  }
+
+  if (!rows.length) {
+    container.innerHTML = scope === 'level'
+      ? '<div class="lb-empty">Hacé tu primer salto para ver tu nivel.</div>'
+      : '<div class="lb-empty">Sé el primero. Medí tu salto.</div>';
+    updateMyRankDisplay(all);
+    return;
+  }
+
+  container.innerHTML = rows.map((r, i) => {
+    const isMe = r.user_id === _sbUserId;
+    const rawName = r.profiles && r.profiles.display_name;
+    const name = rawName ? escapeHTML(rawName) : anonName(r.user_id);
+    const rankCell = i === 0 ? '<span class="lb-medal">🥇</span>'
+      : i === 1 ? '<span class="lb-medal">🥈</span>'
+      : i === 2 ? '<span class="lb-medal">🥉</span>'
+      : `#${i + 1}`;
+    return `<div class="lb-row${isMe ? ' me' : ''}">
+      <div class="lb-rank">${rankCell}</div>
+      <div class="lb-name">${name}${isMe ? ' <span class="lb-me-tag">· vos</span>' : ''}</div>
+      <div class="lb-cm">${r.best_jump_cm}<span class="lb-cm-unit">cm</span></div>
+    </div>`;
+  }).join('');
+
+  updateMyRankDisplay(all);
+}
+
+function updateMyRankDisplay(globalRows) {
+  const rankEl = document.getElementById('lb-my-rank');
+  if (!rankEl) return;
+  const idx = globalRows.findIndex(r => r.user_id === _sbUserId);
+  const myPR = loadJumpPR();
+  if (!myPR) { rankEl.textContent = 'Medí tu primer salto'; return; }
+  if (idx >= 0) rankEl.textContent = `Sos #${idx + 1}`;
+  else rankEl.textContent = `Fuera del top 100`;
+}
+
+async function getMyRank() {
+  if (!_sb || !_sbUserId) return null;
+  try {
+    const rows = await loadLeaderboard();
+    const idx = rows.findIndex(r => r.user_id === _sbUserId);
+    return idx >= 0 ? idx + 1 : null;
+  } catch (e) { return null; }
+}
+
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 loadConfig();
 renderHomeStats();
 if (shouldShowOnboarding()) startOnboarding();
+initSupa();

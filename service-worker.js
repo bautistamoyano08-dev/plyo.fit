@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plyotracker-v11';
+const CACHE_NAME = 'plyotracker-v12';
 const STATIC_ASSETS = [
   './index.html',
   './plyo.css',
@@ -36,7 +36,9 @@ self.addEventListener('fetch', event => {
   // Nunca cachear llamadas a Spotify (API dinámica y OAuth)
   const url = event.request.url;
   if (url.startsWith('https://api.spotify.com/') ||
-      url.startsWith('https://accounts.spotify.com/')) {
+      url.startsWith('https://accounts.spotify.com/') ||
+      url.includes('supabase.co') ||
+      url.includes('cdn.jsdelivr.net/npm/@supabase')) {
     return;
   }
 

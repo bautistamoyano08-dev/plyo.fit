@@ -230,6 +230,11 @@
         <span>Medí tu salto vertical</span>
       </button>
 
+      <button class="btn-ghost w-full mt-2 rounded-2xl" onclick="openLeaderboard()">
+        <svg class="icon icon-sm" style="color:var(--accent)"><use href="#i-trophy"/></svg>
+        <span>Ranking global</span>
+      </button>
+
       <button class="btn-link w-full mt-2" onclick="navigate('dashboard')">
         <span>Ver historial semanal</span>
         <svg class="icon icon-sm"><use href="#i-arrow-up-right"/></svg>
@@ -462,6 +467,38 @@
           <span>Reintentar</span>
         </button>
       </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Leaderboard                                   -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <div id="view-leaderboard" class="view hidden">
+      <div class="lb-topbar">
+        <button class="lb-close" onclick="navigate('setup')" aria-label="Cerrar">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+        <h1 class="lb-title">Ranking</h1>
+        <div style="width:44px"></div>
+      </div>
+
+      <div class="lb-header">
+        <div class="lb-name-input-wrap">
+          <svg class="icon icon-sm" style="color:var(--fg-muted)"><use href="#i-trophy"/></svg>
+          <input id="lb-name-input" class="lb-name-input" maxlength="30"
+            placeholder="Tu nombre para el ranking"
+            autocomplete="off" spellcheck="false"
+            onblur="handleNameBlur()"
+            onkeydown="if(event.key==='Enter')this.blur()">
+        </div>
+        <div id="lb-my-rank" class="lb-my-rank">—</div>
+      </div>
+
+      <div class="lb-tabs">
+        <button class="lb-tab active" data-scope="global" onclick="renderLeaderboardView('global')">Global</button>
+        <button class="lb-tab" data-scope="level" onclick="renderLeaderboardView('level')">Tu nivel</button>
+      </div>
+
+      <div id="lb-list" class="lb-list"></div>
     </div>
   </div>
 
@@ -701,6 +738,7 @@
   </script>
   <div id="xp-toast" class="xp-toast hidden"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="spotify.js"></script>
   <script src="plyo.js"></script>
 </body>
