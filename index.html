@@ -2,22 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <title>Plyofit — Futsal &amp; Básquetbol</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PlyoTracker — Futsal &amp; Básquetbol</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plyo.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#07080a">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Plyofit">
-  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-title" content="PlyoTracker">
   <link rel="apple-touch-icon" href="plyo-icon.svg">
-  <link rel="icon" type="image/svg+xml" href="plyo-icon.svg">
 </head>
 <body class="text-white min-h-screen overflow-x-hidden font-inter">
 
@@ -51,18 +48,87 @@
       <symbol id="i-exit" viewBox="0 0 24 24"><path d="M10 3H5a2 2 0 00-2 2v14a2 2 0 002 2h5M16 17l5-5-5-5M21 12H9"/></symbol>
       <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 4l10 8-10 8V4zM19 4v16"/></symbol>
       <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 01-10 0V4zM5 6H3v2a3 3 0 003 3M19 6h2v2a3 3 0 01-3 3M9 20h6M12 14v6"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v13M8 7l4-4 4 4M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></symbol>
     </defs>
   </svg>
 
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
 
-  <div id="app" class="relative z-10 max-w-lg mx-auto px-4 min-h-screen" style="padding-top:max(1.5rem,env(safe-area-inset-top));padding-bottom:max(1.5rem,env(safe-area-inset-bottom))">
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ONBOARDING overlay                                  -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="onboarding" class="onboarding-overlay hidden">
+    <button class="onboarding-skip" onclick="onboardingSkip()">Saltar</button>
+    <div class="onboarding-viewport">
+      <div class="onboarding-strip" id="onboarding-strip">
+        <div class="onboarding-slide">
+          <div class="onboarding-illustration illo-bolt">
+            <svg viewBox="0 0 24 24"><use href="#i-bolt"/></svg>
+          </div>
+          <h2 class="onboarding-title">Entrená pliometría.<br/>Medí tu progreso.</h2>
+          <p class="onboarding-sub">Sesiones diseñadas para futsal y básquet. Tu teléfono es el metrónomo.</p>
+        </div>
+        <div class="onboarding-slide">
+          <div class="onboarding-illustration illo-jump">
+            <svg viewBox="0 0 24 24"><use href="#i-arrow-up-right"/></svg>
+          </div>
+          <h2 class="onboarding-title">Medí tu salto vertical<br/>en 10 segundos.</h2>
+          <p class="onboarding-sub">Flight-time preciso. Guardamos tu PR y te comparamos con tu mejor.</p>
+        </div>
+        <div class="onboarding-slide">
+          <div class="onboarding-illustration illo-streak">
+            <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>
+          </div>
+          <h2 class="onboarding-title">Mantené tu racha.<br/>Subí de nivel.</h2>
+          <p class="onboarding-sub">Cada sesión y cada salto suman. Volvé cada día y convertí el entreno en hábito.</p>
+        </div>
+      </div>
+    </div>
+    <div class="onboarding-dots">
+      <span class="onboarding-dot active" data-dot="0"></span>
+      <span class="onboarding-dot" data-dot="1"></span>
+      <span class="onboarding-dot" data-dot="2"></span>
+    </div>
+    <button id="onboarding-cta" class="onboarding-cta" onclick="onboardingNext()">
+      <span id="onboarding-cta-label">Siguiente</span>
+      <svg class="icon"><use href="#i-arrow-right"/></svg>
+    </button>
+  </div>
+
+  <div id="app" class="relative z-10 max-w-lg mx-auto px-4 py-6 min-h-screen">
 
     <!-- ══════════════════════════════════════════════════ -->
     <!-- VIEW: Setup                                         -->
     <!-- ══════════════════════════════════════════════════ -->
     <div id="view-setup" class="view">
+      <div class="home-stats">
+        <div id="streak-chip" class="streak-chip cold">
+          <svg class="icon icon-sm"><use href="#i-flame"/></svg>
+          <span id="streak-count">0</span>
+          <span class="streak-label">días</span>
+        </div>
+        <div class="xp-block">
+          <div class="xp-header">
+            <span id="xp-level-name">Novato · Nv 1</span>
+            <span id="xp-values">0 / 100 XP</span>
+          </div>
+          <div class="xp-bar"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="goal-card" id="goal-card" onclick="handleGoalTap()">
+        <div class="goal-icon">
+          <svg class="icon"><use href="#i-target"/></svg>
+        </div>
+        <div class="goal-body">
+          <div class="goal-label">Objetivo de hoy</div>
+          <div class="goal-title" id="goal-title">—</div>
+          <div class="goal-progress"><div class="goal-progress-fill" id="goal-progress-fill"></div></div>
+        </div>
+        <div class="goal-cta" id="goal-cta">Empezar</div>
+      </div>
       <div class="text-center mb-9 pt-6">
         <div class="app-icon-lg mx-auto mb-5" role="img" aria-label="PlyoTracker">
           <svg viewBox="0 0 120 120" width="96" height="96">
@@ -157,6 +223,11 @@
       <button class="btn-ghost w-full mt-3 rounded-2xl" onclick="prepareQuickSession()">
         <svg class="icon icon-sm" style="color:var(--accent)"><use href="#i-bolt"/></svg>
         <span>Sesión Rápida — 5 ej. · ~75 ctc</span>
+      </button>
+
+      <button class="btn-ghost w-full mt-2 rounded-2xl" onclick="openJumpTest()">
+        <svg class="icon icon-sm" style="color:var(--accent)"><use href="#i-arrow-up-right"/></svg>
+        <span>Medí tu salto vertical</span>
       </button>
 
       <button class="btn-link w-full mt-2" onclick="navigate('dashboard')">
@@ -287,6 +358,110 @@
 
       <h3 class="section-label">Historial reciente</h3>
       <div id="dash-history" class="space-y-2 pb-8"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- VIEW: Jump Test                                     -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <div id="view-test" class="view hidden">
+      <div class="training-topbar">
+        <div class="sport-chip">
+          <svg class="icon icon-sm"><use href="#i-bolt"/></svg>
+          <span>Jump Test</span>
+        </div>
+        <div class="t-sub flex-1">Medí tu salto vertical</div>
+        <button class="exit-btn" onclick="cancelJumpTest()" aria-label="Salir">
+          <svg class="icon"><use href="#i-exit"/></svg>
+        </button>
+      </div>
+
+      <!-- READY STATE -->
+      <div id="jump-stage-ready">
+        <div id="jump-pr-card" class="glass-card jump-pr-card hidden">
+          <div>
+            <div class="jump-pr-label">Tu mejor salto</div>
+            <div id="jump-pr-val" class="jump-pr-val">—</div>
+          </div>
+          <svg class="icon icon-lg" style="color:var(--accent)"><use href="#i-bolt"/></svg>
+        </div>
+
+        <h2 class="text-2xl font-extrabold tracking-tight mb-3" style="letter-spacing:-0.02em">¿Cuánto saltás?</h2>
+        <p class="text-sm mb-5" style="color:var(--fg-muted)">En 3 pasos medimos tu salto vertical usando el tiempo de vuelo.</p>
+
+        <div class="space-y-2 mb-6">
+          <div class="jump-step">
+            <div class="jump-step-num">1</div>
+            <div class="jump-step-text">Pará con el celu en la mano. Tocá <strong>Empezar</strong>.</div>
+          </div>
+          <div class="jump-step">
+            <div class="jump-step-num">2</div>
+            <div class="jump-step-text">Cuando veas el botón verde, <strong>saltá</strong> y tocá la pantalla al despegar.</div>
+          </div>
+          <div class="jump-step">
+            <div class="jump-step-num">3</div>
+            <div class="jump-step-text">Tocá <strong>al caer</strong>. Listo — calculamos tu altura.</div>
+          </div>
+        </div>
+
+        <button id="jump-start-btn" class="w-full rounded-2xl btn-start-futsal" style="min-height:56px;font-weight:700" onclick="startJumpTest()">
+          <svg class="icon"><use href="#i-bolt"/></svg>
+          <span>Empezar test</span>
+        </button>
+      </div>
+
+      <!-- COUNTDOWN STATE -->
+      <div id="jump-stage-countdown" class="jump-stage hidden">
+        <div class="jump-countdown" id="jump-countdown-num">3</div>
+        <p class="text-sm" style="color:var(--fg-muted)">Preparate…</p>
+      </div>
+
+      <!-- TAKEOFF STATE -->
+      <button id="jump-stage-takeoff" class="jump-btn jump-btn-takeoff hidden" onclick="jumpTakeoff()">
+        <svg class="icon"><use href="#i-arrow-up-right"/></svg>
+        <span>Saltá y tocá</span>
+        <span class="jump-btn-hint">al momento de despegar</span>
+      </button>
+
+      <!-- LANDING STATE -->
+      <button id="jump-stage-land" class="jump-btn jump-btn-land hidden" onclick="jumpLanding()">
+        <svg class="icon jump-btn-icon-down"><use href="#i-arrow-up-right"/></svg>
+        <span>Tocá al caer</span>
+        <span class="jump-btn-hint">apenas los pies vuelven al suelo</span>
+      </button>
+
+      <!-- RESULT STATE -->
+      <div id="jump-stage-result" class="jump-stage hidden">
+        <div class="jump-level-badge" id="jump-level-badge">Amateur</div>
+        <div class="jump-result-line">
+          <span class="jump-result-val" id="jump-result-val">0</span><span class="jump-result-unit">cm</span>
+        </div>
+        <div id="jump-pr-compare" class="jump-pr-compare"></div>
+        <button class="share-btn w-full rounded-2xl mt-4" onclick="shareJumpCard()">
+          <svg class="icon"><use href="#i-share"/></svg>
+          <span>Compartir</span>
+        </button>
+        <div class="grid grid-cols-2 gap-3 w-full mt-3">
+          <button class="btn-ghost rounded-2xl" onclick="startJumpTest()">
+            <svg class="icon icon-sm"><use href="#i-bolt"/></svg>
+            <span>Otro intento</span>
+          </button>
+          <button class="rounded-2xl btn-start-futsal" style="min-height:48px;font-weight:700" onclick="finishJumpTest()">
+            <svg class="icon icon-sm"><use href="#i-check"/></svg>
+            <span>Listo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- INVALID STATE -->
+      <div id="jump-stage-invalid" class="jump-stage hidden">
+        <svg class="icon jump-invalid-icon"><use href="#i-alert"/></svg>
+        <h3 class="text-xl font-extrabold">Medición inválida</h3>
+        <p class="text-sm" style="color:var(--fg-muted);max-width:280px">Tu tiempo de vuelo fue demasiado corto o demasiado largo. Intentá de nuevo con un salto más claro.</p>
+        <button class="rounded-2xl btn-start-futsal jump-retry-btn" onclick="startJumpTest()">
+          <svg class="icon"><use href="#i-bolt"/></svg>
+          <span>Reintentar</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -502,13 +677,8 @@
   </div>
 
   <script>
-    // iOS PWA polish: no bounce, no long-press callout, no double-tap zoom
-    document.addEventListener('gesturestart', e => e.preventDefault());
-    document.addEventListener('touchmove', function(e){
-      if (e.scale !== 1) e.preventDefault();
-    }, { passive: false });
-
     // Add body class when training starts so orbs hide
+    const _origSetAttr = document.body.setAttribute;
     (function(){
       const observer = new MutationObserver(() => {
         const training = document.getElementById('view-training');
@@ -522,13 +692,6 @@
       });
     })();
 
-    // Haptic feedback helper (vibra si el device lo soporta)
-    window.hapticTick = function(ms){ try{ navigator.vibrate && navigator.vibrate(ms||8); }catch(_){} };
-    document.addEventListener('click', e => {
-      const t = e.target.closest('.complete-btn, .metro-play-btn, .fatigue-btn, .sport-card, .level-btn, #btn-start, #recovery-action-btn, #fatigue-confirm-btn');
-      if (t) window.hapticTick(10);
-    });
-
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
@@ -536,6 +699,8 @@
       });
     }
   </script>
+  <div id="xp-toast" class="xp-toast hidden"></div>
+
   <script src="spotify.js"></script>
   <script src="plyo.js"></script>
 </body>
