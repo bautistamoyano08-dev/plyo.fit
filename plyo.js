@@ -1961,16 +1961,32 @@ async function loadLeaderboard() {
   if (!_sb) return [];
   if (_lbCache.rows && Date.now() - _lbCache.ts < 15000) return _lbCache.rows;
   try {
-    const { data, error } = await _sb
+    const { data: stats, error: e1 } = await _sb
       .from('user_stats')
-      .select('user_id, best_jump_cm, total_jumps, streak_count, xp, profiles(display_name)')
+      .select('user_id, best_jump_cm, total_jumps, streak_count, xp')
       .gt('best_jump_cm', 0)
       .order('best_jump_cm', { ascending: false })
       .limit(100);
-    if (error) { console.warn('LB:', error.message); return []; }
-    _lbCache = { scope: 'global', rows: data || [], ts: Date.now() };
-    return _lbCache.rows;
-  } catch (e) { return []; }
+    if (e1) { console.warn('LB stats:', e1.message); return []; }
+    if (!stats || !stats.length) {
+      _lbCache = { scope: 'global', rows: [], ts: Date.now() };
+      return [];
+    }
+    const ids = stats.map(s => s.user_id);
+    const { data: profs, error: e2 } = await _sb
+      .from('profiles')
+      .select('id, display_name')
+      .in('id', ids);
+    if (e2) console.warn('LB profiles:', e2.message);
+    const nameMap = {};
+    (profs || []).forEach(p => { nameMap[p.id] = p.display_name; });
+    const rows = stats.map(s => ({
+      ...s,
+      profiles: { display_name: nameMap[s.user_id] || null }
+    }));
+    _lbCache = { scope: 'global', rows, ts: Date.now() };
+    return rows;
+  } catch (e) { console.warn('LB:', e); return []; }
 }
 
 async function setDisplayName(name) {
