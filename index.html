@@ -84,6 +84,11 @@
           </div>
           <h2 class="onboarding-title">Mantené tu racha.<br/>Subí de nivel.</h2>
           <p class="onboarding-sub">Cada sesión y cada salto suman. Volvé cada día y convertí el entreno en hábito.</p>
+          <div class="onb-name-wrap">
+            <input id="onb-name-input" class="onb-name-input" maxlength="30"
+              placeholder="Tu nombre (opcional)" autocomplete="off" spellcheck="false">
+            <span class="onb-name-hint">Así te verán en el ranking</span>
+          </div>
         </div>
       </div>
     </div>
@@ -707,6 +712,31 @@
         <button class="btn-ghost flex-1 rounded-xl" onclick="confirmNotes()">Saltar</button>
         <button class="flex-1 rounded-xl font-bold text-sm" style="min-height:52px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);box-shadow:0 4px 18px var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem" onclick="confirmNotes()">
           <span>Guardar</span>
+          <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Pre-share name prompt                           -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-share-name" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)">
+    <div class="glass-card p-6 w-full max-w-sm">
+      <div class="text-center mb-5">
+        <div class="logo-mark mx-auto mb-3" style="background:color-mix(in oklch, var(--accent) 18%, transparent);border-color:color-mix(in oklch, var(--accent) 40%, transparent);color:var(--accent);box-shadow:0 0 28px color-mix(in oklab,var(--accent) 30%,transparent)">
+          <svg class="icon"><use href="#i-share"/></svg>
+        </div>
+        <h3 class="text-lg font-bold">Antes de compartir</h3>
+        <p class="text-xs mt-1" style="color:var(--fg-muted)">Tu nombre va a aparecer en la imagen y el ranking</p>
+      </div>
+      <input id="share-name-input" maxlength="30" placeholder="Tu nombre"
+        autocomplete="off" spellcheck="false"
+        class="w-full mb-4 share-name-field">
+      <div class="flex gap-2">
+        <button class="btn-ghost flex-1 rounded-xl" onclick="shareNameSkip()">Sin nombre</button>
+        <button class="flex-1 rounded-xl font-bold text-sm" style="min-height:52px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);box-shadow:0 4px 18px var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem" onclick="shareNameConfirm()">
+          <span>Guardar y compartir</span>
           <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
         </button>
       </div>

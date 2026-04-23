@@ -1782,6 +1782,7 @@ function roundRect(ctx, x, y, w, h, r) {
 async function shareJumpCard() {
   const cm = window._lastJumpCm;
   if (!cm) { showToast('No hay salto para compartir'); return; }
+  await ensureDisplayNameForShare();
   let rank = null;
   try { rank = await getMyRank(); } catch (_) {}
   const canvas = generateJumpShareCard(cm, { isPR: !!window._lastJumpIsPR, rank });
@@ -1870,6 +1871,12 @@ function onboardingSkip() {
 
 function onboardingFinish() {
   localStorage.setItem('plyo_onboarded', '1');
+  const input = document.getElementById('onb-name-input');
+  const name = input ? input.value.trim() : '';
+  if (name) {
+    localStorage.setItem('plyo_display_name', name.substring(0, 30));
+    if (_sb && _sbUserId) { setDisplayName(name); }
+  }
   _closeOnboardingOverlay();
   setTimeout(() => { if (typeof openJumpTest === 'function') openJumpTest(); }, 300);
 }
@@ -1882,6 +1889,37 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 let _sb = null;
 let _sbUserId = null;
 let _lbCache = { scope: null, rows: null, ts: 0 };
+
+let _shareNameResolver = null;
+
+function ensureDisplayNameForShare() {
+  const cached = (localStorage.getItem('plyo_display_name') || '').trim();
+  if (cached) return Promise.resolve(true);
+  return new Promise(resolve => {
+    _shareNameResolver = resolve;
+    const modal = document.getElementById('modal-share-name');
+    const input = document.getElementById('share-name-input');
+    if (input) input.value = '';
+    if (modal) modal.classList.remove('hidden');
+    setTimeout(() => { if (input) input.focus(); }, 100);
+  });
+}
+
+async function shareNameConfirm() {
+  const input = document.getElementById('share-name-input');
+  const name = input ? input.value.trim() : '';
+  if (name) {
+    localStorage.setItem('plyo_display_name', name.substring(0, 30));
+    await setDisplayName(name);
+  }
+  document.getElementById('modal-share-name').classList.add('hidden');
+  if (_shareNameResolver) { _shareNameResolver(true); _shareNameResolver = null; }
+}
+
+function shareNameSkip() {
+  document.getElementById('modal-share-name').classList.add('hidden');
+  if (_shareNameResolver) { _shareNameResolver(false); _shareNameResolver = null; }
+}
 
 async function initSupa() {
   if (!window.supabase || !window.supabase.createClient) {
@@ -1901,6 +1939,8 @@ async function initSupa() {
       _sbUserId = data.user.id;
     }
     syncStatsToServer();
+    const cachedName = (localStorage.getItem('plyo_display_name') || '').trim();
+    if (cachedName) setDisplayName(cachedName);
   } catch (e) {
     console.warn('Supa init:', e);
   }
