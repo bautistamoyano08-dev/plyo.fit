@@ -1,26 +1,20 @@
 {
   "name": "PlyoTracker",
-  "short_name": "PlyoTrack",
+  "short_name": "Plyofit",
   "description": "Entrenamiento pliométrico especializado para Futsal y Básquetbol",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#030712",
-  "theme_color": "#030712",
+  "background_color": "#07080a",
+  "theme_color": "#07080a",
   "categories": ["sports", "health", "fitness"],
   "icons": [
     {
       "src": "./plyo-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "./plyo-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }

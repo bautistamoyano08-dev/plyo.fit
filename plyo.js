@@ -3,175 +3,175 @@
 // ── SVG Exercise Illustrations (9 types) ─────────────────────────────────────
 
 const SVG_TYPES = {
-  bounce: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  bounce: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="82" cy="168" r="4" fill="#22c55e"/><circle cx="118" cy="168" r="4" fill="#22c55e"/>
-  <line x1="82" y1="153" x2="82" y2="167" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <line x1="118" y1="153" x2="118" y2="167" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <circle cx="100" cy="42" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="55" x2="100" y2="100" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="72" x2="78" y2="85" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="72" x2="122" y2="85" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="100" x2="88" y2="132" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="100" x2="112" y2="132" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="88" y1="132" x2="76" y2="144" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="132" x2="124" y2="144" stroke="#22c55e" stroke-width="2.5"/>
-  <circle cx="88" cy="132" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
-  <circle cx="112" cy="132" r="6" fill="none" stroke="#f97316" stroke-width="2"/>
-  <line x1="40" y1="150" x2="40" y2="120" stroke="#f97316" stroke-width="2"/>
-  <polygon points="40,110 35,124 45,124" fill="#f97316"/>
-  <line x1="160" y1="150" x2="160" y2="120" stroke="#f97316" stroke-width="2"/>
-  <polygon points="160,110 155,124 165,124" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Tobillo reactivo ⚡ — contacto solo antepié</text>
+  <circle cx="82" cy="168" r="4" fill="currentColor"/><circle cx="118" cy="168" r="4" fill="currentColor"/>
+  <line x1="82" y1="153" x2="82" y2="167" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="118" y1="153" x2="118" y2="167" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="100" cy="42" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="55" x2="100" y2="100" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="72" x2="78" y2="85" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="72" x2="122" y2="85" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="100" x2="88" y2="132" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="100" x2="112" y2="132" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="88" y1="132" x2="76" y2="144" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="132" x2="124" y2="144" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="88" cy="132" r="6" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <circle cx="112" cy="132" r="6" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <line x1="40" y1="150" x2="40" y2="120" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="40,110 35,124 45,124" fill="var(--warn, #f59e0b)"/>
+  <line x1="160" y1="150" x2="160" y2="120" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="160,110 155,124 165,124" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Tobillo reactivo ⚡ — contacto solo antepié</text>
 </svg>`,
 
-  explosive_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  explosive_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
   <line x1="35" y1="168" x2="35" y2="45" stroke="rgba(249,115,22,.35)" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="20" y="108" font-size="8" fill="#f97316" font-family="sans-serif" transform="rotate(-90,20,108)">ALTURA</text>
-  <circle cx="100" cy="28" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="41" x2="100" y2="88" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="60" x2="74" y2="42" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="60" x2="126" y2="42" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="88" x2="88" y2="128" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="88" x2="112" y2="128" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="88" y1="128" x2="80" y2="138" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="128" x2="120" y2="138" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="158" y1="158" x2="158" y2="68" stroke="#f97316" stroke-width="2"/>
-  <polygon points="158,58 153,72 163,72" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Triple extensión — tobillo · rodilla · cadera</text>
+  <text x="20" y="108" font-size="8" fill="var(--warn, #f59e0b)" font-family="sans-serif" transform="rotate(-90,20,108)">ALTURA</text>
+  <circle cx="100" cy="28" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="41" x2="100" y2="88" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="60" x2="74" y2="42" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="60" x2="126" y2="42" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="88" x2="88" y2="128" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="88" x2="112" y2="128" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="88" y1="128" x2="80" y2="138" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="128" x2="120" y2="138" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="158" y1="158" x2="158" y2="68" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="158,58 153,72 163,72" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Triple extensión — tobillo · rodilla · cadera</text>
 </svg>`,
 
-  tuck: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  tuck: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="100" cy="32" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="45" x2="98" y2="82" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="98" y1="60" x2="78" y2="76" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="98" y1="60" x2="116" y2="74" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="98" y1="82" x2="80" y2="76" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="98" y1="82" x2="118" y2="76" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="80" y1="76" x2="72" y2="108" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="118" y1="76" x2="126" y2="108" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="72" y1="108" x2="64" y2="114" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="126" y1="108" x2="134" y2="114" stroke="#22c55e" stroke-width="2.5"/>
-  <circle cx="80" cy="76" r="7" fill="none" stroke="#f97316" stroke-width="2"/>
-  <circle cx="118" cy="76" r="7" fill="none" stroke="#f97316" stroke-width="2"/>
-  <line x1="158" y1="155" x2="158" y2="65" stroke="#f97316" stroke-width="2"/>
-  <polygon points="158,55 153,68 163,68" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Rodillas al pecho — extender antes de aterrizar</text>
+  <circle cx="100" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="45" x2="98" y2="82" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="98" y1="60" x2="78" y2="76" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="98" y1="60" x2="116" y2="74" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="98" y1="82" x2="80" y2="76" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="98" y1="82" x2="118" y2="76" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="80" y1="76" x2="72" y2="108" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="118" y1="76" x2="126" y2="108" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="72" y1="108" x2="64" y2="114" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="126" y1="108" x2="134" y2="114" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="80" cy="76" r="7" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <circle cx="118" cy="76" r="7" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <line x1="158" y1="155" x2="158" y2="65" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="158,55 153,68 163,68" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Rodillas al pecho — extender antes de aterrizar</text>
 </svg>`,
 
-  landing: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  landing: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="100" cy="62" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="75" x2="96" y2="112" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="96" y1="90" x2="72" y2="80" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="96" y1="90" x2="120" y2="98" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="96" y1="112" x2="74" y2="118" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="96" y1="112" x2="118" y2="118" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="74" y1="118" x2="72" y2="168" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="118" y1="118" x2="120" y2="168" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="72" y1="168" x2="55" y2="168" stroke="#22c55e" stroke-width="3"/>
-  <line x1="120" y1="168" x2="137" y2="168" stroke="#22c55e" stroke-width="3"/>
-  <line x1="74" y1="116" x2="72" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="118" y1="116" x2="120" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <circle cx="74" cy="118" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
-  <circle cx="118" cy="118" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Absorción trifásica — rodilla sobre pie (línea azul)</text>
+  <circle cx="100" cy="62" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="75" x2="96" y2="112" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="96" y1="90" x2="72" y2="80" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="96" y1="90" x2="120" y2="98" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="96" y1="112" x2="74" y2="118" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="96" y1="112" x2="118" y2="118" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="74" y1="118" x2="72" y2="168" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="118" y1="118" x2="120" y2="168" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="72" y1="168" x2="55" y2="168" stroke="currentColor" stroke-width="3"/>
+  <line x1="120" y1="168" x2="137" y2="168" stroke="currentColor" stroke-width="3"/>
+  <line x1="74" y1="116" x2="72" y2="168" stroke="var(--info, #60a5fa)" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="118" y1="116" x2="120" y2="168" stroke="var(--info, #60a5fa)" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="74" cy="118" r="5" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <circle cx="118" cy="118" r="5" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Absorción trifásica — rodilla sobre pie (línea azul)</text>
 </svg>`,
 
-  lateral_bound: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  lateral_bound: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="115" cy="52" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="115" y1="65" x2="110" y2="108" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="110" y1="82" x2="88" y2="70" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="110" y1="82" x2="130" y2="90" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="110" y1="108" x2="112" y2="140" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="140" x2="115" y2="168" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="115" y1="168" x2="132" y2="168" stroke="#22c55e" stroke-width="3"/>
-  <line x1="110" y1="108" x2="90" y2="118" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="90" y1="118" x2="80" y2="145" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="140" x2="100" y2="140" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="100" y1="140" x2="100" y2="168" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <circle cx="112" cy="140" r="5" fill="none" stroke="#f97316" stroke-width="2"/>
-  <line x1="55" y1="112" x2="82" y2="112" stroke="#f97316" stroke-width="2"/>
-  <polygon points="92,112 78,107 78,117" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Estabilidad monopodal — rodilla sobre pie</text>
+  <circle cx="115" cy="52" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="115" y1="65" x2="110" y2="108" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="110" y1="82" x2="88" y2="70" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="110" y1="82" x2="130" y2="90" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="110" y1="108" x2="112" y2="140" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="140" x2="115" y2="168" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="115" y1="168" x2="132" y2="168" stroke="currentColor" stroke-width="3"/>
+  <line x1="110" y1="108" x2="90" y2="118" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="90" y1="118" x2="80" y2="145" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="140" x2="100" y2="140" stroke="var(--info, #60a5fa)" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="100" y1="140" x2="100" y2="168" stroke="var(--info, #60a5fa)" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="112" cy="140" r="5" fill="none" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <line x1="55" y1="112" x2="82" y2="112" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="92,112 78,107 78,117" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Estabilidad monopodal — rodilla sobre pie</text>
 </svg>`,
 
-  single_leg: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  single_leg: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="100" cy="40" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="53" x2="100" y2="98" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="70" x2="76" y2="56" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="70" x2="122" y2="80" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="98" x2="108" y2="132" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="108" y1="132" x2="112" y2="158" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="158" x2="126" y2="162" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="98" x2="82" y2="114" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="82" y1="114" x2="78" y2="140" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="132" y1="110" x2="162" y2="110" stroke="#f97316" stroke-width="2"/>
-  <polygon points="170,110 158,105 158,115" fill="#f97316"/>
-  <text x="40" y="130" font-size="9" fill="#f97316" font-family="sans-serif">veloz</text>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Mínimo tiempo de contacto — tobillo elástico</text>
+  <circle cx="100" cy="40" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="53" x2="100" y2="98" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="70" x2="76" y2="56" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="70" x2="122" y2="80" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="98" x2="108" y2="132" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="108" y1="132" x2="112" y2="158" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="158" x2="126" y2="162" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="98" x2="82" y2="114" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="82" y1="114" x2="78" y2="140" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="132" y1="110" x2="162" y2="110" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="170,110 158,105 158,115" fill="var(--warn, #f59e0b)"/>
+  <text x="40" y="130" font-size="9" fill="var(--warn, #f59e0b)" font-family="sans-serif">veloz</text>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Mínimo tiempo de contacto — tobillo elástico</text>
 </svg>`,
 
-  broad: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  broad: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
   <path d="M 32 168 Q 100 88 170 128" fill="none" stroke="rgba(249,115,22,.4)" stroke-width="1.5" stroke-dasharray="5,4"/>
-  <text x="42" y="160" font-size="9" fill="#f97316" font-family="sans-serif">45°</text>
-  <circle cx="100" cy="50" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="63" x2="112" y2="102" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="105" y1="80" x2="80" y2="68" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="105" y1="80" x2="128" y2="72" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="102" x2="94" y2="136" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="112" y1="102" x2="130" y2="128" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="94" y1="136" x2="82" y2="142" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="130" y1="128" x2="142" y2="134" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="145" y1="138" x2="172" y2="138" stroke="#f97316" stroke-width="2"/>
-  <polygon points="180,138 168,133 168,143" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Proyección 45° — brazos como impulso</text>
+  <text x="42" y="160" font-size="9" fill="var(--warn, #f59e0b)" font-family="sans-serif">45°</text>
+  <circle cx="100" cy="50" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="63" x2="112" y2="102" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="105" y1="80" x2="80" y2="68" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="105" y1="80" x2="128" y2="72" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="102" x2="94" y2="136" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="112" y1="102" x2="130" y2="128" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="94" y1="136" x2="82" y2="142" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="130" y1="128" x2="142" y2="134" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="145" y1="138" x2="172" y2="138" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="180,138 168,133 168,143" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Proyección 45° — brazos como impulso</text>
 </svg>`,
 
-  depth_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  depth_jump: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <rect x="18" y="128" width="52" height="38" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.2)" stroke-width="1.5" rx="2"/>
-  <circle cx="60" cy="100" r="11" fill="none" stroke="#22c55e" stroke-width="2"/>
-  <line x1="60" y1="111" x2="60" y2="144" stroke="#22c55e" stroke-width="2"/>
-  <line x1="60" y1="125" x2="47" y2="118" stroke="#22c55e" stroke-width="2"/>
-  <line x1="60" y1="125" x2="73" y2="118" stroke="#22c55e" stroke-width="2"/>
-  <line x1="60" y1="144" x2="53" y2="160" stroke="#22c55e" stroke-width="2"/>
-  <line x1="60" y1="144" x2="67" y2="160" stroke="#22c55e" stroke-width="2"/>
-  <line x1="90" y1="132" x2="114" y2="132" stroke="#f97316" stroke-width="2"/>
-  <polygon points="122,132 111,127 111,137" fill="#f97316"/>
-  <text x="102" y="120" text-anchor="middle" font-size="8" fill="#f97316" font-family="sans-serif">&lt;0.25s</text>
+  <circle cx="60" cy="100" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+  <line x1="60" y1="111" x2="60" y2="144" stroke="currentColor" stroke-width="2"/>
+  <line x1="60" y1="125" x2="47" y2="118" stroke="currentColor" stroke-width="2"/>
+  <line x1="60" y1="125" x2="73" y2="118" stroke="currentColor" stroke-width="2"/>
+  <line x1="60" y1="144" x2="53" y2="160" stroke="currentColor" stroke-width="2"/>
+  <line x1="60" y1="144" x2="67" y2="160" stroke="currentColor" stroke-width="2"/>
+  <line x1="90" y1="132" x2="114" y2="132" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="122,132 111,127 111,137" fill="var(--warn, #f59e0b)"/>
+  <text x="102" y="120" text-anchor="middle" font-size="8" fill="var(--warn, #f59e0b)" font-family="sans-serif">&lt;0.25s</text>
   <line x1="120" y1="166" x2="185" y2="166" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="150" cy="112" r="11" fill="none" stroke="#22c55e" stroke-width="2"/>
-  <line x1="150" y1="123" x2="150" y2="148" stroke="#22c55e" stroke-width="2"/>
-  <line x1="150" y1="134" x2="136" y2="126" stroke="#22c55e" stroke-width="2"/>
-  <line x1="150" y1="134" x2="164" y2="124" stroke="#22c55e" stroke-width="2"/>
-  <line x1="150" y1="148" x2="140" y2="166" stroke="#22c55e" stroke-width="2"/>
-  <line x1="150" y1="148" x2="160" y2="166" stroke="#22c55e" stroke-width="2"/>
-  <line x1="175" y1="155" x2="175" y2="128" stroke="#f97316" stroke-width="2"/>
-  <polygon points="175,118 170,131 180,131" fill="#f97316"/>
+  <circle cx="150" cy="112" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+  <line x1="150" y1="123" x2="150" y2="148" stroke="currentColor" stroke-width="2"/>
+  <line x1="150" y1="134" x2="136" y2="126" stroke="currentColor" stroke-width="2"/>
+  <line x1="150" y1="134" x2="164" y2="124" stroke="currentColor" stroke-width="2"/>
+  <line x1="150" y1="148" x2="140" y2="166" stroke="currentColor" stroke-width="2"/>
+  <line x1="150" y1="148" x2="160" y2="166" stroke="currentColor" stroke-width="2"/>
+  <line x1="175" y1="155" x2="175" y2="128" stroke="var(--warn, #f59e0b)" stroke-width="2"/>
+  <polygon points="175,118 170,131 180,131" fill="var(--warn, #f59e0b)"/>
   <line x1="18" y1="166" x2="120" y2="166" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Caída → despegue inmediato — ciclo elástico</text>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Caída → despegue inmediato — ciclo elástico</text>
 </svg>`,
 
-  split: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+  split: `<svg viewBox="0 0 200 192" xmlns="http://www.w3.org/2000/svg" style="width:100%;color:var(--accent,#a3e635)">
   <line x1="25" y1="168" x2="175" y2="168" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
-  <circle cx="100" cy="36" r="13" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="49" x2="100" y2="93" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="66" x2="122" y2="50" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="66" x2="78" y2="82" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="93" x2="128" y2="116" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="128" y1="116" x2="138" y2="148" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="138" y1="148" x2="150" y2="152" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="100" y1="93" x2="72" y2="113" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="72" y1="113" x2="62" y2="143" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="62" y1="143" x2="50" y2="148" stroke="#22c55e" stroke-width="2.5"/>
-  <line x1="165" y1="158" x2="165" y2="72" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <polygon points="165,62 160,75 170,75" fill="#f97316"/>
-  <text x="100" y="186" text-anchor="middle" font-size="9" fill="#6b7280" font-family="sans-serif">Zancada invertida — coordinación cruzada</text>
+  <circle cx="100" cy="36" r="13" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="49" x2="100" y2="93" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="66" x2="122" y2="50" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="66" x2="78" y2="82" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="93" x2="128" y2="116" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="128" y1="116" x2="138" y2="148" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="138" y1="148" x2="150" y2="152" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="100" y1="93" x2="72" y2="113" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="72" y1="113" x2="62" y2="143" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="62" y1="143" x2="50" y2="148" stroke="currentColor" stroke-width="2.5"/>
+  <line x1="165" y1="158" x2="165" y2="72" stroke="var(--warn, #f59e0b)" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="165,62 160,75 170,75" fill="var(--warn, #f59e0b)"/>
+  <text x="100" y="186" text-anchor="middle" font-size="9" fill="var(--fg-dim, #94a3b8)" font-family="sans-serif">Zancada invertida — coordinación cruzada</text>
 </svg>`
 };
 
@@ -899,7 +899,7 @@ function startTimer(seconds) {
   const ring    = document.getElementById('timer-ring');
 
   overlay.classList.remove('hidden');
-  ring.style.stroke = '#22c55e';
+  ring.style.stroke = 'currentColor';
   ring.style.strokeDashoffset = '0';
 
   function tick() {
@@ -1055,7 +1055,7 @@ function renderRecoveryStep(step) {
   document.getElementById('recovery-name').textContent  = stretch.name;
   document.getElementById('recovery-desc').textContent  = stretch.desc;
   countdown.textContent = '30';
-  countdown.style.color = '#22c55e';
+  countdown.style.color = 'currentColor';
   document.getElementById('recovery-side').textContent  = stretch.side;
   dotsEl.innerHTML = STRETCHES.map((_, i) =>
     `<span class="rec-dot ${i < step ? 'rec-dot-done' : i === step ? 'rec-dot-active' : ''}"></span>`
@@ -1122,10 +1122,10 @@ function renderChart(sessions) {
     return;
   }
   const max = Math.max(...sessions.map(s => s.totalContacts || 0), 1);
-  const COLORS = { futsal: '#22c55e', basketball: '#f97316' };
+  const COLORS = { futsal: 'currentColor', basketball: 'var(--warn, #f59e0b)' };
   const bars   = sessions.map(s => {
     const h = Math.max(Math.round(((s.totalContacts || 0) / max) * 80), 4);
-    return `<div class="flex-1 rounded-t-md" style="height:${h}px;background:${COLORS[s.sport]||'#6b7280'};opacity:${s.highIntensity?'1':'.7'}"></div>`;
+    return `<div class="flex-1 rounded-t-md" style="height:${h}px;background:${COLORS[s.sport]||'var(--fg-dim, #94a3b8)'};opacity:${s.highIntensity?'1':'.7'}"></div>`;
   }).join('');
   const counts = sessions.map(s => `<div class="flex-1 text-center text-xs text-gray-400 tabular-nums">${s.totalContacts||0}</div>`).join('');
   const labels = sessions.map(s => {
@@ -1137,8 +1137,8 @@ function renderChart(sessions) {
     <div class="flex gap-1.5 mt-2 mb-0.5">${counts}</div>
     <div class="flex gap-1.5">${labels}</div>
     <div class="flex gap-4 mt-3 pt-3 border-t border-white/10">
-      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:#22c55e"></span>Futsal</span>
-      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:#f97316"></span>Básquetbol</span>
+      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:currentColor"></span>Futsal</span>
+      <span class="flex items-center gap-1.5 text-xs text-gray-500"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:var(--warn, #f59e0b)"></span>Básquetbol</span>
     </div>`;
 }
 

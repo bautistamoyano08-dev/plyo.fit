@@ -1,5 +1,6 @@
-const CACHE_NAME = 'plyotracker-v11';
+const CACHE_NAME = 'plyotracker-v12';
 const STATIC_ASSETS = [
+  './',
   './index.html',
   './plyo.css',
   './plyo.js',
@@ -9,7 +10,13 @@ const STATIC_ASSETS = [
   './plyo-icon.svg'
 ];
 
-// Install: pre-cache all static assets
+// Hosts que SÍ cacheamos aunque sean cross-origin (fonts)
+const CACHEABLE_CROSS_ORIGIN = [
+  'https://fonts.googleapis.com',
+  'https://fonts.gstatic.com',
+  'https://cdn.tailwindcss.com'
+];
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -18,7 +25,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate: remove old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
@@ -29,33 +35,41 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: cache-first for static assets, network-first for everything else
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
-  // Nunca cachear llamadas a Spotify (API dinámica y OAuth)
   const url = event.request.url;
+
+  // Nunca cachear Spotify (API dinámica + OAuth)
   if (url.startsWith('https://api.spotify.com/') ||
       url.startsWith('https://accounts.spotify.com/')) {
     return;
   }
 
+  const isCacheableCrossOrigin = CACHEABLE_CROSS_ORIGIN.some(h => url.startsWith(h));
+
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
-        // Cache valid responses for static assets
-        if (response && response.status === 200 && response.type === 'basic') {
+        // Cachear respuestas válidas: same-origin (basic) o fonts/CDN cross-origin
+        const shouldCache = response && response.status === 200 &&
+          (response.type === 'basic' || isCacheableCrossOrigin);
+        if (shouldCache) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         }
         return response;
       }).catch(() => {
-        // Offline fallback: serve the app shell
         if (event.request.destination === 'document') {
           return caches.match('./index.html');
         }
       });
     })
   );
+});
+
+// Listen for skipWaiting from the page (si querés forzar update desde la app)
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
