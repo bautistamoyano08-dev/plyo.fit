@@ -2020,9 +2020,32 @@ function renderClaimCard() {
   }
 }
 
+let _claimMode = 'create';
+
+function _applyClaimMode() {
+  const label = document.getElementById('claim-submit-label');
+  const switchLabel = document.getElementById('claim-switch-label');
+  if (_claimMode === 'signin') {
+    if (label) label.textContent = 'Entrar';
+    if (switchLabel) switchLabel.textContent = 'Volver a guardar como cuenta nueva';
+  } else {
+    if (label) label.textContent = 'Enviar link';
+    if (switchLabel) switchLabel.textContent = 'Ya tengo cuenta en otro dispositivo';
+  }
+}
+
+function switchClaimToSignIn() {
+  _claimMode = _claimMode === 'signin' ? 'create' : 'signin';
+  _applyClaimMode();
+  const err = document.getElementById('claim-error');
+  if (err) err.classList.add('hidden');
+}
+
 function openClaimModal() {
   const modal = document.getElementById('modal-claim');
   if (!modal) return;
+  _claimMode = 'create';
+  _applyClaimMode();
   document.getElementById('claim-form-state').classList.remove('hidden');
   document.getElementById('claim-sent-state').classList.add('hidden');
   const err = document.getElementById('claim-error');
@@ -2053,13 +2076,38 @@ async function submitClaim() {
   if (err) err.classList.add('hidden');
   if (btn) btn.disabled = true;
   if (label) label.textContent = 'Enviando…';
+
+  const redirectTo = location.origin + location.pathname;
+  const isEmailExistsError = (e) => {
+    const msg = String(e?.message || '').toLowerCase();
+    return msg.includes('already') || msg.includes('registered') || msg.includes('exists') || e?.code === 'email_exists';
+  };
+
   try {
-    const { error } = await _sb.auth.updateUser({ email });
-    if (error) throw error;
-    const sentEmail = document.getElementById('claim-sent-email');
-    if (sentEmail) sentEmail.textContent = email;
-    document.getElementById('claim-form-state').classList.add('hidden');
-    document.getElementById('claim-sent-state').classList.remove('hidden');
+    if (_claimMode === 'create') {
+      const { error } = await _sb.auth.updateUser(
+        { email },
+        { emailRedirectTo: redirectTo }
+      );
+      if (error) {
+        if (isEmailExistsError(error)) {
+          const { error: e2 } = await _sb.auth.signInWithOtp({
+            email, options: { emailRedirectTo: redirectTo }
+          });
+          if (e2) throw e2;
+          _showClaimSent(email, true);
+          return;
+        }
+        throw error;
+      }
+      _showClaimSent(email, false);
+    } else {
+      const { error } = await _sb.auth.signInWithOtp({
+        email, options: { emailRedirectTo: redirectTo }
+      });
+      if (error) throw error;
+      _showClaimSent(email, true);
+    }
   } catch (e) {
     if (err) {
       err.textContent = e?.message || 'No se pudo enviar el link';
@@ -2067,8 +2115,55 @@ async function submitClaim() {
     }
   } finally {
     if (btn) btn.disabled = false;
-    if (label) label.textContent = 'Enviar link';
+    _applyClaimMode();
   }
+}
+
+function _showClaimSent(email, isSignIn) {
+  const sentEmail = document.getElementById('claim-sent-email');
+  if (sentEmail) sentEmail.textContent = email;
+  const sentState = document.getElementById('claim-sent-state');
+  const subEl = sentState ? sentState.querySelector('p') : null;
+  if (subEl) {
+    subEl.innerHTML = isSignIn
+      ? `Esa cuenta ya existe. Te mandamos un link a <span id="claim-sent-email" style="color:var(--fg)">${escapeHTML(email)}</span>. Tocalo para entrar y recuperar tu progreso.`
+      : `Te mandamos un link a <span id="claim-sent-email" style="color:var(--fg)">${escapeHTML(email)}</span>. Tocalo para confirmar y tu cuenta queda guardada.`;
+  }
+  document.getElementById('claim-form-state').classList.add('hidden');
+  sentState.classList.remove('hidden');
+}
+
+async function pullUserDataFromServer() {
+  if (!_sb || !_sbUserId) return;
+  try {
+    const { data: stats } = await _sb.from('user_stats').select('*').eq('user_id', _sbUserId).maybeSingle();
+    if (stats) {
+      const curStreak = loadStreak();
+      localStorage.setItem('plyo_streak', JSON.stringify({
+        count: stats.streak_count || 0,
+        lastDate: curStreak.lastDate || null
+      }));
+      localStorage.setItem('plyo_xp', String(stats.xp || 0));
+    }
+    const { data: jumps } = await _sb.from('jumps')
+      .select('cm, created_at')
+      .eq('user_id', _sbUserId)
+      .order('created_at', { ascending: false })
+      .limit(100);
+    if (jumps && jumps.length) {
+      const arr = jumps
+        .map(j => ({ cm: j.cm, ts: new Date(j.created_at).getTime() }))
+        .reverse();
+      localStorage.setItem('plyo_jumps', JSON.stringify(arr));
+    }
+    const { data: prof } = await _sb.from('profiles').select('display_name').eq('id', _sbUserId).maybeSingle();
+    if (prof && prof.display_name) {
+      localStorage.setItem('plyo_display_name', prof.display_name);
+    }
+    _lbCache = { scope: null, rows: null, ts: 0 };
+    renderHomeStats();
+    if (typeof showToast === 'function') showToast('¡Bienvenido de vuelta!');
+  } catch (e) { console.warn('Pull:', e); }
 }
 
 let _shareNameResolver = null;
@@ -2111,11 +2206,16 @@ async function initSupa() {
     auth: { persistSession: true, autoRefreshToken: true, storageKey: 'plyo_sb_session', detectSessionInUrl: true }
   });
   _sb.auth.onAuthStateChange((event, session) => {
-    if (session) {
-      _sbUser = session.user;
-      _sbUserId = session.user.id;
-    }
+    if (!session) { renderClaimCard(); return; }
+    const prevUserId = _sbUserId;
+    const newUser = session.user;
+    const crossDevice = prevUserId && prevUserId !== newUser.id && !newUser.is_anonymous;
+    _sbUser = newUser;
+    _sbUserId = newUser.id;
     renderClaimCard();
+    if (crossDevice) {
+      pullUserDataFromServer();
+    }
   });
   try {
     const { data: { session } } = await _sb.auth.getSession();
