@@ -53,15 +53,19 @@
   --r-lg: 18px;
   --r-xl: 22px;
 
-  /* Type */
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Type — v18: Rajdhani (display) · Chakra Petch (subtítulos/UI) · Lexend (cuerpo) */
+  --font-body:    'Lexend', system-ui, -apple-system, sans-serif;
+  --font-display: 'Rajdhani', 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+  --font-ui:      'Chakra Petch', 'Rajdhani', ui-sans-serif, system-ui, sans-serif;
+  /* --mono retained as alias for display/numerics; old class names keep working */
+  --mono:         var(--font-display);
 }
 
 /* ── Base ──────────────────────────────────────────────── */
 *{ -webkit-tap-highlight-color: transparent; }
 html,body{ background: var(--bg); }
 body{
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
   color: var(--fg);
   font-feature-settings: "ss01","cv11";
   -webkit-font-smoothing: antialiased;
@@ -71,8 +75,45 @@ body{
     radial-gradient(900px 500px at -10% 100%, oklch(0.72 0.13 240 / 0.04), transparent 60%),
     var(--bg);
 }
-.font-inter{ font-family: 'Inter', system-ui, sans-serif; }
-.tabular-nums{ font-variant-numeric: tabular-nums; font-family: var(--mono); letter-spacing: -0.01em; }
+.font-inter{ font-family: var(--font-body); }  /* legacy alias */
+.font-display{ font-family: var(--font-display); letter-spacing: 0.005em; }
+.font-ui{ font-family: var(--font-ui); letter-spacing: 0.02em; }
+.tabular-nums{ font-variant-numeric: tabular-nums; font-family: var(--font-display); letter-spacing: -0.01em; }
+
+/* Display headings get Rajdhani */
+h1,h2,h3,h4{ font-family: var(--font-display); letter-spacing: -0.005em; }
+
+/* Section labels, chips, buttons, level pills get Chakra Petch (UI) */
+.section-label,
+.sport-sub,
+.sport-name,
+.level-btn,
+.btn-ghost,
+.btn-link,
+.streak-label,
+.t-sub,
+.sport-chip,
+.load-label,
+.goal-label,
+.goal-cta,
+.lb-my-rank,
+.lb-tab,
+.fatigue-lbl,
+.dash-stat-lbl{
+  font-family: var(--font-ui);
+}
+
+/* Buttons (start session etc.) — UI font for clarity at uppercase */
+#btn-start span,
+.btn-start-futsal span,
+.btn-start-basketball span,
+.share-btn span,
+.end-session-btn span{
+  font-family: var(--font-ui);
+  letter-spacing: 0.04em;
+}
+
+/* Big numerics use Rajdhani directly (already via --mono alias) */
 
 /* Reduce web default min tap size issues */
 button, [role="button"]{ -webkit-user-select: none; user-select: none; }
@@ -1232,7 +1273,7 @@ textarea:focus, input[type="text"]:focus{
   border-radius:999px;
   font-weight:700;
   font-size:0.95rem;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   flex-shrink:0;
 }
 .streak-chip .icon{ width:1rem; height:1rem; stroke-width:2.2; }
@@ -1247,7 +1288,7 @@ textarea:focus, input[type="text"]:focus{
 .xp-header{
   display:flex; justify-content:space-between; align-items:baseline;
   font-size:0.72rem;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   letter-spacing:0.02em;
 }
 #xp-level-name{ color: var(--fg, #fff); font-weight:700; text-transform:uppercase; font-size:0.7rem; }
@@ -1328,7 +1369,7 @@ textarea:focus, input[type="text"]:focus{
   border-radius:0.7rem;
   flex-shrink:0;
   white-space:nowrap;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   letter-spacing:0.02em;
 }
 .goal-card.done .goal-cta{
@@ -1360,7 +1401,7 @@ textarea:focus, input[type="text"]:focus{
   opacity:1;
 }
 .xp-toast-amount{
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   font-weight:800;
   font-size:0.95rem;
   color: var(--accent);
@@ -1791,7 +1832,7 @@ html.onboarding-open, body.onboarding-open{
   border-bottom-color: var(--accent);
 }
 .lb-my-rank{
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1855,7 +1896,7 @@ html.onboarding-open, body.onboarding-open{
   flex-shrink: 0;
   width: 2.5rem;
   text-align: center;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: 1rem;
   color: var(--fg-muted);
@@ -1881,7 +1922,7 @@ html.onboarding-open, body.onboarding-open{
 }
 .lb-cm{
   flex-shrink: 0;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.1rem;
   color: var(--fg, #fff);
