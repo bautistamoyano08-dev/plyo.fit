@@ -1517,6 +1517,94 @@ html.onboarding-open, body.onboarding-open{
 .onboarding-cta:active{ transform: scale(0.98); }
 .onboarding-cta .icon{ width:1.2rem; height:1.2rem; stroke-width:2.4; }
 
+/* ── Claim account card + modal ──────────────────────────────────── */
+.claim-card{
+  display:flex; align-items:center;
+  gap: 0.85rem;
+  padding: 0.85rem 0.95rem;
+  margin-bottom: 0.85rem;
+  background: color-mix(in oklch, var(--accent) 10%, var(--bg-elev, #181b1e));
+  border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+  border-radius: 1rem;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s, border-color 0.2s, background 0.2s;
+}
+.claim-card:active{ transform: scale(0.985); }
+.claim-card.claimed{
+  background: color-mix(in oklch, oklch(0.72 0.18 145) 12%, var(--bg-elev, #181b1e));
+  border-color: color-mix(in oklch, oklch(0.72 0.18 145) 40%, transparent);
+  cursor: default;
+}
+.claim-icon{
+  width: 2.5rem; height: 2.5rem;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in oklch, var(--accent) 20%, transparent);
+  border-radius: 0.8rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.claim-card.claimed .claim-icon{
+  background: color-mix(in oklch, oklch(0.72 0.18 145) 22%, transparent);
+  color: oklch(0.82 0.18 145);
+}
+.claim-icon .icon{ width: 1.3rem; height: 1.3rem; stroke-width: 2.2; }
+.claim-body{
+  flex: 1;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  gap: 0.15rem;
+}
+.claim-title{
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--fg, #fff);
+  line-height: 1.2;
+}
+.claim-sub{
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.claim-chev{
+  flex-shrink: 0;
+  width: 1rem; height: 1rem;
+  color: var(--fg-muted);
+  stroke-width: 2.4;
+}
+
+.claim-email-input{
+  background: color-mix(in oklch, var(--fg, #fff) 5%, transparent);
+  border: 1.5px solid color-mix(in oklch, var(--fg, #fff) 12%, transparent);
+  border-radius: 0.8rem;
+  color: var(--fg, #fff);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.9rem 1rem;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.claim-email-input::placeholder{
+  color: var(--fg-muted);
+  font-weight: 500;
+  text-align: center;
+}
+.claim-email-input:focus{
+  border-color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 8%, transparent);
+}
+.claim-error{
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: oklch(0.7 0.2 25);
+  text-align: center;
+  padding: 0.35rem 0;
+}
+
 /* ── "Mientras no estabas" banner ─────────────────────────────────── */
 .away-banner{
   display:flex; align-items:center;

@@ -123,6 +123,15 @@
           <div class="xp-bar"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
         </div>
       </div>
+      <div id="claim-card" class="claim-card hidden" onclick="openClaimModal()">
+        <div class="claim-icon" id="claim-icon"><svg class="icon"><use href="#i-target"/></svg></div>
+        <div class="claim-body">
+          <div class="claim-title" id="claim-title">Guardá tu progreso</div>
+          <div class="claim-sub" id="claim-sub">Vinculá tu email para no perder tu PR</div>
+        </div>
+        <svg class="icon icon-sm claim-chev" id="claim-chev"><use href="#i-arrow-right"/></svg>
+      </div>
+
       <div id="away-banner" class="away-banner hidden" onclick="openLeaderboard()">
         <div class="away-banner-icon" id="away-banner-icon">🔥</div>
         <div class="away-banner-text">
@@ -750,6 +759,44 @@
           <span>Guardar y compartir</span>
           <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MODAL: Claim account (email magic link)                -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="modal-claim" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(3,4,6,0.82);backdrop-filter:blur(10px)">
+    <div class="glass-card p-6 w-full max-w-sm">
+      <!-- FORM state -->
+      <div id="claim-form-state">
+        <div class="text-center mb-5">
+          <div class="logo-mark mx-auto mb-3" style="background:color-mix(in oklch, var(--accent) 18%, transparent);border-color:color-mix(in oklch, var(--accent) 40%, transparent);color:var(--accent);box-shadow:0 0 28px color-mix(in oklab,var(--accent) 30%,transparent)">
+            <svg class="icon"><use href="#i-trophy"/></svg>
+          </div>
+          <h3 class="text-lg font-bold">Guardá tu progreso</h3>
+          <p class="text-xs mt-1" style="color:var(--fg-muted)">Vinculá tu email. Te mandamos un link y listo — tu racha, PR y ranking quedan atados a tu cuenta.</p>
+        </div>
+        <input id="claim-email-input" type="email" maxlength="120" placeholder="tu@email.com"
+          autocomplete="email" spellcheck="false"
+          class="w-full mb-3 claim-email-input">
+        <div id="claim-error" class="claim-error hidden">Email inválido</div>
+        <div class="flex gap-2 mt-2">
+          <button class="btn-ghost flex-1 rounded-xl" onclick="closeClaimModal()">Cancelar</button>
+          <button id="claim-submit-btn" class="flex-1 rounded-xl font-bold text-sm" style="min-height:52px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);box-shadow:0 4px 18px var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem" onclick="submitClaim()">
+            <span id="claim-submit-label">Enviar link</span>
+            <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- SENT state -->
+      <div id="claim-sent-state" class="hidden text-center">
+        <div class="logo-mark mx-auto mb-3" style="background:color-mix(in oklch, oklch(0.72 0.18 145) 20%, transparent);border-color:color-mix(in oklch, oklch(0.72 0.18 145) 45%, transparent);color:oklch(0.82 0.18 145);box-shadow:0 0 28px color-mix(in oklab, oklch(0.72 0.18 145) 30%, transparent)">
+          <svg class="icon"><use href="#i-check"/></svg>
+        </div>
+        <h3 class="text-lg font-bold">Revisá tu mail</h3>
+        <p class="text-xs mt-1 mb-5" style="color:var(--fg-muted)">Te mandamos un link a <span id="claim-sent-email" style="color:var(--fg)">—</span>. Tocalo para confirmar y tu cuenta queda guardada.</p>
+        <button class="btn-ghost w-full rounded-xl" onclick="closeClaimModal()">Entendido</button>
       </div>
     </div>
   </div>

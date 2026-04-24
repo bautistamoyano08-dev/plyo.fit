@@ -1977,6 +1977,100 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('beforeunload', markLastSeen);
 
+// ── Claim account (magic link) ────────────────────────────────────
+
+let _sbUser = null;
+
+async function refreshSupaUser() {
+  if (!_sb) return null;
+  try {
+    const { data: { user } } = await _sb.auth.getUser();
+    _sbUser = user || null;
+    return _sbUser;
+  } catch (e) { return null; }
+}
+
+function renderClaimCard() {
+  const card = document.getElementById('claim-card');
+  const title = document.getElementById('claim-title');
+  const sub = document.getElementById('claim-sub');
+  const chev = document.getElementById('claim-chev');
+  const icon = document.getElementById('claim-icon');
+  if (!card) return;
+  if (!_sbUser) { card.classList.add('hidden'); return; }
+  const isAnon = _sbUser.is_anonymous === true;
+  const email = _sbUser.email || null;
+  card.classList.remove('hidden');
+  if (isAnon && !email) {
+    card.classList.remove('claimed');
+    card.style.pointerEvents = 'auto';
+    title.textContent = 'Guardá tu progreso';
+    sub.textContent = 'Vinculá tu email para no perder tu PR';
+    if (chev) chev.style.display = '';
+    if (icon) icon.innerHTML = '<svg class="icon"><use href="#i-trophy"/></svg>';
+  } else if (email) {
+    card.classList.add('claimed');
+    card.style.pointerEvents = 'none';
+    title.textContent = '✓ Cuenta guardada';
+    sub.textContent = email;
+    if (chev) chev.style.display = 'none';
+    if (icon) icon.innerHTML = '<svg class="icon"><use href="#i-check"/></svg>';
+  } else {
+    card.classList.add('hidden');
+  }
+}
+
+function openClaimModal() {
+  const modal = document.getElementById('modal-claim');
+  if (!modal) return;
+  document.getElementById('claim-form-state').classList.remove('hidden');
+  document.getElementById('claim-sent-state').classList.add('hidden');
+  const err = document.getElementById('claim-error');
+  if (err) err.classList.add('hidden');
+  const input = document.getElementById('claim-email-input');
+  if (input) input.value = '';
+  modal.classList.remove('hidden');
+  setTimeout(() => { if (input) input.focus(); }, 80);
+}
+
+function closeClaimModal() {
+  const modal = document.getElementById('modal-claim');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function submitClaim() {
+  const input = document.getElementById('claim-email-input');
+  const err = document.getElementById('claim-error');
+  const btn = document.getElementById('claim-submit-btn');
+  const label = document.getElementById('claim-submit-label');
+  if (!input || !_sb) return;
+  const email = input.value.trim();
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!valid) {
+    if (err) { err.textContent = 'Email inválido'; err.classList.remove('hidden'); }
+    return;
+  }
+  if (err) err.classList.add('hidden');
+  if (btn) btn.disabled = true;
+  if (label) label.textContent = 'Enviando…';
+  try {
+    const { error } = await _sb.auth.updateUser({ email });
+    if (error) throw error;
+    const sentEmail = document.getElementById('claim-sent-email');
+    if (sentEmail) sentEmail.textContent = email;
+    document.getElementById('claim-form-state').classList.add('hidden');
+    document.getElementById('claim-sent-state').classList.remove('hidden');
+  } catch (e) {
+    if (err) {
+      err.textContent = e?.message || 'No se pudo enviar el link';
+      err.classList.remove('hidden');
+    }
+  } finally {
+    if (btn) btn.disabled = false;
+    if (label) label.textContent = 'Enviar link';
+  }
+}
+
 let _shareNameResolver = null;
 
 function ensureDisplayNameForShare() {
@@ -2014,20 +2108,30 @@ async function initSupa() {
     return;
   }
   _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, storageKey: 'plyo_sb_session' }
+    auth: { persistSession: true, autoRefreshToken: true, storageKey: 'plyo_sb_session', detectSessionInUrl: true }
+  });
+  _sb.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      _sbUser = session.user;
+      _sbUserId = session.user.id;
+    }
+    renderClaimCard();
   });
   try {
     const { data: { session } } = await _sb.auth.getSession();
     if (session) {
       _sbUserId = session.user.id;
+      _sbUser = session.user;
     } else {
       const { data, error } = await _sb.auth.signInAnonymously();
       if (error) { console.warn('Supa anon sign-in:', error.message); return; }
       _sbUserId = data.user.id;
+      _sbUser = data.user;
     }
     syncStatsToServer();
     const cachedName = (localStorage.getItem('plyo_display_name') || '').trim();
     if (cachedName) setDisplayName(cachedName);
+    renderClaimCard();
     checkWhileYouWereAway();
   } catch (e) {
     console.warn('Supa init:', e);
