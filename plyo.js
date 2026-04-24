@@ -1890,6 +1890,93 @@ let _sb = null;
 let _sbUserId = null;
 let _lbCache = { scope: null, rows: null, ts: 0 };
 
+// ── "Mientras no estabas" banner ──────────────────────────────────
+
+function markLastSeen() {
+  localStorage.setItem('plyo_last_seen', new Date().toISOString());
+}
+
+async function checkWhileYouWereAway() {
+  if (!_sb || !_sbUserId) return;
+  const last = localStorage.getItem('plyo_last_seen');
+  const dismissedUntil = parseInt(localStorage.getItem('plyo_away_dismissed') || '0', 10);
+  markLastSeen();
+  if (!last) return;
+  const ageMs = Date.now() - new Date(last).getTime();
+  if (ageMs < 2 * 60 * 60 * 1000) return;
+  if (Date.now() < dismissedUntil) return;
+  try {
+    const { data, error } = await _sb
+      .from('user_stats')
+      .select('user_id, best_jump_cm, updated_at')
+      .gt('updated_at', last)
+      .gt('best_jump_cm', 0)
+      .neq('user_id', _sbUserId)
+      .order('best_jump_cm', { ascending: false })
+      .limit(20);
+    if (error || !data || !data.length) return;
+    const myPR = loadJumpPR();
+    let rival = null;
+    if (myPR) {
+      rival = data
+        .map(d => ({ ...d, diff: d.best_jump_cm - myPR.cm }))
+        .sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff))[0];
+      if (Math.abs(rival.diff) > 5) rival = null;
+    }
+    let name = null;
+    if (rival) {
+      const { data: profs } = await _sb
+        .from('profiles').select('id, display_name').eq('id', rival.user_id).maybeSingle();
+      name = (profs && profs.display_name) || anonName(rival.user_id);
+    }
+    showAwayBanner(data.length, rival, name, myPR);
+  } catch (e) { /* silent */ }
+}
+
+function showAwayBanner(count, rival, rivalName, myPR) {
+  const banner = document.getElementById('away-banner');
+  const iconEl = document.getElementById('away-banner-icon');
+  const titleEl = document.getElementById('away-banner-title');
+  const subEl = document.getElementById('away-banner-sub');
+  if (!banner) return;
+  if (rival && myPR) {
+    const diff = rival.diff;
+    if (diff > 0) {
+      iconEl.textContent = '👀';
+      titleEl.textContent = `${rivalName} te pasó con ${rival.best_jump_cm}cm`;
+      subEl.textContent = `Estás ${diff}cm atrás — tocá para ver el ranking`;
+    } else if (diff === 0) {
+      iconEl.textContent = '🤝';
+      titleEl.textContent = `${rivalName} te igualó en ${rival.best_jump_cm}cm`;
+      subEl.textContent = 'Subí de nuevo y despegate';
+    } else {
+      iconEl.textContent = '🔥';
+      titleEl.textContent = `${rivalName} pisa los talones con ${rival.best_jump_cm}cm`;
+      subEl.textContent = `Está ${Math.abs(diff)}cm atrás — defendé tu puesto`;
+    }
+  } else {
+    iconEl.textContent = '🔥';
+    titleEl.textContent = `${count} jugador${count > 1 ? 'es' : ''} mejoró su salto`;
+    subEl.textContent = 'mientras no estabas';
+  }
+  banner.classList.remove('hidden');
+  requestAnimationFrame(() => banner.classList.add('show'));
+}
+
+function dismissAway() {
+  const banner = document.getElementById('away-banner');
+  if (banner) {
+    banner.classList.remove('show');
+    setTimeout(() => banner.classList.add('hidden'), 350);
+  }
+  localStorage.setItem('plyo_away_dismissed', String(Date.now() + 2 * 60 * 60 * 1000));
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') markLastSeen();
+});
+window.addEventListener('beforeunload', markLastSeen);
+
 let _shareNameResolver = null;
 
 function ensureDisplayNameForShare() {
@@ -1941,6 +2028,7 @@ async function initSupa() {
     syncStatsToServer();
     const cachedName = (localStorage.getItem('plyo_display_name') || '').trim();
     if (cachedName) setDisplayName(cachedName);
+    checkWhileYouWereAway();
   } catch (e) {
     console.warn('Supa init:', e);
   }

@@ -1517,6 +1517,75 @@ html.onboarding-open, body.onboarding-open{
 .onboarding-cta:active{ transform: scale(0.98); }
 .onboarding-cta .icon{ width:1.2rem; height:1.2rem; stroke-width:2.4; }
 
+/* ── "Mientras no estabas" banner ─────────────────────────────────── */
+.away-banner{
+  display:flex; align-items:center;
+  gap: 0.85rem;
+  padding: 0.85rem 0.95rem;
+  margin-bottom: 0.85rem;
+  background: linear-gradient(135deg,
+    color-mix(in oklch, oklch(0.72 0.18 40) 22%, var(--bg-elev, #181b1e)) 0%,
+    color-mix(in oklch, var(--accent) 15%, var(--bg-elev, #181b1e)) 100%);
+  border: 1px solid color-mix(in oklch, oklch(0.72 0.18 40) 40%, transparent);
+  border-radius: 1rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  box-shadow: 0 6px 22px color-mix(in oklch, oklch(0.72 0.18 40) 18%, transparent);
+}
+.away-banner.show{ opacity: 1; transform: translateY(0); }
+.away-banner:active{ transform: scale(0.98); }
+.away-banner-icon{
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 2.5rem; height: 2.5rem;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in oklch, oklch(0.72 0.18 40) 25%, transparent);
+  border-radius: 0.8rem;
+  animation: awayFlicker 2.2s ease-in-out infinite;
+}
+@keyframes awayFlicker{
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.away-banner-text{
+  flex: 1;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  gap: 0.15rem;
+}
+.away-banner-title{
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--fg, #fff);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.away-banner-sub{
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+.away-banner-close{
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--fg-muted);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.away-banner-close:active{ opacity: 1; }
+.away-banner-close .icon{ width: 1rem; height: 1rem; stroke-width: 2.4; }
+
 /* ── Onboarding name capture (slide 3) ───────────────────────────── */
 .onb-name-wrap{
   display:flex; flex-direction:column; align-items:center;

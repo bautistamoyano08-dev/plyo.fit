@@ -123,6 +123,17 @@
           <div class="xp-bar"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
         </div>
       </div>
+      <div id="away-banner" class="away-banner hidden" onclick="openLeaderboard()">
+        <div class="away-banner-icon" id="away-banner-icon">🔥</div>
+        <div class="away-banner-text">
+          <div class="away-banner-title" id="away-banner-title">—</div>
+          <div class="away-banner-sub" id="away-banner-sub">mientras no estabas</div>
+        </div>
+        <button class="away-banner-close" onclick="event.stopPropagation(); dismissAway();" aria-label="Cerrar">
+          <svg class="icon icon-sm"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
       <div class="goal-card" id="goal-card" onclick="handleGoalTap()">
         <div class="goal-icon">
           <svg class="icon"><use href="#i-target"/></svg>
